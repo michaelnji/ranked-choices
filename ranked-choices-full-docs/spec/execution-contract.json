@@ -1,0 +1,37 @@
+{
+  "project": "Ranked Choices",
+  "version": "1.0",
+  "framework": "Nuxt 4",
+  "ui_stack": [
+    "TailwindCSS",
+    "DaisyUI",
+    "Shadcn"
+  ],
+  "storage": "IndexedDB",
+  "pwa": true,
+  "constraints": {
+    "max_lists": "unlimited",
+    "max_items_per_list": 100,
+    "max_criteria_per_list": 20,
+    "criteria_weight_range": [
+      0,
+      10
+    ]
+  },
+  "ranking_modes": [
+    "manual",
+    "weighted"
+  ],
+  "weighted_algorithm": {
+    "description": "Sum(item_score_for_each_criterion * criterion_weight)",
+    "deterministic": true
+  },
+  "ai_rules": [
+    "Do not modify architecture without explicit instruction.",
+    "Do not introduce external APIs.",
+    "Do not add authentication.",
+    "Do not introduce cloud services.",
+    "Follow defined folder structure.",
+    "Respect state machines defined in spec."
+  ]
+}

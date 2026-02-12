@@ -1,0 +1,24 @@
+{
+  "ListLifecycle": {
+    "states": [
+      "Draft",
+      "Active",
+      "Archived"
+    ],
+    "transitions": {
+      "Draft->Active": "User saves list",
+      "Active->Archived": "User archives list",
+      "Archived->Active": "User restores list"
+    }
+  },
+  "RankingMode": {
+    "states": [
+      "Manual",
+      "Weighted"
+    ],
+    "transitions": {
+      "Manual->Weighted": "User toggles weighted mode",
+      "Weighted->Manual": "User toggles manual mode"
+    }
+  }
+}
