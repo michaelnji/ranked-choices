@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  plugins: ['~/plugins/primevue'],
   css: ['~/assets/css/app.css'],
   modules: [
     '@nuxt/fonts',
@@ -14,7 +13,31 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
+    '@vite-pwa/nuxt',
   ],
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Ranked Choices',
+      short_name: 'RankedChoices',
+      theme_color: '#ffffff',
+      display: 'standalone',
+      background_color: '#ffffff',
+      lang: 'en',
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    client: {
+      installPrompt: true,
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallback: '/',
+      type: 'module',
+    },
+  },
   icon: {
     serverBundle: {
       collections: ['solar'],
