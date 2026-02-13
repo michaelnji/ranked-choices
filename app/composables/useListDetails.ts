@@ -40,7 +40,7 @@ export function useListDetails(listId: number) {
     await fetchDetails()
   }
 
-  const addItem = async (name: string) => {
+  const addItem = async (name: string, initialScores: Record<number, number> = {}) => {
     // Check if list exists in DB
     const exists = await db.lists.get(listId)
     if (!exists)
@@ -52,12 +52,29 @@ export function useListDetails(listId: number) {
       throw new Error('Maximum limit of 100 items reached')
     }
 
+    // Validate scores
+    const validScores: Record<number, number> = {}
+    for (const [key, value] of Object.entries(initialScores)) {
+      validScores[Number(key)] = Math.max(0, Math.min(10, value))
+    }
+
     await db.items.add({
       listId,
       name,
       manualRankIndex: count,
-      scores: {},
+      scores: validScores,
     })
+    await fetchDetails()
+  }
+
+  const updateItem = async (itemId: number, name: string, scores: Record<number, number>) => {
+    // Constraint: Ensure scores are 0-10
+    const validScores: Record<number, number> = {}
+    for (const [key, value] of Object.entries(scores)) {
+      validScores[Number(key)] = Math.max(0, Math.min(10, value))
+    }
+
+    await db.items.update(itemId, { name, scores: validScores })
     await fetchDetails()
   }
 
@@ -85,6 +102,7 @@ export function useListDetails(listId: number) {
     addCriteria,
     removeCriteria,
     addItem,
+    updateItem,
     removeItem,
     updateItemScores,
   }

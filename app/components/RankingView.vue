@@ -8,10 +8,6 @@ const props = defineProps<{
   mode: RankingMode
 }>()
 
-const emit = defineEmits<{
-  (e: 'update:mode', mode: RankingMode): void
-}>()
-
 // Sorted list (computed based on mode)
 const sortedItems = computed(() => {
   return sortItems(props.items, props.criteria, props.mode)
@@ -34,76 +30,49 @@ const getScore = (item: Item) => calculateScore(item, props.criteria)
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow border border-base-200 h-full">
-    <div class="card-body">
-      <div class="flex justify-between items-start">
-        <div>
-          <h2 class="card-title text-lg">
-            <span class="i-solar-ranking-bold" />
-            Ranking
-          </h2>
-          <p class="text-sm text-base-content/70">
-            {{ mode === 'manual' ? 'Drag to reorder' : 'Calculated automatically' }}
-          </p>
+  <div class="k-card space-y-4">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="k-section-subtitle">
+          Results
+        </p>
+        <h2 class="k-section-title">
+          Ranking
+        </h2>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div
+        v-for="(item, index) in sortedItems" :key="item.id"
+        class="flex items-center gap-4 border-[3px] border-(--color-text) px-3 py-3"
+        :class="index === 0 ? 'bg-(--color-primary) text-(--color-primary-foreground)' : 'bg-(--color-surface-2)'"
+      >
+        <div
+          class="flex h-10 w-10 items-center justify-center border-[3px] border-(--color-text) bg-(--color-surface) text-base font-black!"
+        >
+          {{ index + 1 }}
         </div>
 
-        <!-- Mode Toggle -->
-        <div class="join">
-          <button
-            class="join-item btn btn-sm"
-            :class="{ 'btn-primary': mode === 'manual' }"
-            @click="emit('update:mode', 'manual')"
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center justify-between gap-4">
+            <span class="text-lg font-black">{{ item.name }}</span>
+            <span v-if="mode === 'weighted'" class="k-chip shadow-none!">
+              {{ getScore(item) }} pts
+            </span>
+          </div>
+
+          <div
+            v-if="mode === 'weighted'"
+            class="h-4 w-full border-[3px] border-(--color-text) bg-(--color-surface)"
           >
-            Manual
-          </button>
-          <button
-            class="join-item btn btn-sm"
-            :class="{ 'btn-primary': mode === 'weighted' }"
-            @click="emit('update:mode', 'weighted')"
-          >
-            Weighted
-          </button>
+            <div class="h-full bg-(--color-text)" :style="{ width: `${getScorePercent(item)}%` }" />
+          </div>
         </div>
       </div>
 
-      <!-- Ranking List -->
-      <div class="mt-4 space-y-2 overflow-y-auto max-h-[600px]">
-        <div
-          v-for="(item, index) in sortedItems"
-          :key="item.id"
-          class="flex items-center gap-4 p-3 rounded-lg border transition-all"
-          :class="index === 0 ? 'bg-primary/10 border-primary' : 'bg-base-200 border-base-300'"
-        >
-          <!-- Rank Number -->
-          <div
-            class="flex items-center justify-center w-8 h-8 rounded-full font-bold"
-            :class="index === 0 ? 'bg-primary text-primary-content' : 'bg-base-300 text-base-content'"
-          >
-            {{ index + 1 }}
-          </div>
-
-          <!-- Item Details -->
-          <div class="flex-1">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-lg">{{ item.name }}</span>
-              <span v-if="mode === 'weighted'" class="badge badge-lg badge-ghost">
-                {{ getScore(item) }} pts
-              </span>
-            </div>
-
-            <!-- Score Bar (Weighted Mode) -->
-            <div v-if="mode === 'weighted'" class="mt-1 w-full bg-base-300 h-2 rounded-full overflow-hidden">
-              <div
-                class="h-full bg-primary transition-all duration-500"
-                :style="{ width: `${getScorePercent(item)}%` }"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div v-if="items.length === 0" class="text-center py-8 text-base-content/50">
-          Add items to see rankings.
-        </div>
+      <div v-if="items.length === 0" class="k-muted text-center py-8">
+        Add items to see rankings.
       </div>
     </div>
   </div>

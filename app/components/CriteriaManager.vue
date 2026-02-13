@@ -23,67 +23,69 @@ function handleAdd() {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow border border-base-200">
-    <div class="card-body">
-      <h2 class="card-title text-lg">
-        <span class="i-solar-list-check-bold" />
-        Criteria ({{ criteria.length }}/20)
-      </h2>
-      <p class="text-sm text-base-content/70">
-        Define what matters for this decision.
-      </p>
+  <div class="k-card space-y-4">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="k-section-subtitle">
+          Weights
+        </p>
+        <h2 class="k-section-title">
+          Criteria ({{ criteria.length }}/20)
+        </h2>
+      </div>
+      <span class="k-chip">
+        Max 20
+      </span>
+    </div>
+    <p class="k-muted">
+      Define what matters for this decision.
+    </p>
 
-      <!-- Add Form -->
-      <div class="flex flex-col sm:flex-row gap-2 mt-2">
+    <!-- Add Form -->
+
+    <div class="space-y-4">
+      <input
+        v-model="newName" type="text" placeholder="New Criterion (e.g. Cost)" class="k-input"
+        @keyup.enter="handleAdd"
+      >
+
+      <div class="flex items-center gap-4">
+        <span class="k-chip shadow-none!">
+          {{ newWeight }}
+        </span>
         <input
-          v-model="newName"
-          type="text"
-          placeholder="New Criterion (e.g. Cost)"
-          class="input input-bordered input-sm flex-1"
-          @keyup.enter="handleAdd"
+          v-model.number="newWeight" type="range" min="0" max="10" class="k-range shadow-none!"
         >
-        <div class="flex items-center gap-2 bg-base-200 px-3 rounded-lg">
-          <span class="text-xs font-bold">Wt: {{ newWeight }}</span>
-          <input
-            v-model.number="newWeight"
-            type="range"
-            min="0"
-            max="10"
-            class="range range-xs range-primary w-24"
-          >
+      </div>
+      <button
+        class="k-btn k-btn-primary w-full" :disabled="!newName.trim() || criteria.length >= 20"
+        @click="handleAdd"
+      >
+        Add Criterion
+      </button>
+    </div>
+
+    <!-- List -->
+
+    <div class="space-y-4">
+      <div
+        v-for="c in criteria" :key="c.id"
+        class="flex items-center justify-between gap-4 border-[3px] border-(--color-text) bg-(--color-surface-2) px-3 py-2"
+      >
+        <div class="space-x-3">
+          <span class="text-base font-bold">{{ c.name }}</span>
+          <span class="k-chip shadow-none!"> {{ c.weight }}</span>
         </div>
         <button
-          class="btn btn-sm btn-primary"
-          :disabled="!newName.trim() || criteria.length >= 20"
-          @click="handleAdd"
+          class="k-btn shadow-none! p-2! border-none! k-btn-ghost px-2 !min-w-0"
+          @click="c.id && emit('remove', c.id)"
         >
-          Add
+          <Icon name="solar:trash-bin-trash-bold" class=" text-error" size="24" />
         </button>
       </div>
 
-      <!-- List -->
-      <div class="mt-4 space-y-2">
-        <div
-          v-for="c in criteria"
-          :key="c.id"
-          class="flex items-center justify-between p-2 bg-base-200 rounded-lg group"
-        >
-          <div class="flex items-center gap-2">
-            <span class="font-medium">{{ c.name }}</span>
-            <div class="badge badge-primary badge-sm">
-              Wt: {{ c.weight }}
-            </div>
-          </div>
-          <button
-            class="btn btn-ghost btn-xs text-error opacity-0 group-hover:opacity-100 transition-opacity"
-            @click="c.id && emit('remove', c.id)"
-          >
-            Remove
-          </button>
-        </div>
-        <div v-if="criteria.length === 0" class="text-center py-4 text-sm text-base-content/50 italic">
-          No criteria defined yet.
-        </div>
+      <div v-if="criteria.length === 0" class="k-muted text-center py-4">
+        No criteria defined yet.
       </div>
     </div>
   </div>

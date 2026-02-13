@@ -2,22 +2,12 @@
 import { onMounted, ref } from 'vue'
 import { useLists } from '~/composables/useLists'
 
-const { lists, fetchLists, createList, deleteList } = useLists()
-const newListName = ref('')
-const isCreating = ref(false)
+const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 
 onMounted(() => {
   fetchLists()
 })
-
-async function handleCreate() {
-  if (!newListName.value.trim())
-    return
-  await createList(newListName.value)
-  newListName.value = ''
-  isCreating.value = false
-}
 
 async function handleDelete(id: number) {
   deleteCandidateId.value = id
@@ -32,102 +22,105 @@ async function confirmDelete() {
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="space-y-6">
     <!-- Hero / Welcome -->
-    <div v-if="lists.length === 0" class="hero min-h-[50vh] bg-base-200 rounded-box">
-      <div class="hero-content text-center">
-        <div class="max-w-md">
-          <h1 class="text-5xl font-bold">
-            Ranked Choices
-          </h1>
-          <p class="py-6">
-            Offline-first decision making tool. Create a list to get started.
-          </p>
-          <button class="btn btn-primary" @click="isCreating = true">
-            Create First List
-          </button>
-        </div>
+    <div v-if="lists.length === 0" class="k-card k-card-accent space-y-4">
+      <div>
+        <p class="k-section-subtitle">
+          Mobile Only
+        </p>
+        <h1 class="k-title">
+          Ranked Choices
+        </h1>
       </div>
+      <p class="k-muted">
+        Offline-first decision making tool. Create a list to get started.
+      </p>
+
+      <NuxtLink to="/new" class="k-btn k-btn-primary w-full flex items-center justify-center gap-2">
+        <Icon name="solar:add-circle-bold" class="text-xl" />
+        Create First List
+      </NuxtLink>
     </div>
 
     <!-- Header Actions -->
-    <div v-else class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold">
-        My Lists
-      </h1>
-      <button class="btn btn-primary" @click="isCreating = true">
-        <span class="i-solar-add-circle-bold text-xl" />
+    <div v-else class="flex items-end justify-between gap-4">
+      <div>
+        <p class="k-section-subtitle">
+          Dashboard
+        </p>
+        <h1 class="k-title">
+          My Lists
+        </h1>
+      </div>
+      <NuxtLink to="/new" class="k-btn k-btn-accent flex items-center justify-center gap-2">
+        <Icon name="solar:add-circle-bold" class="text-xl" />
+
         New List
-      </button>
+      </NuxtLink>
     </div>
 
-    <!-- Create Modal/Form -->
-    <dialog class="modal" :class="{ 'modal-open': isCreating }">
-      <div class="modal-box">
-        <h3 class="font-bold text-lg">
-          Create New List
-        </h3>
-        <div class="py-4">
-          <input
-            v-model="newListName"
-            type="text"
-            placeholder="List Name (e.g., Summer Vacation Spots)"
-            class="input input-bordered w-full"
-            autofocus
-            @keyup.enter="handleCreate"
-          >
+    <div class="k-modal" :class="{ 'k-modal-open': deleteCandidateId != null }" role="dialog" aria-modal="true">
+      <div class="k-modal-card space-y-4">
+        <div>
+          <p class="k-section-subtitle">
+            Confirm
+          </p>
+          <h3 class="k-section-title">
+            Delete List
+          </h3>
         </div>
-        <div class="modal-action">
-          <button class="btn" @click="isCreating = false">
-            Cancel
-          </button>
-          <button class="btn btn-primary" :disabled="!newListName.trim()" @click="handleCreate">
-            Create
-          </button>
-        </div>
-      </div>
-    </dialog>
 
-    <dialog class="modal" :class="{ 'modal-open': deleteCandidateId != null }">
-      <div class="modal-box">
-        <h3 class="font-bold text-lg">
-          Delete List
-        </h3>
-        <p class="py-4">
+        <p class="k-muted">
           Are you sure you want to delete this list?
         </p>
-        <div class="modal-action">
-          <button class="btn" @click="deleteCandidateId = null">
+        <div class="flex gap-4">
+          <button class="k-btn k-btn-ghost w-full" @click="deleteCandidateId = null">
             Cancel
           </button>
-          <button class="btn btn-error" @click="confirmDelete">
+          <button
+            class="k-btn k-btn-accent w-full flex items-center justify-center gap-2"
+            @click="confirmDelete"
+          >
+            <Icon name="solar:trash-bin-trash-bold" class="text-xl" />
+
             Delete
           </button>
         </div>
       </div>
-    </dialog>
+    </div>
 
     <!-- Lists Grid -->
-    <div v-if="lists.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="list in lists" :key="list.id" class="card bg-base-100 shadow-xl border border-base-200 hover:border-primary transition-colors">
-        <div class="card-body">
-          <h2 class="card-title justify-between">
-            {{ list.name }}
-            <div class="badge badge-secondary badge-outline text-xs">
-              {{ list.rankingMode }}
-            </div>
-          </h2>
-          <p class="text-sm text-base-content/70">
-            Created: {{ new Date(list.createdAt).toLocaleDateString() }}
-          </p>
-          <div class="card-actions justify-end mt-4">
-            <button class="btn btn-ghost btn-sm text-error" @click="list.id && handleDelete(list.id)">
-              Delete
-            </button>
-            <NuxtLink :to="`/lists/${list.id}`" class="btn btn-primary btn-sm">
-              Open
-            </NuxtLink>
+    <div v-if="lists.length > 0" class="space-y-4">
+      <div v-for="list in lists" :key="list.id" class="k-card space-y-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h2 class="k-section-title">
+              {{ list.name }}
+            </h2>
+
+            <p class="k-muted">
+              Created: {{ new Date(list.createdAt).toLocaleDateString() }}
+            </p>
           </div>
+        </div>
+        <div class="flex gap-4">
+          <button
+            class="k-btn k-btn-ghost w-full flex items-center justify-center gap-2"
+            @click="list.id && handleDelete(list.id)"
+          >
+            <Icon name="solar:trash-bin-trash-bold" class="text-xl" />
+            Delete
+          </button>
+
+          <NuxtLink
+            :to="`/lists/${list.id}`"
+            class="k-btn k-btn-primary w-full flex items-center justify-center gap-2"
+          >
+            Open
+
+            <Icon name="solar:arrow-right-linear" class="text-xl" />
+          </NuxtLink>
         </div>
       </div>
     </div>
