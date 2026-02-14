@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ArrowRight, Calendar1, LayoutList, PlusCircle, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { toast } from 'vue-hot-toast'
 import { useLists } from '~/composables/useLists'
 
 const { lists, fetchLists, deleteList } = useLists()
@@ -17,8 +18,14 @@ async function handleDelete(id: number) {
 async function confirmDelete() {
   if (deleteCandidateId.value == null)
     return
-  await deleteList(deleteCandidateId.value)
-  deleteCandidateId.value = null
+  try {
+    await deleteList(deleteCandidateId.value)
+    toast.success('List deleted successfully')
+    deleteCandidateId.value = null
+  }
+  catch {
+    toast.error('Failed to delete list')
+  }
 }
 
 function formatTimeAgo(date: Date) {
@@ -113,28 +120,37 @@ function formatTimeAgo(date: Date) {
     </div>
 
     <!-- Delete Modal -->
-    <div v-if="deleteCandidateId != null" class="fixed inset-0 z-50 flex items-center justify-center px-6">
-      <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" @click="deleteCandidateId = null" />
+    <ClientOnly>
+      <Teleport to="body">
+        <div v-if="deleteCandidateId != null" class="fixed inset-0 z-100 flex items-center justify-center px-6">
+          <!-- Backdrop -->
+          <div
+            class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+            @click="deleteCandidateId = null"
+          />
 
-      <!-- Modal Content -->
-      <div class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]">
-        <h3 class="text-xl font-bold text-white mb-2">
-          Delete List?
-        </h3>
-        <p class="text-surface-400 mb-8 leading-relaxed">
-          This action cannot be undone. The list and all its rankings will be lost forever.
-        </p>
+          <!-- Modal Content -->
+          <div
+            class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
+          >
+            <h3 class="text-xl font-bold text-white mb-2">
+              Delete List?
+            </h3>
+            <p class="text-surface-400 mb-8 leading-relaxed">
+              This action cannot be undone. The list and all its rankings will be lost forever.
+            </p>
 
-        <div class="grid grid-cols-2 gap-4">
-          <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="deleteCandidateId = null">
-            Cancel
-          </button>
-          <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
-            Delete
-          </button>
+            <div class="grid grid-cols-2 gap-4">
+              <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="deleteCandidateId = null">
+                Cancel
+              </button>
+              <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </Teleport>
+    </ClientOnly>
   </div>
 </template>

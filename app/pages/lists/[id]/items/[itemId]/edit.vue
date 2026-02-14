@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Check, ChevronLeft, Save, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -38,8 +39,14 @@ onMounted(async () => {
 async function handleSave() {
   if (!name.value.trim())
     return
-  await updateItem(itemId, name.value, scores.value)
-  router.push(`/lists/${listId}/items/${itemId}`)
+  try {
+    await updateItem(itemId, name.value, scores.value)
+    toast.success('Item updated successfully')
+    router.push(`/lists/${listId}/items/${itemId}`)
+  }
+  catch {
+    toast.error('Failed to update item')
+  }
 }
 
 async function handleDelete() {
@@ -47,8 +54,14 @@ async function handleDelete() {
 }
 
 async function confirmRemove() {
-  await removeItem(itemId)
-  router.push(`/lists/${listId}`)
+  try {
+    await removeItem(itemId)
+    toast.success('Item deleted successfully')
+    router.push(`/lists/${listId}`)
+  }
+  catch {
+    toast.error('Failed to delete item')
+  }
 }
 
 function toggleScore(criteriaId: number) {
@@ -58,7 +71,7 @@ function toggleScore(criteriaId: number) {
 </script>
 
 <template>
-  <div v-if="isReady" class="p-6 space-y-8 pb-24 animate-fade-in-up">
+  <div v-if="isReady" class="p-6 space-y-8 pb-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center gap-4">
       <NuxtLink
@@ -141,28 +154,33 @@ function toggleScore(criteriaId: number) {
       </button>
 
       <!-- Delete Modal -->
-      <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center px-6">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" @click="showDeleteModal = false" />
-        <div
-          class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
-        >
-          <h3 class="text-xl font-bold text-white mb-2">
-            Delete Item?
-          </h3>
-          <p class="text-surface-400 mb-8 leading-relaxed">
-            This action cannot be undone. The item and its scores will be
-            lost forever.
-          </p>
-          <div class="grid grid-cols-2 gap-4">
-            <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="showDeleteModal = false">
-              Cancel
-            </button>
-            <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmRemove">
-              Delete
-            </button>
+      <Teleport to="body">
+        <div v-if="showDeleteModal" class="fixed inset-0 z-100 flex items-center justify-center px-6">
+          <div
+            class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+            @click="showDeleteModal = false"
+          />
+          <div
+            class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
+          >
+            <h3 class="text-xl font-bold text-white mb-2">
+              Delete Item?
+            </h3>
+            <p class="text-surface-400 mb-8 leading-relaxed">
+              This action cannot be undone. The item and its scores will be
+              lost forever.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="showDeleteModal = false">
+                Cancel
+              </button>
+              <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmRemove">
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </Teleport>
     </div>
   </div>
 </template>
