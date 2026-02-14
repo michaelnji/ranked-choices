@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ChevronLeft, Plus } from 'lucide-vue-next'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLists } from '~/composables/useLists'
 
@@ -16,50 +18,46 @@ async function handleCreate() {
 </script>
 
 <template>
-  <div class="space-y-6 pb-20">
+  <div class="p-6 space-y-8 animate-fade-in-up">
     <!-- Header -->
-    <div class="k-card space-y-4">
-      <div class="flex items-center gap-4">
-        <NuxtLink to="/" class="k-btn k-btn-ghost">
-          <Icon name="solar:arrow-left-bold" class="text-xl" />
-        </NuxtLink>
-        <div>
-          <p class="k-section-subtitle">
-            Dashboard
-          </p>
-          <h1 class="k-title">
-            New List
-          </h1>
-        </div>
+    <div class="flex items-center gap-4">
+      <NuxtLink
+        to="/"
+        class="btn btn-ghost rounded-full !p-3 hover:bg-surface-800 text-surface-400 hover:text-white transition-colors"
+      >
+        <ChevronLeft :size="24" stroke-width="2.5" />
+      </NuxtLink>
+      <div>
+        <h1 class="text-3xl text-display text-white">
+          New List
+        </h1>
+        <p class="text-surface-400 font-medium">
+          Create a new ranking project
+        </p>
       </div>
     </div>
 
     <!-- Form -->
-    <div class="k-card space-y-4">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text font-bold">List Name</span>
-        </label>
+    <div class="card space-y-6">
+      <div class="space-y-2">
+        <label class="text-sm font-bold uppercase tracking-wider text-surface-400 ml-1">List Name</label>
         <input
           v-model="name"
           type="text"
           placeholder="e.g. Summer Vacation Spots"
-          class="k-input"
+          class="input bg-surface-950 border-surface-800 focus:border-primary-500 focus:ring-primary-500/20 placeholder:text-surface-600"
           autofocus
           @keyup.enter="handleCreate"
         >
       </div>
 
-      <div class="pt-2">
-        <button
-          class="k-btn k-btn-primary w-full flex items-center justify-center gap-2"
-          :disabled="!name.trim()"
-          @click="handleCreate"
-        >
-          <Icon name="solar:add-circle-bold" class="text-xl" />
-          Create List
-        </button>
-      </div>
+      <button
+        class="btn btn-primary w-full flex items-center justify-center gap-2 mt-4" :disabled="!name.trim()"
+        @click="handleCreate"
+      >
+        <Plus :size="20" stroke-width="2.5" />
+        Create List
+      </button>
     </div>
   </div>
 </template>

@@ -22,8 +22,8 @@ A Nuxt 3 application for ranking items based on weighted criteria.
 Make sure to install dependencies:
 
 ```bash
-# npm
-npm install
+# bun
+bun install
 ```
 
 ## Development Server
@@ -31,7 +31,7 @@ npm install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 ## Testing
@@ -39,7 +39,7 @@ npm run dev
 Run the test suite:
 
 ```bash
-npm test
+bun test
 ```
 
 ## Production
@@ -47,11 +47,11 @@ npm test
 Build the application for production:
 
 ```bash
-npm run build
+bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+bun run preview
 ```

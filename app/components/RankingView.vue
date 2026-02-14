@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Criteria, Item, RankingMode } from '~/types'
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
+import { GripVertical, Star, Trophy } from 'lucide-vue-next'
 import { computed, watch } from 'vue'
 import { calculateScore, sortItems } from '~/utils/rankingEngine'
 
@@ -21,12 +22,11 @@ const weightedItems = computed(() => {
 })
 
 const maxPossibleScore = computed(() => {
-  return props.criteria.reduce((sum, c) => sum + (c.weight * 10), 0)
+  const max = props.criteria.reduce((sum, c) => sum + (c.weight * 10), 0)
+  return max > 0 ? max : 1 // Avoid division by zero
 })
 
 function getScorePercent(item: Item) {
-  if (maxPossibleScore.value === 0)
-    return 0
   const score = calculateScore(item, props.criteria)
   return (score / maxPossibleScore.value) * 100
 }
@@ -34,65 +34,67 @@ function getScorePercent(item: Item) {
 const getScore = (item: Item) => calculateScore(item, props.criteria)
 
 // --- Manual Mode Logic ---
-// Initialize with sorted manual items
 const [parent, manualItems] = useDragAndDrop(
   sortItems(props.items, props.criteria, 'manual'),
   {
     dragHandle: '.drag-handle',
     onSort: (event) => {
-      // FormKit drag and drop passes the new values array directly in the event if it's just a sort
-      // But the types might be a bit loose.
-      // Based on docs, event is the new values array.
+      // @ts-expect-error - FormKit types mismatch
       emit('reorder', event.values as Item[])
     },
   },
 )
 
-// Sync when props change (e.g. added item)
 watch(() => props.items, (newItems) => {
+  // @ts-expect-error - FormKit types mismatch
   manualItems.value = sortItems(newItems, props.criteria, 'manual')
 }, { deep: true })
 </script>
 
 <template>
-  <div class="k-card space-y-4">
-    <div class="flex items-start justify-between gap-4">
-      <div>
-        <p class="k-section-subtitle">
-          Results
-        </p>
-        <h2 class="k-section-title">
-          Ranking
-        </h2>
+  <div class="space-y-6">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="p-2 rounded-lg bg-primary-500/10 text-primary-500">
+        <Trophy v-if="mode !== 'manual'" :size="24" />
+        <Star v-else :size="24" />
       </div>
+      <h2 class="text-xl font-bold text-white tracking-tight">
+        {{ mode === 'manual' ? 'Manual Ranking' : 'Weighted Results' }}
+      </h2>
     </div>
 
     <!-- Manual Mode List (Drag & Drop) -->
-    <div v-show="mode === 'manual'" ref="parent" class="space-y-4">
+    <div v-show="mode === 'manual'" ref="parent" class="space-y-3">
       <div
         v-for="(item, index) in manualItems" :key="item.id"
-        class="flex items-center gap-4 border-[3px] border-(--color-text) px-3 py-3 bg-(--color-surface-2)"
+        class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none"
       >
         <!-- Drag Handle -->
-        <div class="drag-handle cursor-grab active:cursor-grabbing p-2 touch-none">
-          <Icon name="solar:reorder-bold" class="text-xl text-(--color-text-muted)" />
+        <div
+          class="drag-handle cursor-grab active:cursor-grabbing p-1 text-surface-500 hover:text-white transition-colors touch-none"
+        >
+          <GripVertical :size="20" />
         </div>
 
         <!-- Rank Number -->
         <div
-          class="flex h-10 w-10 items-center justify-center border-[3px] border-(--color-text) bg-(--color-surface) text-base font-black!"
+          class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-800 text-white font-bold text-sm border border-surface-700"
         >
           {{ index + 1 }}
         </div>
 
-        <div class="flex-1 space-y-2">
-          <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="block">
-            <span class="text-lg font-black hover:underline cursor-pointer">{{ item.name }}</span>
-          </NuxtLink>
-        </div>
+        <!-- Content -->
+        <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="flex-1">
+          <span class="text-base font-bold text-white group-hover:text-primary-400 transition-colors">{{ item.name
+          }}</span>
+        </NuxtLink>
       </div>
-      <div v-if="manualItems.length === 0" class="k-muted text-center py-8">
-        Add items to start ranking.
+
+      <div
+        v-if="manualItems.length === 0"
+        class="text-center py-12 text-surface-500 bg-surface-900/50 rounded-2xl border border-surface-800/50 border-dashed"
+      >
+        <p>Add items to start ranking manually.</p>
       </div>
     </div>
 
@@ -100,35 +102,46 @@ watch(() => props.items, (newItems) => {
     <div v-if="mode !== 'manual'" class="space-y-4">
       <div
         v-for="(item, index) in weightedItems" :key="item.id"
-        class="flex items-center gap-4 border-[3px] border-(--color-text) px-3 py-3"
-        :class="index === 0 ? 'bg-(--color-primary) text-(--color-primary-foreground)' : 'bg-(--color-surface-2)'"
+        class="relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all"
+        :class="{ 'ring-1 ring-primary-500/50 shadow-[0_0_20px_-10px_rgba(var(--color-primary-500),0.3)]': index === 0 }"
       >
-        <div
-          class="flex h-10 w-10 items-center justify-center border-[3px] border-(--color-text) bg-(--color-surface) text-base font-black! text-(--color-text)"
-        >
-          {{ index + 1 }}
+        <!-- Progress Bar Background -->
+        <div class="absolute bottom-0 left-0 h-1 bg-surface-800 w-full">
+          <div
+            class="h-full bg-primary-500 transition-all duration-500 ease-out"
+            :style="{ width: `${getScorePercent(item)}%` }"
+          />
         </div>
 
-        <div class="flex-1 space-y-2">
-          <div class="flex items-center justify-between gap-4">
-            <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="block">
-              <span class="text-lg font-black hover:underline cursor-pointer">{{ item.name }}</span>
-            </NuxtLink>
-            <span class="k-chip shadow-none! bg-(--color-surface) text-(--color-text)">
-              {{ getScore(item) }} pts
-            </span>
+        <div class="flex items-center gap-4 relative z-10">
+          <!-- Rank -->
+          <div
+            class="flex items-center justify-center w-10 h-10 rounded-full font-black text-lg shadow-inner"
+            :class="index === 0 ? 'bg-primary-500 text-primary-950' : 'bg-surface-800 text-surface-300'"
+          >
+            {{ index + 1 }}
           </div>
 
-          <div
-            class="h-4 w-full border-[3px] border-(--color-text) bg-(--color-surface)"
-          >
-            <div class="h-full bg-(--color-text)" :style="{ width: `${getScorePercent(item)}%` }" />
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-4 mb-1">
+              <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="truncate">
+                <span class="text-lg font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
+                }}</span>
+              </NuxtLink>
+              <span class="text-xs font-bold px-2 py-1 rounded bg-surface-800 text-primary-400 tabular-nums">
+                {{ getScore(item).toFixed(1) }} pts
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div v-if="weightedItems.length === 0" class="k-muted text-center py-8">
-        Add items to see rankings.
+      <div
+        v-if="weightedItems.length === 0"
+        class="text-center py-12 text-surface-500 bg-surface-900/50 rounded-2xl border border-surface-800/50 border-dashed"
+      >
+        <p>Add items and criteria to see weighted results.</p>
       </div>
     </div>
   </div>
