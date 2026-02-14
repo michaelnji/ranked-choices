@@ -22,17 +22,19 @@ const weightedItems = computed(() => {
   return sortItems(props.items, props.criteria, 'weighted')
 })
 
-const maxPossibleScore = computed(() => {
-  const max = props.criteria.reduce((sum, c) => sum + (c.weight * 10), 0)
-  return max > 0 ? max : 1 // Avoid division by zero
+const getScore = (item: Item) => calculateScore(item, props.criteria)
+
+const totalPoints = computed(() => {
+  return weightedItems.value.reduce((sum, item) => sum + getScore(item), 0)
 })
 
-function getScorePercent(item: Item) {
+function getContributionPercent(item: Item) {
+  if (totalPoints.value === 0) {
+    return 0
+  }
   const score = calculateScore(item, props.criteria)
-  return (score / maxPossibleScore.value) * 100
+  return (score / totalPoints.value) * 100
 }
-
-const getScore = (item: Item) => calculateScore(item, props.criteria)
 
 // --- Manual Mode Logic ---
 const [parent, manualItems] = useDragAndDrop(
@@ -125,10 +127,15 @@ watch(() => props.items, (newItems) => {
               </span>
             </div>
 
-            <ProgressBar
-              :value="getScorePercent(item)" :max="100"
-              :color-class="index === 0 ? 'from-primary-400 to-primary-300' : 'from-primary-600 to-primary-500'"
-            />
+            <div class="flex items-center gap-3">
+              <ProgressBar
+                :value="getContributionPercent(item)" :max="100"
+                :color-class="index === 0 ? 'from-primary-400 to-primary-300' : 'from-primary-600 to-primary-500'"
+              />
+              <span class="text-xs font-bold text-surface-400 tabular-nums w-12 text-right">
+                {{ getContributionPercent(item).toFixed(1) }}%
+              </span>
+            </div>
           </div>
         </div>
       </div>
