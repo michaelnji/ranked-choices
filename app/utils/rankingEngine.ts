@@ -18,7 +18,9 @@ export function calculateScore(item: Item, criteriaList: Criteria[]): number {
       return total
 
     const itemScore = item.scores[criterion.id] || 0
-    return total + (itemScore * criterion.weight)
+    // Normalize score (0-10) to a percentage (0-1)
+    // If item matches fully (score 10), it gets the full weight.
+    return total + ((itemScore / 10) * criterion.weight)
   }, 0)
 }
 

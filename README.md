@@ -1,21 +1,27 @@
-# Nuxt Minimal Starter
+# Ranked Choices
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Nuxt 3 application for ranking items based on weighted criteria.
+
+## Features
+
+- **Weighted Ranking**: Define criteria with weights and score items. The system calculates scores based on how well items match criteria.
+- **Manual Ranking**: Drag and drop items to reorder them manually when in "Manual" mode.
+- **Criteria Management**: Full CRUD support for ranking criteria.
+- **Local Persistence**: All data is saved locally in your browser using IndexedDB.
+
+## Tech Stack
+
+- **Framework**: Nuxt 3 (Vue 3)
+- **UI**: Tailwind CSS + DaisyUI
+- **Database**: Dexie.js (IndexedDB wrapper)
+- **Drag & Drop**: @formkit/drag-and-drop
+- **Testing**: Vitest
 
 ## Setup
 
 Make sure to install dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
 # bun
 bun install
 ```
@@ -25,17 +31,15 @@ bun install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
 bun run dev
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+bun test
 ```
 
 ## Production
@@ -43,33 +47,11 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
 bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
 bun run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

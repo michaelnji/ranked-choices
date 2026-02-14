@@ -2,16 +2,21 @@ import type { List } from '~/types'
 import { db } from '~/utils/db'
 
 export function useLists() {
-  const lists = ref<List[]>([])
+  const lists = ref<(List & { itemCount: number })[]>([])
 
   const fetchLists = async () => {
-    lists.value = await db.lists.toArray()
+    const allLists = await db.lists.toArray()
+    const listsWithCounts = await Promise.all(allLists.map(async (list) => {
+      const count = await db.items.where('listId').equals(list.id!).count()
+      return { ...list, itemCount: count }
+    }))
+    lists.value = listsWithCounts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
   }
 
   const createList = async (name: string) => {
     const newList: List = {
       name,
-      rankingMode: 'manual',
+      rankingMode: 'weighted',
       createdAt: new Date(),
       updatedAt: new Date(),
     }

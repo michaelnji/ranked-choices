@@ -9,11 +9,13 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && simple-git-hooks",
     "lint": "eslint .",
-    "format": "eslint . --fix"
+    "format": "eslint . --fix",
+    "test": "vitest"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
     "@formkit/auto-animate": "^0.9.0",
+    "@formkit/drag-and-drop": "^0.5.3",
     "@nuxt/fonts": "^0.13.0",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "^2.0.0",
