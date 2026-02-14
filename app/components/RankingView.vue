@@ -39,21 +39,19 @@ const [parent, manualItems] = useDragAndDrop(
   {
     dragHandle: '.drag-handle',
     onSort: (event) => {
-      // @ts-expect-error - FormKit types mismatch
       emit('reorder', event.values as Item[])
     },
   },
 )
 
 watch(() => props.items, (newItems) => {
-  // @ts-expect-error - FormKit types mismatch
   manualItems.value = sortItems(newItems, props.criteria, 'manual')
 }, { deep: true })
 </script>
 
 <template>
   <div class="space-y-6">
-    <div class="flex items-center gap-3 mb-2">
+    <div class="flex items-center gap-3 mb-4">
       <div class="p-2 rounded-lg bg-primary-500/10 text-primary-500">
         <Trophy v-if="mode !== 'manual'" :size="24" />
         <Star v-else :size="24" />
@@ -64,7 +62,7 @@ watch(() => props.items, (newItems) => {
     </div>
 
     <!-- Manual Mode List (Drag & Drop) -->
-    <div v-show="mode === 'manual'" ref="parent" class="space-y-3">
+    <div v-show="mode === 'manual'" ref="parent" class="space-y-3 mt-8">
       <div
         v-for="(item, index) in manualItems" :key="item.id"
         class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none"
@@ -99,7 +97,7 @@ watch(() => props.items, (newItems) => {
     </div>
 
     <!-- Weighted Mode List (Read Only) -->
-    <div v-if="mode !== 'manual'" class="space-y-4">
+    <div v-if="mode !== 'manual'" class="space-y-4 mt-8">
       <div
         v-for="(item, index) in weightedItems" :key="item.id"
         class="relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all"
@@ -116,8 +114,8 @@ watch(() => props.items, (newItems) => {
         <div class="flex items-center gap-4 relative z-10">
           <!-- Rank -->
           <div
-            class="flex items-center justify-center w-10 h-10 rounded-full font-black text-lg shadow-inner"
-            :class="index === 0 ? 'bg-primary-500 text-primary-950' : 'bg-surface-800 text-surface-300'"
+            class="flex items-center justify-center size-8 rounded-full font-black  shadow-inner"
+            :class="index === 0 ? 'bg-primary-500 size-10 text-lg text-primary-950' : 'bg-surface-800 text-surface-300'"
           >
             {{ index + 1 }}
           </div>
@@ -126,7 +124,8 @@ watch(() => props.items, (newItems) => {
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between gap-4 mb-1">
               <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="truncate">
-                <span class="text-lg font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
+                <span class=" line-clamp-1 font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
+
                 }}</span>
               </NuxtLink>
               <span class="text-xs font-bold px-2 py-1 rounded bg-surface-800 text-primary-400 tabular-nums">

@@ -59,7 +59,7 @@ onMounted(() => {
     </div>
 
     <!-- FAB -->
-    <div class="fixed bottom-6 right-6 z-30 sm:absolute">
+    <div class="fixed! bottom-6 right-6 z-30 ">
       <NuxtLink
         :to="`/lists/${listId}/add`"
         class="btn btn-primary rounded-full !w-14 !h-14 !p-0 flex items-center justify-center shadow-[0_4px_20px_rgba(var(--color-primary-500),0.4)] hover:scale-105 active:scale-95 transition-all"
