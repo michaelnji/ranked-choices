@@ -11,7 +11,7 @@ export function useLists() {
   const createList = async (name: string) => {
     const newList: List = {
       name,
-      rankingMode: 'manual',
+      rankingMode: 'weighted',
       createdAt: new Date(),
       updatedAt: new Date(),
     }

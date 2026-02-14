@@ -40,6 +40,25 @@ export function useListDetails(listId: number) {
     await fetchDetails()
   }
 
+  const updateCriteria = async (id: number, name: string, weight: number) => {
+    // Constraint: Weight 0-10
+    const validWeight = Math.max(0, Math.min(10, weight))
+    await db.criteria.update(id, { name, weight: validWeight })
+    await fetchDetails()
+  }
+
+  const updateItemRanks = async (reorderedItems: Item[]) => {
+    await db.transaction('rw', db.items, async () => {
+      for (let i = 0; i < reorderedItems.length; i++) {
+        const item = reorderedItems[i]
+        if (item && item.id) {
+          await db.items.update(item.id, { manualRankIndex: i })
+        }
+      }
+    })
+    await fetchDetails()
+  }
+
   const addItem = async (name: string, initialScores: Record<number, number> = {}) => {
     // Check if list exists in DB
     const exists = await db.lists.get(listId)
@@ -105,5 +124,7 @@ export function useListDetails(listId: number) {
     updateItem,
     removeItem,
     updateItemScores,
+    updateCriteria,
+    updateItemRanks,
   }
 }

@@ -14,6 +14,7 @@ const {
   criteria,
   fetchDetails,
   addCriteria,
+  updateCriteria,
   removeCriteria,
 } = useListDetails(listId)
 
@@ -113,6 +114,7 @@ async function handleRename() {
     <CriteriaManager
       :criteria="criteria"
       @add="addCriteria"
+      @update="updateCriteria"
       @remove="removeCriteria"
     />
 

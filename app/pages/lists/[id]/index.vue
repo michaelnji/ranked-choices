@@ -10,6 +10,7 @@ const {
   criteria,
   items,
   fetchDetails,
+  updateItemRanks,
 } = useListDetails(listId)
 
 onMounted(() => {
@@ -51,6 +52,8 @@ onMounted(() => {
       :items="items"
       :criteria="criteria"
       :mode="list.rankingMode"
+      :list-id="listId"
+      @reorder="updateItemRanks"
     />
 
     <!-- Add Item FAB -->

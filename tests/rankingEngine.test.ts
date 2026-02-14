@@ -14,28 +14,28 @@ describe('ranking Engine', () => {
       listId: 1,
       name: 'Item A',
       manualRankIndex: 2,
-      scores: { 1: 5, 2: 8 }, // Score: (5*10) + (8*5) = 50 + 40 = 90
+      scores: { 1: 5, 2: 8 }, // Score: (5/10 * 10) + (8/10 * 5) = 5 + 4 = 9
     },
     {
       id: 2,
       listId: 1,
       name: 'Item B',
       manualRankIndex: 1,
-      scores: { 1: 8, 2: 6 }, // Score: (8*10) + (6*5) = 80 + 30 = 110
+      scores: { 1: 8, 2: 6 }, // Score: (8/10 * 10) + (6/10 * 5) = 8 + 3 = 11
     },
     {
       id: 3,
       listId: 1,
       name: 'Item C',
       manualRankIndex: 0,
-      scores: { 1: 2, 2: 2 }, // Score: (2*10) + (2*5) = 20 + 10 = 30
+      scores: { 1: 2, 2: 2 }, // Score: (2/10 * 10) + (2/10 * 5) = 2 + 1 = 3
     },
   ]
 
   describe('calculateScore', () => {
     it('should calculate weighted score correctly', () => {
       const score = calculateScore(items[0], criteria)
-      expect(score).toBe(90)
+      expect(score).toBe(9)
     })
 
     it('should return 0 if no criteria exist', () => {
