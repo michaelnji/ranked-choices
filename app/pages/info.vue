@@ -7,7 +7,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-6 space-y-8 pb-20 animate-fade-in-up">
+  <div class="p-6 space-y-8 pb-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center gap-4">
       <NuxtLink

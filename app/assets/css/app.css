@@ -140,3 +140,9 @@ body {
 .glass {
   @apply bg-surface-900/80 backdrop-blur-xl border border-surface-700/50;
 }
+
+/* Fix for vue-hot-toast z-index */
+/* Targeting the wrapper div created by Toaster which is a direct child of body */
+.wrapper[data-v-1c6a3f6f] {
+  z-index: 99999 !important;
+}

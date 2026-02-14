@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ChevronLeft, Plus } from 'lucide-vue-next'
 import { ref } from 'vue'
+import { toast } from 'vue-hot-toast'
 import { useRouter } from 'vue-router'
 import { useLists } from '~/composables/useLists'
 
@@ -12,8 +13,14 @@ async function handleCreate() {
   if (!name.value.trim())
     return
 
-  await createList(name.value.trim())
-  router.push('/')
+  try {
+    await createList(name.value.trim())
+    toast.success('List created successfully')
+    router.push('/')
+  }
+  catch {
+    toast.error('Failed to create list')
+  }
 }
 </script>
 

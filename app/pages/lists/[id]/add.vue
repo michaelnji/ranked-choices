@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AlertTriangle, Check, ChevronLeft, Save } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -25,8 +26,19 @@ async function handleSave() {
   if (!name.value.trim())
     return
 
-  await addItem(name.value, scores.value)
-  router.push(`/lists/${listId}`)
+  if (criteria.value.length === 0) {
+    toast.error('Please add criteria in settings first')
+    return
+  }
+
+  try {
+    await addItem(name.value, scores.value)
+    toast.success('Item added successfully')
+    router.push(`/lists/${listId}`)
+  }
+  catch {
+    toast.error('Failed to add item')
+  }
 }
 
 function toggleScore(criteriaId: number) {
@@ -36,7 +48,7 @@ function toggleScore(criteriaId: number) {
 </script>
 
 <template>
-  <div class="p-6 space-y-8 pb-24 animate-fade-in-up">
+  <div class="p-6 space-y-8 pb-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center gap-4">
       <NuxtLink
@@ -118,7 +130,7 @@ function toggleScore(criteriaId: number) {
       <!-- Save Button -->
       <button
         class="btn btn-primary w-full flex items-center justify-center gap-2 text-lg h-14"
-        :disabled="!name.trim()" @click="handleSave"
+        :disabled="!name.trim() || criteria.length === 0" @click="handleSave"
       >
         <Save :size="24" />
         Save Item

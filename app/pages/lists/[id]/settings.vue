@@ -2,6 +2,7 @@
 import type { RankingMode } from '~/types'
 import { BarChart2, ChevronLeft, GripVertical, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 import { db } from '~/utils/db'
@@ -14,9 +15,9 @@ const {
   list,
   criteria,
   fetchDetails,
-  addCriteria,
-  updateCriteria,
-  removeCriteria,
+  addCriteria: _addCriteria,
+  updateCriteria: _updateCriteria,
+  removeCriteria: _removeCriteria,
 } = useListDetails(listId)
 
 const showDeleteModal = ref(false)
@@ -29,6 +30,7 @@ async function updateRankingMode(mode: RankingMode) {
   if (list.value) {
     list.value.rankingMode = mode
     await db.lists.update(listId, { rankingMode: mode })
+    toast.success(`Switched to ${mode} mode`)
   }
 }
 
@@ -37,21 +39,63 @@ function handleDelete() {
 }
 
 async function confirmDelete() {
-  await db.lists.delete(listId)
-  await db.criteria.where('listId').equals(listId).delete()
-  await db.items.where('listId').equals(listId).delete()
-  router.push('/')
+  try {
+    await db.lists.delete(listId)
+    await db.criteria.where('listId').equals(listId).delete()
+    await db.items.where('listId').equals(listId).delete()
+    toast.success('List deleted successfully')
+    router.push('/')
+  }
+  catch {
+    toast.error('Failed to delete list')
+  }
 }
 
 async function handleRename() {
   if (list.value && list.value.name.trim()) {
-    await db.lists.update(listId, { name: list.value.name })
+    try {
+      await db.lists.update(listId, { name: list.value.name })
+      toast.success('List renamed')
+    }
+    catch {
+      toast.error('Failed to rename list')
+    }
+  }
+}
+
+async function handleAddCriteria(name: string, weight: number) {
+  try {
+    await _addCriteria(name, weight)
+    toast.success('Criteria added')
+  }
+  catch {
+    toast.error('Failed to add criteria')
+  }
+}
+
+async function handleUpdateCriteria(id: number, name: string, weight: number) {
+  try {
+    await _updateCriteria(id, name, weight)
+    toast.success('Criteria updated')
+  }
+  catch {
+    toast.error('Failed to update criteria')
+  }
+}
+
+async function handleRemoveCriteria(id: number) {
+  try {
+    await _removeCriteria(id)
+    toast.success('Criteria removed')
+  }
+  catch {
+    toast.error('Failed to remove criteria')
   }
 }
 </script>
 
 <template>
-  <div v-if="list" class="p-6 space-y-8 pb-20 animate-fade-in-up">
+  <div v-if="list" class="p-6 space-y-8 pb-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center gap-4">
       <NuxtLink
@@ -116,9 +160,8 @@ async function handleRename() {
     <!-- Criteria Settings -->
     <CriteriaManager
       :criteria="criteria"
-      @add="addCriteria"
-      @update="updateCriteria"
-      @remove="removeCriteria"
+      @add="handleAddCriteria" @update="handleUpdateCriteria"
+      @remove="handleRemoveCriteria"
     />
 
     <!-- Danger Zone -->
@@ -139,31 +182,36 @@ async function handleRename() {
     </div>
 
     <!-- Delete Modal -->
-    <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center px-6">
-      <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" @click="showDeleteModal = false" />
+    <Teleport to="body">
+      <div v-if="showDeleteModal" class="fixed inset-0 z-100 flex items-center justify-center px-6">
+        <!-- Backdrop -->
+        <div
+          class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+          @click="showDeleteModal = false"
+        />
 
-      <!-- Modal Content -->
-      <div
-        class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
-      >
-        <h3 class="text-xl font-bold text-white mb-2">
-          Delete List?
-        </h3>
-        <p class="text-surface-400 mb-8 leading-relaxed">
-          This action cannot be undone. The list and all its rankings
-          will be lost forever.
-        </p>
+        <!-- Modal Content -->
+        <div
+          class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
+        >
+          <h3 class="text-xl font-bold text-white mb-2">
+            Delete List?
+          </h3>
+          <p class="text-surface-400 mb-8 leading-relaxed">
+            This action cannot be undone. The list and all its rankings
+            will be lost forever.
+          </p>
 
-        <div class="grid grid-cols-2 gap-4">
-          <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="showDeleteModal = false">
-            Cancel
-          </button>
-          <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
-            Delete
-          </button>
+          <div class="grid grid-cols-2 gap-4">
+            <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="showDeleteModal = false">
+              Cancel
+            </button>
+            <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>

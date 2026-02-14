@@ -7,7 +7,9 @@ import { Info } from 'lucide-vue-next'
 <template>
   <div class="min-h-screen bg-black flex justify-center items-start sm:py-8 transition-colors duration-300">
     <!-- Mobile Container -->
-    <div class="w-full max-w-[480px] min-h-screen sm:min-h-[calc(100vh-4rem)] bg-surface-950 sm:rounded-[40px] flex flex-col relative shadow-2xl overflow-hidden border border-surface-900 ring-8 ring-surface-900/50">
+    <div
+      class="w-full max-w-[480px] min-h-screen sm:min-h-[calc(100vh-4rem)] bg-surface-950 sm:rounded-[40px] flex flex-col relative shadow-2xl  border border-surface-900 ring-8 ring-surface-900/50"
+    >
       <!-- Top Bar -->
       <header
         class="fixed w-full top-0 z-50 flex items-center justify-between px-6 py-5 bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/50"
