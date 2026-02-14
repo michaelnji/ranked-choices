@@ -65,33 +65,35 @@ watch(() => props.items, (newItems) => {
     </div>
 
     <!-- Manual Mode List (Drag & Drop) -->
-    <div v-show="mode === 'manual'" ref="parent" class="space-y-3 mt-8">
-      <NuxtLink
-        v-for="(item, index) in manualItems" :key="item.id"
-        :to="`/lists/${listId}/items/${item.id}`"
-        class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none cursor-pointer"
-      >
-        <!-- Drag Handle -->
-        <div
-          class="drag-handle cursor-grab active:cursor-grabbing p-1 text-surface-500 hover:text-white transition-colors touch-none"
-          @click.prevent.stop
+    <div v-show="mode === 'manual'" class="mt-8">
+      <div v-show="manualItems.length > 0" ref="parent" class="space-y-3">
+        <NuxtLink
+          v-for="(item, index) in manualItems" :key="item.id"
+          :to="`/lists/${listId}/items/${item.id}`"
+          class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none cursor-pointer"
         >
-          <GripVertical :size="20" />
-        </div>
+          <!-- Drag Handle -->
+          <div
+            class="drag-handle cursor-grab active:cursor-grabbing p-1 text-surface-500 hover:text-white transition-colors touch-none"
+            @click.prevent.stop
+          >
+            <GripVertical :size="20" />
+          </div>
 
-        <!-- Rank Number -->
-        <div
-          class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-800 text-white font-bold text-sm border border-surface-700"
-        >
-          {{ index + 1 }}
-        </div>
+          <!-- Rank Number -->
+          <div
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-800 text-white font-bold text-sm border border-surface-700"
+          >
+            {{ index + 1 }}
+          </div>
 
-        <!-- Content -->
-        <div class="flex-1">
-          <span class="text-base font-bold text-white group-hover:text-primary-400 transition-colors">{{ item.name
-          }}</span>
-        </div>
-      </NuxtLink>
+          <!-- Content -->
+          <div class="flex-1">
+            <span class="text-base font-bold text-white group-hover:text-primary-400 transition-colors">{{ item.name
+            }}</span>
+          </div>
+        </NuxtLink>
+      </div>
 
       <div
         v-if="manualItems.length === 0"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, LayoutList, PlusCircle, Trash2 } from 'lucide-vue-next'
+import { ArrowRight, Calendar1, LayoutList, PlusCircle, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { useLists } from '~/composables/useLists'
 
@@ -92,7 +92,7 @@ function formatTimeAgo(date: Date) {
               <span
                 class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-surface-800"
               >
-                <Calendar :size="14" class="mr-1.5 text-surface-500" />
+                <Calendar1 :size="14" class="mr-1.5 text-surface-500" />
                 {{ formatTimeAgo(list.createdAt) }}
               </span>
             </div>
