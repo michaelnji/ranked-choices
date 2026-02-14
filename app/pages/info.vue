@@ -42,7 +42,10 @@ useHead({
 
       <div class="flex items-center gap-4">
         <div class="w-16 h-16 rounded-full bg-surface-800 overflow-hidden border border-surface-700 shadow-lg">
-          <img src="https://michaelnji.codes/avatar.png" alt="Michael Nji" class="w-full h-full object-cover">
+          <img
+            src="https://www.michaelnji.codes/_vercel/image?url=%2Fimages%2Fme.png&w=1024&q=100" alt="Michael Nji"
+            class="w-full h-full object-cover"
+          >
         </div>
         <div>
           <h3 class="font-bold text-lg text-white">

@@ -20,6 +20,22 @@ async function confirmDelete() {
   await deleteList(deleteCandidateId.value)
   deleteCandidateId.value = null
 }
+
+function formatTimeAgo(date: Date) {
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - new Date(date).getTime()) / 1000)
+
+  if (diffInSeconds < 60)
+    return 'Just now'
+  if (diffInSeconds < 3600)
+    return `${Math.floor(diffInSeconds / 60)}m ago`
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)}h ago`
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}d ago`
+
+  return new Date(date).toLocaleDateString()
+}
 </script>
 
 <template>
@@ -52,7 +68,7 @@ async function confirmDelete() {
           Create your first list to start ranking items.
         </p>
       </div>
-      <NuxtLink to="/new" class="btn btn-primary w-full max-w-xs">
+      <NuxtLink to="/new" class="btn btn-secondary w-full max-w-xs">
         <PlusCircle :size="20" class="mr-2" />
         Create New List
       </NuxtLink>
@@ -66,16 +82,30 @@ async function confirmDelete() {
             <h3 class="text-xl font-bold text-white mb-2 leading-tight">
               {{ list.name }}
             </h3>
-            <p class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-block px-3 py-1.5 rounded-lg border border-surface-800">
-              {{ new Date(list.createdAt).toLocaleDateString() }}
-            </p>
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+              <span
+                class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-surface-800"
+              >
+                <LayoutList :size="14" class="mr-1.5 text-primary-400" />
+                {{ list.itemCount }} Items
+              </span>
+              <span
+                class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-surface-800"
+              >
+                <Calendar :size="14" class="mr-1.5 text-surface-500" />
+                {{ formatTimeAgo(list.createdAt) }}
+              </span>
+            </div>
           </div>
           <button class="text-surface-500 hover:text-red-400 transition-colors p-2 -mr-2 -mt-2 rounded-full hover:bg-surface-800" @click="list.id && handleDelete(list.id)">
             <Trash2 :size="20" />
           </button>
         </div>
 
-        <NuxtLink :to="`/lists/${list.id}`" class="btn btn-secondary w-full justify-between group-hover:bg-secondary-400 transition-colors">
+        <NuxtLink
+          :to="`/lists/${list.id}`"
+          class="btn btn-primary w-full justify-between group-hover:bg-primary-400 transition-colors"
+        >
           <span>Open List</span>
           <ArrowRight :size="20" />
         </NuxtLink>
