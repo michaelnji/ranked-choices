@@ -66,13 +66,15 @@ watch(() => props.items, (newItems) => {
 
     <!-- Manual Mode List (Drag & Drop) -->
     <div v-show="mode === 'manual'" ref="parent" class="space-y-3 mt-8">
-      <div
+      <NuxtLink
         v-for="(item, index) in manualItems" :key="item.id"
-        class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none"
+        :to="`/lists/${listId}/items/${item.id}`"
+        class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none cursor-pointer"
       >
         <!-- Drag Handle -->
         <div
           class="drag-handle cursor-grab active:cursor-grabbing p-1 text-surface-500 hover:text-white transition-colors touch-none"
+          @click.prevent.stop
         >
           <GripVertical :size="20" />
         </div>
@@ -85,11 +87,11 @@ watch(() => props.items, (newItems) => {
         </div>
 
         <!-- Content -->
-        <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="flex-1">
+        <div class="flex-1">
           <span class="text-base font-bold text-white group-hover:text-primary-400 transition-colors">{{ item.name
           }}</span>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
 
       <div
         v-if="manualItems.length === 0"
@@ -101,9 +103,10 @@ watch(() => props.items, (newItems) => {
 
     <!-- Weighted Mode List (Read Only) -->
     <div v-if="mode !== 'manual'" class="space-y-4 mt-8">
-      <div
+      <NuxtLink
         v-for="(item, index) in weightedItems" :key="item.id"
-        class="relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all"
+        :to="`/lists/${listId}/items/${item.id}`"
+        class="block relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all hover:border-primary-500/30 cursor-pointer"
         :class="{ 'ring-1 ring-primary-500/50 shadow-[0_0_20px_-10px_rgba(var(--color-primary-500),0.3)]': index === 0 }"
       >
         <div class="flex items-center gap-4 relative z-10">
@@ -118,10 +121,10 @@ watch(() => props.items, (newItems) => {
           <!-- Content -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between gap-4 mb-2">
-              <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="truncate">
+              <div class="truncate">
                 <span class="line-clamp-1 font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
                 }}</span>
-              </NuxtLink>
+              </div>
               <span class="text-xs font-bold px-2 py-1 rounded bg-surface-800 text-primary-400 tabular-nums">
                 {{ getScore(item).toFixed(1) }} pts
               </span>
@@ -138,7 +141,7 @@ watch(() => props.items, (newItems) => {
             </div>
           </div>
         </div>
-      </div>
+      </NuxtLink>
 
       <div
         v-if="weightedItems.length === 0"
