@@ -3,6 +3,7 @@ import type { Criteria, Item, RankingMode } from '~/types'
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
 import { GripVertical, Star, Trophy } from 'lucide-vue-next'
 import { computed, watch } from 'vue'
+import ProgressBar from '~/components/ProgressBar.vue'
 import { calculateScore, sortItems } from '~/utils/rankingEngine'
 
 const props = defineProps<{
@@ -103,14 +104,6 @@ watch(() => props.items, (newItems) => {
         class="relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all"
         :class="{ 'ring-1 ring-primary-500/50 shadow-[0_0_20px_-10px_rgba(var(--color-primary-500),0.3)]': index === 0 }"
       >
-        <!-- Progress Bar Background -->
-        <div class="absolute bottom-0 left-0 h-1 bg-surface-800 w-full">
-          <div
-            class="h-full bg-primary-500 transition-all duration-500 ease-out"
-            :style="{ width: `${getScorePercent(item)}%` }"
-          />
-        </div>
-
         <div class="flex items-center gap-4 relative z-10">
           <!-- Rank -->
           <div
@@ -122,16 +115,20 @@ watch(() => props.items, (newItems) => {
 
           <!-- Content -->
           <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between gap-4 mb-1">
+            <div class="flex items-center justify-between gap-4 mb-2">
               <NuxtLink :to="`/lists/${listId}/items/${item.id}`" class="truncate">
-                <span class=" line-clamp-1 font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
-
+                <span class="line-clamp-1 font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
                 }}</span>
               </NuxtLink>
               <span class="text-xs font-bold px-2 py-1 rounded bg-surface-800 text-primary-400 tabular-nums">
                 {{ getScore(item).toFixed(1) }} pts
               </span>
             </div>
+
+            <ProgressBar
+              :value="getScorePercent(item)" :max="100"
+              :color-class="index === 0 ? 'from-primary-400 to-primary-300' : 'from-primary-600 to-primary-500'"
+            />
           </div>
         </div>
       </div>
