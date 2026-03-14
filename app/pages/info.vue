@@ -20,9 +20,6 @@ useHead({
         <h1 class="text-3xl text-display text-white">
           Info
         </h1>
-        <p class="text-surface-400 font-medium">
-          About this app
-        </p>
       </div>
     </div>
 

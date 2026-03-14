@@ -24,7 +24,7 @@ onMounted(() => {
   <div v-if="list" class="flex flex-col h-full animate-fade-in-up">
     <!-- Header -->
     <div
-      class="px-6 pt-6 pb-4 flex items-center justify-between sticky top-0 z-20 bg-surface-950/80 backdrop-blur-md border-b border-surface-800/50"
+      class="px-6 pt-6 pb-4 flex items-center justify-between sticky top-0 z-20 bg-surface-950/95 backdrop-blur-sm border-b border-surface-800/50"
     >
       <div class="flex items-center gap-3">
         <NuxtLink
@@ -62,7 +62,7 @@ onMounted(() => {
     <div class="fixed! bottom-6 right-6 z-30 ">
       <NuxtLink
         :to="`/lists/${listId}/add`"
-        class="btn btn-primary rounded-full !w-14 !h-14 !p-0 flex items-center justify-center shadow-[0_4px_20px_rgba(var(--color-primary-500),0.4)] hover:scale-105 active:scale-95 transition-all"
+        class="btn btn-primary rounded-full !w-14 !h-14 !p-0 flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
       >
         <Plus :size="28" stroke-width="3" />
       </NuxtLink>

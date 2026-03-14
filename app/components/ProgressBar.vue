@@ -34,25 +34,13 @@ const percentage = computed(() => {
     </div>
 
     <!-- Progress Track -->
-    <div class="relative h-5 w-full bg-surface-950/50 rounded-full border border-surface-800/50 shadow-inner overflow-hidden backdrop-blur-sm">
+    <div class="relative h-2 w-full bg-surface-800 rounded-full overflow-hidden">
       <!-- Progress Fill -->
       <div
-        class="relative h-full bg-gradient-to-r transition-all duration-700 ease-out flex items-center"
+        class="h-full bg-gradient-to-r transition-all duration-700 ease-out"
         :class="colorClass"
         :style="{ width: `${percentage}%` }"
-      >
-        <!-- Shine Effect (Top Half) -->
-        <div class="absolute top-0.5 left-1 right-1 h-[40%] bg-white/20 rounded-full opacity-80" />
-
-        <!-- Pulse/Glow Effect for 100% -->
-        <div v-if="percentage >= 100" class="absolute inset-0 bg-white/10 animate-pulse" />
-
-        <!-- End Dot (Highlight) -->
-        <div
-          v-if="percentage > 0"
-          class="absolute right-1.5 size-1.5 bg-white/60 rounded-full shadow-[0_0_4px_rgba(255,255,255,0.6)]"
-        />
-      </div>
+      />
     </div>
   </div>
 </template>

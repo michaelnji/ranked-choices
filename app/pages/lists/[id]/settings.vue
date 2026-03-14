@@ -108,9 +108,6 @@ async function handleRemoveCriteria(id: number) {
         <h1 class="text-3xl text-display text-white">
           Settings
         </h1>
-        <p class="text-surface-400 font-medium">
-          Configure list options
-        </p>
       </div>
     </div>
 
@@ -192,7 +189,7 @@ async function handleRemoveCriteria(id: number) {
 
         <!-- Modal Content -->
         <div
-          class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
+          class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20"
         >
           <h3 class="text-xl font-bold text-white mb-2">
             Delete List?

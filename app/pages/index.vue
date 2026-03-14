@@ -53,9 +53,6 @@ function formatTimeAgo(date: Date) {
         <h1 class="text-3xl text-display text-white">
           My Lists
         </h1>
-        <p class="text-surface-400 font-medium mt-1">
-          Manage your rankings
-        </p>
       </div>
       <NuxtLink v-if="lists.length > 0" to="/new" class="btn btn-primary rounded-full !p-3 aspect-square flex items-center justify-center">
         <PlusCircle :size="24" stroke-width="2.5" />
@@ -83,7 +80,7 @@ function formatTimeAgo(date: Date) {
 
     <!-- List Grid -->
     <div v-else class="grid gap-5">
-      <div v-for="list in lists" :key="list.id" class="card group hover:border-primary-500/30 transition-all hover:-translate-y-1">
+      <div v-for="list in lists" :key="list.id" class="card group hover:border-primary-500/50 transition-all">
         <div class="flex justify-between items-start mb-6">
           <div>
             <h3 class="text-xl font-bold text-white mb-2 leading-tight">
@@ -131,7 +128,7 @@ function formatTimeAgo(date: Date) {
 
           <!-- Modal Content -->
           <div
-            class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
+            class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20"
           >
             <h3 class="text-xl font-bold text-white mb-2">
               Delete List?

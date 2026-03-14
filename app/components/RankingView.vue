@@ -109,7 +109,7 @@ watch(() => props.items, (newItems) => {
         v-for="(item, index) in weightedItems" :key="item.id"
         :to="`/lists/${listId}/items/${item.id}`"
         class="block relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all hover:border-primary-500/30 cursor-pointer"
-        :class="{ 'ring-1 ring-primary-500/50 shadow-[0_0_20px_-10px_rgba(var(--color-primary-500),0.3)]': index === 0 }"
+        :class="{ 'ring-1 ring-primary-500/50': index === 0 }"
       >
         <div class="flex items-center gap-4 relative z-10">
           <!-- Rank -->

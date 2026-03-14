@@ -61,9 +61,6 @@ function toggleScore(criteriaId: number) {
         <h1 class="text-3xl text-display text-white">
           Add Item
         </h1>
-        <p class="text-surface-400 font-medium">
-          New entry for ranking
-        </p>
       </div>
     </div>
 
@@ -98,7 +95,7 @@ function toggleScore(criteriaId: number) {
             :key="c.id"
             class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left"
             :class="(scores[c.id!] || 0) > 0
-              ? 'bg-primary-500/10 border-primary-500 text-white shadow-[0_0_15px_-5px_rgba(var(--color-primary-500),0.3)]'
+              ? 'bg-primary-500/10 border-primary-500 text-white'
               : 'bg-surface-950 border-surface-800 text-surface-400 hover:border-surface-600'"
             @click="c.id && toggleScore(c.id)"
           >

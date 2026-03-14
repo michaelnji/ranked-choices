@@ -38,9 +38,6 @@ async function handleCreate() {
         <h1 class="text-3xl text-display text-white">
           New List
         </h1>
-        <p class="text-surface-400 font-medium">
-          Create a new ranking project
-        </p>
       </div>
     </div>
 

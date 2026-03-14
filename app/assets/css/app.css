@@ -110,10 +110,10 @@ body {
   @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm tracking-wide transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none;
 }
 .btn-primary {
-  @apply bg-primary-400 text-primary-950 hover:bg-primary-300 shadow-[0_0_20px_-5px_var(--color-primary-500)];
+  @apply bg-primary-400 text-primary-950 hover:bg-primary-300 border border-primary-300/40;
 }
 .btn-secondary {
-  @apply bg-secondary-500 text-white hover:bg-secondary-400 shadow-[0_0_20px_-5px_var(--color-secondary-500)];
+  @apply bg-secondary-500 text-white hover:bg-secondary-400 border border-secondary-400/40;
 }
 .btn-ghost {
   @apply bg-transparent text-white hover:bg-surface-800;
@@ -123,7 +123,7 @@ body {
 }
 /* Cards */
 .card {
-  @apply bg-surface-900 rounded-[32px] p-6 border border-surface-800 shadow-xl backdrop-blur-md relative overflow-hidden;
+  @apply bg-surface-900 rounded-[32px] p-6 border border-surface-800 shadow-xl relative overflow-hidden;
 }
 /* Inputs */
 .input {
@@ -131,14 +131,14 @@ body {
 }
 /* Typography */
 .text-display {
-  @apply font-display font-bold tracking-tight;
+  @apply font-display font-black tracking-tight;
 }
 .text-label {
   @apply text-xs font-bold uppercase tracking-wider text-surface-400;
 }
 /* Utilities */
 .glass {
-  @apply bg-surface-900/80 backdrop-blur-xl border border-surface-700/50;
+  @apply bg-surface-900/95 backdrop-blur-sm border border-surface-700/50;
 }
 
 /* Fix for vue-hot-toast z-index */
