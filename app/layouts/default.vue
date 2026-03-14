@@ -3,7 +3,7 @@ const route = useRoute()
 
 // Show bottom nav only on root-level pages
 const showBottomNav = computed(() => {
-  const rootPages = ['/', '/info', '/new']
+  const rootPages = ['/', '/info', '/new', '/settings']
   return rootPages.includes(route.path)
 })
 </script>

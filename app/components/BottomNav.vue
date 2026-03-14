@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { Home, Info, PlusCircle } from 'lucide-vue-next'
+import { Home, PlusCircle, User } from 'lucide-vue-next'
 
 const route = useRoute()
 
 const tabs = [
   { to: '/', icon: Home, label: 'Home' },
   { to: '/new', icon: PlusCircle, label: 'New' },
-  { to: '/info', icon: Info, label: 'Info' },
+  { to: '/settings', icon: User, label: 'Settings' },
 ]
 
 function isActive(path: string) {
-  return route.path === path
+  if (path === '/')
+    return route.path === '/'
+  return route.path.startsWith(path)
 }
 </script>
 

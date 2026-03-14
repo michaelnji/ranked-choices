@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { Toaster } from 'vue-sonner'
 import { db } from '~/utils/db'
 
 // Root app
@@ -66,6 +67,9 @@ onMounted(async () => {
       </div>
     </div>
   </Transition>
+
+  <!-- Toast notifications -->
+  <Toaster position="bottom-center" :duration="3000" theme="dark" rich-colors />
 </template>
 
 <style>
