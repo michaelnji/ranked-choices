@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AlertTriangle, Check, Save, Settings } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -26,18 +25,15 @@ async function handleSave() {
   if (!name.value.trim())
     return
 
-  if (criteria.value.length === 0) {
-    toast.error('Please add criteria in settings first')
+  if (criteria.value.length === 0)
     return
-  }
 
   try {
     await addItem(name.value, scores.value)
-    toast.success('Item added successfully')
     router.push(`/lists/${listId}`)
   }
   catch {
-    toast.error('Failed to add item')
+    // silent
   }
 }
 

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { Toaster } from 'vue-hot-toast'
-import 'vue-hot-toast/index.css'
-
 // Root app
 useHead({
   htmlAttrs: { lang: 'en' },
@@ -21,5 +18,4 @@ useHead({
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <Toaster position="bottom-center" />
 </template>

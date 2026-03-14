@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ArrowRight, Calendar1, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useLists } from '~/composables/useLists'
 
 const { lists, fetchLists, deleteList } = useLists()
@@ -22,12 +21,11 @@ async function confirmDelete() {
     return
   try {
     await deleteList(deleteCandidateId.value)
-    toast.success('List deleted')
     deleteCandidateId.value = null
     showDeleteDialog.value = false
   }
   catch {
-    toast.error('Failed to delete list')
+    // silent
   }
 }
 

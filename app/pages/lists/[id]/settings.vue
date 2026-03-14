@@ -2,7 +2,6 @@
 import type { RankingMode } from '~/types'
 import { BarChart2, GripVertical, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 import { db } from '~/utils/db'
@@ -30,7 +29,6 @@ async function updateRankingMode(mode: RankingMode) {
   if (list.value) {
     list.value.rankingMode = mode
     await db.lists.update(listId, { rankingMode: mode })
-    toast.success(`Switched to ${mode} mode`)
   }
 }
 
@@ -39,11 +37,10 @@ async function confirmDelete() {
     await db.lists.delete(listId)
     await db.criteria.where('listId').equals(listId).delete()
     await db.items.where('listId').equals(listId).delete()
-    toast.success('List deleted successfully')
     router.push('/')
   }
   catch {
-    toast.error('Failed to delete list')
+    // silent
   }
 }
 
@@ -51,10 +48,9 @@ async function handleRename() {
   if (list.value && list.value.name.trim()) {
     try {
       await db.lists.update(listId, { name: list.value.name })
-      toast.success('List renamed')
     }
     catch {
-      toast.error('Failed to rename list')
+      // silent
     }
   }
 }
@@ -62,30 +58,27 @@ async function handleRename() {
 async function handleAddCriteria(name: string, weight: number) {
   try {
     await _addCriteria(name, weight)
-    toast.success('Criterion added')
   }
   catch {
-    toast.error('Failed to add criterion')
+    // silent
   }
 }
 
 async function handleUpdateCriteria(id: number, name: string, weight: number) {
   try {
     await _updateCriteria(id, name, weight)
-    toast.success('Criterion updated')
   }
   catch {
-    toast.error('Failed to update criterion')
+    // silent
   }
 }
 
 async function handleRemoveCriteria(id: number) {
   try {
     await _removeCriteria(id)
-    toast.success('Criterion removed')
   }
   catch {
-    toast.error('Failed to remove criterion')
+    // silent
   }
 }
 </script>

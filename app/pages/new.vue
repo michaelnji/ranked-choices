@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Plus } from 'lucide-vue-next'
-import { toast } from 'vue-hot-toast'
 
 const router = useRouter()
 const { createList } = useLists()
@@ -12,11 +11,10 @@ async function handleCreate() {
 
   try {
     await createList(name.value.trim())
-    toast.success('List created successfully')
     router.push('/')
   }
   catch {
-    toast.error('Failed to create list')
+    // silent
   }
 }
 </script>

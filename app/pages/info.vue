@@ -7,7 +7,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-6 space-y-8 pb-6 animate-fade-in-up">
+  <div class="p-6 space-y-8 animate-fade-in-up">
     <!-- Page Title -->
     <div>
       <h1 class="text-3xl text-display text-foreground">

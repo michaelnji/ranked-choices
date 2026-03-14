@@ -27,7 +27,7 @@ const item = computed(() => items.value.find(i => i.id === itemId))
     <AppHeader :title="item.name" subtitle="Item Details" :back="`/lists/${listId}`">
       <template #right>
         <NuxtLink :to="`/lists/${listId}/items/${itemId}/edit`">
-          <UiButton variant="ghost" size="icon" class="text-muted-foreground hover:text-foreground" aria-label="Edit item">
+          <UiButton variant="ghost" size="icon" class="h-11 w-11 text-muted-foreground hover:text-foreground" aria-label="Edit item">
             <Pencil :size="18" :stroke-width="2" />
           </UiButton>
         </NuxtLink>
@@ -58,7 +58,7 @@ const item = computed(() => items.value.find(i => i.id === itemId))
           </div>
 
           <div v-else class="text-center py-8 text-muted-foreground border border-dashed border-zinc-800 rounded-xl">
-            No criteria defined.
+            No criteria defined
           </div>
         </UiCardContent>
       </UiCard>

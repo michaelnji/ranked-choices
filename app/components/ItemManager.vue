@@ -43,12 +43,13 @@ const emit = defineEmits<{
             <div class="flex items-center justify-between gap-3">
               <span class="text-base font-bold text-foreground truncate">{{ item.name }}</span>
               <UiBadge variant="secondary" class="shrink-0">
-                {{ criteria.length }} Scores
+                {{ criteria.length }} {{ criteria.length === 1 ? 'Score' : 'Scores' }}
               </UiBadge>
             </div>
           </NuxtLink>
           <UiButton
-            variant="ghost" size="icon" class="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
+            variant="ghost" size="icon" class="h-11 w-11 text-muted-foreground hover:text-destructive shrink-0"
+            :aria-label="`Delete ${item.name}`"
             @click="item.id && emit('remove', item.id)"
           >
             <Trash2 :size="16" />

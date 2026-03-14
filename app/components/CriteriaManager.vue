@@ -74,7 +74,7 @@ function saveEdit() {
         />
         <UiButton
           size="icon"
-          class="h-10 w-10 shrink-0"
+          class="h-11 w-11 shrink-0"
           :disabled="!newName.trim() || criteria.length >= 20"
           aria-label="Add criterion"
           @click="handleAdd"
@@ -129,7 +129,7 @@ function saveEdit() {
             <UiButton
               variant="ghost"
               size="icon"
-              class="h-9 w-9 text-muted-foreground hover:text-foreground"
+              class="h-11 w-11 text-muted-foreground hover:text-foreground"
               :aria-label="`Edit ${c.name}`"
               @click="startEdit(c)"
             >
@@ -138,7 +138,7 @@ function saveEdit() {
             <UiButton
               variant="ghost"
               size="icon"
-              class="h-9 w-9 text-muted-foreground hover:text-destructive"
+              class="h-11 w-11 text-muted-foreground hover:text-destructive"
               :aria-label="`Delete ${c.name}`"
               @click="c.id && emit('remove', c.id)"
             >

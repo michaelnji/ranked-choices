@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Check, Save, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -41,22 +40,20 @@ async function handleSave() {
     return
   try {
     await updateItem(itemId, name.value, scores.value)
-    toast.success('Item updated successfully')
     router.push(`/lists/${listId}/items/${itemId}`)
   }
   catch {
-    toast.error('Failed to update item')
+    // silent
   }
 }
 
 async function confirmRemove() {
   try {
     await removeItem(itemId)
-    toast.success('Item deleted successfully')
     router.push(`/lists/${listId}`)
   }
   catch {
-    toast.error('Failed to delete item')
+    // silent
   }
 }
 
