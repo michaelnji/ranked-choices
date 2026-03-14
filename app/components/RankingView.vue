@@ -160,7 +160,7 @@ watch(() => props.items, (newItems) => {
               Add Items
             </UiButton>
           </NuxtLink>
-          <NuxtLink :to="`/lists/${listId}/settings`">
+          <NuxtLink :to="`/lists/${listId}/criteria`">
             <UiButton size="sm" variant="outline">
               <Settings :size="14" class="mr-1.5" />
               Criteria

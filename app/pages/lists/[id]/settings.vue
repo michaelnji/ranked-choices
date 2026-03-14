@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RankingMode } from '~/types'
-import { BarChart2, GripVertical, Trash2 } from 'lucide-vue-next'
+import { BarChart2, ChevronRight, GripVertical, Scale, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
@@ -14,9 +14,6 @@ const {
   list,
   criteria,
   fetchDetails,
-  addCriteria: _addCriteria,
-  updateCriteria: _updateCriteria,
-  removeCriteria: _removeCriteria,
 } = useListDetails(listId)
 
 const showDeleteDialog = ref(false)
@@ -52,33 +49,6 @@ async function handleRename() {
     catch {
       // silent
     }
-  }
-}
-
-async function handleAddCriteria(name: string, weight: number) {
-  try {
-    await _addCriteria(name, weight)
-  }
-  catch {
-    // silent
-  }
-}
-
-async function handleUpdateCriteria(id: number, name: string, weight: number) {
-  try {
-    await _updateCriteria(id, name, weight)
-  }
-  catch {
-    // silent
-  }
-}
-
-async function handleRemoveCriteria(id: number) {
-  try {
-    await _removeCriteria(id)
-  }
-  catch {
-    // silent
   }
 }
 </script>
@@ -133,11 +103,25 @@ async function handleRemoveCriteria(id: number) {
         </UiCardContent>
       </UiCard>
 
-      <!-- Criteria Settings -->
-      <CriteriaManager
-        :criteria="criteria" @add="handleAddCriteria" @update="handleUpdateCriteria"
-        @remove="handleRemoveCriteria"
-      />
+      <!-- Criteria Navigation Row -->
+      <NuxtLink :to="`/lists/${listId}/criteria`">
+        <UiCard class="hover:border-primary/30 transition-colors">
+          <UiCardContent class="flex items-center gap-4 py-4 px-5">
+            <div class="w-9 h-9 rounded-lg bg-success/10 flex items-center justify-center shrink-0">
+              <Scale :size="16" class="text-success" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-foreground">
+                Criteria
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                {{ criteria.length === 0 ? 'No criteria defined yet' : `${criteria.length} criterion${criteria.length !== 1 ? 'a' : 'on'} defined` }}
+              </p>
+            </div>
+            <ChevronRight :size="16" class="text-muted-foreground shrink-0" />
+          </UiCardContent>
+        </UiCard>
+      </NuxtLink>
 
       <!-- Danger Zone -->
       <UiCard class="border-destructive/30 bg-destructive/5">
