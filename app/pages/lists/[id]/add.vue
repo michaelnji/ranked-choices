@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AlertTriangle, Check, ChevronLeft, Save } from 'lucide-vue-next'
+import { AlertTriangle, Check, Save, Settings } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
@@ -48,90 +48,89 @@ function toggleScore(criteriaId: number) {
 </script>
 
 <template>
-  <div class="p-6 space-y-8 pb-6 animate-fade-in-up">
-    <!-- Header -->
-    <div class="flex items-center gap-4">
-      <NuxtLink
-        :to="`/lists/${listId}`"
-        class="btn btn-ghost rounded-full !p-3 hover:bg-surface-800 text-surface-400 hover:text-white transition-colors"
-      >
-        <ChevronLeft :size="24" stroke-width="2.5" />
-      </NuxtLink>
-      <div>
-        <h1 class="text-3xl text-display text-white">
-          Add Item
-        </h1>
-      </div>
-    </div>
+  <div class="space-y-8 animate-fade-in-up">
+    <AppHeader title="Add Item" :back="`/lists/${listId}`" />
 
-    <div class="card space-y-8">
-      <!-- Name Input -->
-      <div class="space-y-2">
-        <label class="text-sm font-bold uppercase tracking-wider text-surface-400 ml-1">Item Name</label>
-        <input
-          v-model="name"
-          type="text"
-          placeholder="e.g. Paris"
-          class="input bg-surface-950 border-surface-800 focus:border-primary-500 focus:ring-primary-500/20 placeholder:text-surface-600 h-14 text-lg"
-          autofocus
-          @keyup.enter="handleSave"
-        >
-      </div>
-
-      <!-- Criteria Selection -->
-      <div v-if="criteria.length > 0" class="space-y-4">
-        <div class="border-b border-surface-800 pb-2">
-          <h3 class="text-lg font-bold text-white">
-            Criteria Match
-          </h3>
-          <p class="text-sm text-surface-400">
-            Select all criteria that apply to this item.
-          </p>
-        </div>
-
-        <div class="grid gap-3">
-          <button
-            v-for="c in criteria"
-            :key="c.id"
-            class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left"
-            :class="(scores[c.id!] || 0) > 0
-              ? 'bg-primary-500/10 border-primary-500 text-white'
-              : 'bg-surface-950 border-surface-800 text-surface-400 hover:border-surface-600'"
-            @click="c.id && toggleScore(c.id)"
-          >
-            <span class="font-bold text-lg">{{ c.name }}</span>
-            <div
-              class="w-6 h-6 rounded-full border flex items-center justify-center transition-all" :class="(scores[c.id!] || 0) > 0
-                ? 'bg-primary-500 border-primary-500 text-primary-950'
-                : 'border-surface-600 group-hover:border-surface-500'"
-            >
-              <Check v-if="(scores[c.id!] || 0) > 0" :size="16" stroke-width="4" />
+    <div class="px-6 pb-6">
+      <UiCard>
+        <UiCardContent class="pt-6">
+          <form class="space-y-8" @submit.prevent="handleSave">
+            <!-- Name Input -->
+            <div class="space-y-2">
+              <UiLabel for="item-name" class="text-label ml-1">
+                Item Name
+              </UiLabel>
+              <UiInput
+                id="item-name" v-model="name" type="text" placeholder="e.g. Paris"
+                class="h-14 text-lg" autofocus
+              />
             </div>
-          </button>
-        </div>
-      </div>
 
-      <!-- No Criteria Warning -->
-      <div v-else class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex gap-4 text-yellow-500">
-        <AlertTriangle :size="24" />
-        <div>
-          <h4 class="font-bold">
-            No criteria defined
-          </h4>
-          <p class="text-sm opacity-90">
-            You must define criteria in Settings before adding items.
-          </p>
-        </div>
-      </div>
+            <!-- Criteria Selection -->
+            <div v-if="criteria.length > 0" class="space-y-4">
+              <div class="pb-2">
+                <h3 id="criteria-match-label" class="text-lg font-bold text-foreground">
+                  Criteria Match
+                </h3>
+                <p class="text-sm text-muted-foreground">
+                  Select all criteria that apply to this item.
+                </p>
+              </div>
+              <UiSeparator />
 
-      <!-- Save Button -->
-      <button
-        class="btn btn-primary w-full flex items-center justify-center gap-2 text-lg h-14"
-        :disabled="!name.trim() || criteria.length === 0" @click="handleSave"
-      >
-        <Save :size="24" />
-        Save Item
-      </button>
+              <div class="grid gap-3" role="group" aria-labelledby="criteria-match-label">
+                <button
+                  v-for="c in criteria" :key="c.id"
+                  role="checkbox"
+                  :aria-checked="(scores[c.id!] || 0) > 0"
+                  type="button"
+                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left"
+                  :class="(scores[c.id!] || 0) > 0
+                    ? 'bg-primary/10 border-primary text-foreground'
+                    : 'bg-background border-zinc-800 text-muted-foreground hover:border-muted-foreground/50'"
+                  @click="c.id && toggleScore(c.id)"
+                >
+                  <span class="font-bold text-lg">{{ c.name }}</span>
+                  <div
+                    class="w-6 h-6 rounded-full border flex items-center justify-center transition-all" :class="(scores[c.id!] || 0) > 0
+                      ? 'bg-primary border-primary text-primary-foreground'
+                      : 'border-muted-foreground/50 group-hover:border-muted-foreground'"
+                  >
+                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" />
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- No Criteria Warning -->
+            <UiAlert
+              v-else
+              class="border-warning/30 bg-warning/10 text-warning [&>svg]:text-warning"
+            >
+              <AlertTriangle class="h-5 w-5" />
+              <UiAlertTitle>No criteria defined</UiAlertTitle>
+              <UiAlertDescription class="flex flex-col gap-3">
+                <span>You need to define criteria before adding items.</span>
+                <NuxtLink :to="`/lists/${listId}/settings`">
+                  <UiButton
+                    variant="outline" size="sm"
+                    class="border-warning/30 text-warning hover:bg-warning/10"
+                  >
+                    <Settings :size="16" class="mr-2" />
+                    Go to Settings
+                  </UiButton>
+                </NuxtLink>
+              </UiAlertDescription>
+            </UiAlert>
+
+            <!-- Save Button -->
+            <UiButton type="submit" class="w-full h-14 text-lg" :disabled="!name.trim() || criteria.length === 0">
+              <Save :size="22" class="mr-2" />
+              Save Item
+            </UiButton>
+          </form>
+        </UiCardContent>
+      </UiCard>
     </div>
   </div>
 </template>

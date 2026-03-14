@@ -1,0 +1,95 @@
+<script setup lang="ts">
+import { ArrowRight, LayoutList, Scale, Target } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
+
+const isOpen = ref(false)
+const currentStep = ref(0)
+
+const steps = [
+  {
+    icon: LayoutList,
+    title: 'Create a List',
+    description: 'Give your decision a name — like "Best Laptops" or "Vacation Spots".',
+  },
+  {
+    icon: Scale,
+    title: 'Add Criteria',
+    description: 'Define what matters most: cost, quality, design. Set weights to prioritize.',
+  },
+  {
+    icon: Target,
+    title: 'Score & Rank',
+    description: 'Add your options, check which criteria they meet, and see the winner.',
+  },
+]
+
+onMounted(() => {
+  if (typeof localStorage !== 'undefined') {
+    const seen = localStorage.getItem('ranked-welcome-seen')
+    if (!seen) {
+      isOpen.value = true
+    }
+  }
+})
+
+function next() {
+  if (currentStep.value < steps.length - 1) {
+    currentStep.value++
+  }
+  else {
+    dismiss()
+  }
+}
+
+function dismiss() {
+  isOpen.value = false
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('ranked-welcome-seen', 'true')
+  }
+}
+</script>
+
+<template>
+  <UiDialog :open="isOpen" @update:open="dismiss">
+    <UiDialogContent class="sm:max-w-[380px] gap-0 p-0 overflow-hidden">
+      <!-- Step Indicator -->
+      <div class="flex gap-1.5 px-6 pt-6">
+        <div
+          v-for="(_, i) in steps" :key="i"
+          class="h-1 flex-1 rounded-full transition-all duration-300"
+          :class="i <= currentStep ? 'bg-primary' : 'bg-muted'"
+        />
+      </div>
+
+      <!-- Step Content -->
+      <div class="px-6 pt-8 pb-6 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
+          <component :is="steps[currentStep].icon" :size="32" :stroke-width="1.5" />
+        </div>
+
+        <h2 class="text-xl font-display font-bold text-foreground mb-2">
+          {{ steps[currentStep].title }}
+        </h2>
+        <p class="text-muted-foreground leading-relaxed max-w-[280px] mx-auto">
+          {{ steps[currentStep].description }}
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="px-6 pb-6 space-y-2">
+        <UiButton class="w-full" @click="next">
+          {{ currentStep < steps.length - 1 ? 'Next' : 'Get Started' }}
+          <ArrowRight v-if="currentStep < steps.length - 1" :size="18" class="ml-2" />
+        </UiButton>
+        <UiButton
+          v-if="currentStep < steps.length - 1"
+          variant="ghost"
+          class="w-full text-muted-foreground"
+          @click="dismiss"
+        >
+          Skip intro
+        </UiButton>
+      </div>
+    </UiDialogContent>
+  </UiDialog>
+</template>
