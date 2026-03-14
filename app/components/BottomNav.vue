@@ -15,7 +15,10 @@ function isActive(path: string) {
 </script>
 
 <template>
-  <nav class="glass-nav px-2 pb-[env(safe-area-inset-bottom)]" aria-label="Main navigation">
+  <nav
+    class="glass-nav fixed bottom-0 right-0 left-0 px-2 pb-[env(safe-area-inset-bottom)]"
+    aria-label="Main navigation"
+  >
     <div class="flex items-center justify-around h-16">
       <NuxtLink
         v-for="tab in tabs"
