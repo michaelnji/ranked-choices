@@ -24,3 +24,9 @@ export interface Item {
   manualRankIndex: number
   scores: Record<number, number> // criteriaId -> score
 }
+
+export interface UserProfile {
+  id?: number
+  username: string
+  createdAt: Date
+}

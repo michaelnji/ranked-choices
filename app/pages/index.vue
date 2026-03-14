@@ -1,15 +1,70 @@
 <script setup lang="ts">
-import { ArrowRight, Calendar1, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
+import { ArrowRight, Calendar1, Layers, LayoutList, PlusCircle, Scale, Target, Trash2, TrendingUp } from 'lucide-vue-next'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useLists } from '~/composables/useLists'
+import { db } from '~/utils/db'
 
 const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 const showDeleteDialog = ref(false)
 
-onMounted(() => {
+const username = ref<string>('')
+const isLoadingProfile = ref(true)
+
+const greeting = computed(() => {
+  const hour = new Date().getHours()
+  if (hour < 12)
+    return 'Good morning'
+  if (hour < 17)
+    return 'Good afternoon'
+  return 'Good evening'
+})
+
+const totalItems = computed(() =>
+  lists.value.reduce((sum, l) => sum + l.itemCount, 0),
+)
+
+const avgPerList = computed(() =>
+  lists.value.length > 0 ? Math.round(totalItems.value / lists.value.length) : 0,
+)
+
+// Count-up animated display values
+const animatedLists = ref(0)
+const animatedItems = ref(0)
+const animatedAvg = ref(0)
+
+function countUp(target: { value: number }, to: number, duration = 650) {
+  if (to === 0) {
+    target.value = 0
+    return
+  }
+  const start = performance.now()
+  const tick = (now: number) => {
+    const t = Math.min((now - start) / duration, 1)
+    const eased = 1 - (1 - t) ** 4 // ease-out-quart
+    target.value = Math.round(eased * to)
+    if (t < 1)
+      requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+}
+
+let statsAnimated = false
+watch(lists, (newLists) => {
+  if (newLists.length > 0 && !statsAnimated) {
+    statsAnimated = true
+    countUp(animatedLists, newLists.length, 500)
+    countUp(animatedItems, totalItems.value, 700)
+    countUp(animatedAvg, avgPerList.value, 550)
+  }
+})
+
+onMounted(async () => {
   fetchLists()
+  const profiles = await db.profile.toArray()
+  if (profiles[0])
+    username.value = profiles[0].username
+  isLoadingProfile.value = false
 })
 
 function handleDelete(id: number) {
@@ -22,12 +77,11 @@ async function confirmDelete() {
     return
   try {
     await deleteList(deleteCandidateId.value)
-    toast.success('List deleted')
     deleteCandidateId.value = null
     showDeleteDialog.value = false
   }
   catch {
-    toast.error('Failed to delete list')
+    // silent
   }
 }
 
@@ -52,59 +106,122 @@ function formatTimeAgo(date: Date) {
   <div class="p-5 space-y-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center justify-between pt-1">
-      <h1 class="text-2xl text-display text-foreground">
-        My Lists
-      </h1>
-      <NuxtLink v-if="lists.length > 0" to="/new">
-        <UiButton size="icon" class="rounded-lg h-11 w-11" aria-label="Create new list">
-          <PlusCircle :size="18" :stroke-width="2" />
-        </UiButton>
-      </NuxtLink>
+      <div class="flex items-center gap-2.5">
+        <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
+          <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
+          <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
+        </svg>
+        <h1 class="text-2xl text-display text-foreground">
+          Ranked Choices
+        </h1>
+      </div>
+    </div>
+
+    <!-- Greeting + Stats -->
+    <div class="space-y-3">
+      <div>
+        <template v-if="isLoadingProfile">
+          <div class="h-6 w-44 rounded-lg bg-muted animate-pulse" />
+        </template>
+        <template v-else>
+          <p class="text-base text-muted-foreground">
+            {{ greeting }}{{ username ? `, ${username}` : '' }} 👋
+          </p>
+        </template>
+      </div>
+
+      <!-- Stats Grid -->
+      <div v-if="lists.length > 0" class="grid grid-cols-3 gap-2">
+        <div class="animate-fade-in-up stagger-1 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+            <LayoutList :size="13" class="text-primary" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedLists }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              {{ lists.length === 1 ? 'decision' : 'decisions' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="animate-fade-in-up stagger-2 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-success/15 flex items-center justify-center shrink-0">
+            <Layers :size="13" class="text-success" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedItems }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              {{ totalItems === 1 ? 'option' : 'options' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="animate-fade-in-up stagger-3 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-warning/15 flex items-center justify-center shrink-0">
+            <TrendingUp :size="13" class="text-warning" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedAvg }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              avg per list
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Empty State with Inline Onboarding -->
-    <div v-if="lists.length === 0" class="space-y-5">
-      <p class="text-label">
-        How it works
-      </p>
-      <div class="space-y-2">
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <LayoutList :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Create a list
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Name your decision — "Best Laptops", "Vacation Spots"
-            </p>
+    <div v-if="lists.length === 0" class="space-y-6">
+      <div class="space-y-4">
+        <p class="text-label">
+          How it works
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+              <LayoutList :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Create a list
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Name your decision — "Best Laptops", "Vacation Spots"
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <Scale :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Define criteria
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Set what matters: cost, quality, fit. Give each a weight.
-            </p>
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-success/10 text-success shrink-0 mt-0.5">
+              <Scale :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Define criteria
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Set what matters: cost, quality, fit. Give each a weight.
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <Target :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Score &amp; rank
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Add options and see which one wins based on your criteria.
-            </p>
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-warning/10 text-warning shrink-0 mt-0.5">
+              <Target :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Score &amp; rank
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Add options and see which one wins based on your criteria.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -177,4 +294,11 @@ function formatTimeAgo(date: Date) {
       </UiAlertDialogContent>
     </UiAlertDialog>
   </div>
+
+  <!-- FAB — outside the animated wrapper so position:fixed isn't broken by transform -->
+  <NuxtLink v-if="lists.length > 0" to="/new" class="fixed bottom-[88px] right-4 z-40" aria-label="Create new list">
+    <UiButton size="icon" class="h-14 w-14 rounded-full shadow-lg shadow-primary/20">
+      <PlusCircle :size="22" :stroke-width="2" />
+    </UiButton>
+  </NuxtLink>
 </template>

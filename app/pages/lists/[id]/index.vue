@@ -26,7 +26,7 @@ onMounted(() => {
     <AppHeader :title="list.name" :subtitle="`${items.length} Items · ${criteria.length} Criteria`" back="/">
       <template #right>
         <NuxtLink :to="`/lists/${listId}/settings`">
-          <UiButton variant="ghost" size="icon" class="text-muted-foreground hover:text-foreground" aria-label="List settings">
+          <UiButton variant="ghost" size="icon" class="h-11 w-11 text-muted-foreground hover:text-foreground" aria-label="List settings">
             <Settings :size="20" :stroke-width="2" />
           </UiButton>
         </NuxtLink>

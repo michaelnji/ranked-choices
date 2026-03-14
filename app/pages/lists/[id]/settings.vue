@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { RankingMode } from '~/types'
-import { BarChart2, GripVertical, Trash2 } from 'lucide-vue-next'
+import { BarChart2, ChevronRight, GripVertical, Scale, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 import { db } from '~/utils/db'
@@ -15,9 +14,6 @@ const {
   list,
   criteria,
   fetchDetails,
-  addCriteria: _addCriteria,
-  updateCriteria: _updateCriteria,
-  removeCriteria: _removeCriteria,
 } = useListDetails(listId)
 
 const showDeleteDialog = ref(false)
@@ -30,7 +26,6 @@ async function updateRankingMode(mode: RankingMode) {
   if (list.value) {
     list.value.rankingMode = mode
     await db.lists.update(listId, { rankingMode: mode })
-    toast.success(`Switched to ${mode} mode`)
   }
 }
 
@@ -39,11 +34,10 @@ async function confirmDelete() {
     await db.lists.delete(listId)
     await db.criteria.where('listId').equals(listId).delete()
     await db.items.where('listId').equals(listId).delete()
-    toast.success('List deleted successfully')
     router.push('/')
   }
   catch {
-    toast.error('Failed to delete list')
+    // silent
   }
 }
 
@@ -51,41 +45,10 @@ async function handleRename() {
   if (list.value && list.value.name.trim()) {
     try {
       await db.lists.update(listId, { name: list.value.name })
-      toast.success('List renamed')
     }
     catch {
-      toast.error('Failed to rename list')
+      // silent
     }
-  }
-}
-
-async function handleAddCriteria(name: string, weight: number) {
-  try {
-    await _addCriteria(name, weight)
-    toast.success('Criterion added')
-  }
-  catch {
-    toast.error('Failed to add criterion')
-  }
-}
-
-async function handleUpdateCriteria(id: number, name: string, weight: number) {
-  try {
-    await _updateCriteria(id, name, weight)
-    toast.success('Criterion updated')
-  }
-  catch {
-    toast.error('Failed to update criterion')
-  }
-}
-
-async function handleRemoveCriteria(id: number) {
-  try {
-    await _removeCriteria(id)
-    toast.success('Criterion removed')
-  }
-  catch {
-    toast.error('Failed to remove criterion')
   }
 }
 </script>
@@ -140,11 +103,25 @@ async function handleRemoveCriteria(id: number) {
         </UiCardContent>
       </UiCard>
 
-      <!-- Criteria Settings -->
-      <CriteriaManager
-        :criteria="criteria" @add="handleAddCriteria" @update="handleUpdateCriteria"
-        @remove="handleRemoveCriteria"
-      />
+      <!-- Criteria Navigation Row -->
+      <NuxtLink :to="`/lists/${listId}/criteria`">
+        <UiCard class="hover:border-primary/30 transition-colors">
+          <UiCardContent class="flex items-center gap-4 py-4 px-5">
+            <div class="w-9 h-9 rounded-lg bg-success/10 flex items-center justify-center shrink-0">
+              <Scale :size="16" class="text-success" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-foreground">
+                Criteria
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                {{ criteria.length === 0 ? 'No criteria defined yet' : `${criteria.length} criterion${criteria.length !== 1 ? 'a' : 'on'} defined` }}
+              </p>
+            </div>
+            <ChevronRight :size="16" class="text-muted-foreground shrink-0" />
+          </UiCardContent>
+        </UiCard>
+      </NuxtLink>
 
       <!-- Danger Zone -->
       <UiCard class="border-destructive/30 bg-destructive/5">

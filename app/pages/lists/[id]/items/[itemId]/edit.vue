@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Check, Save, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -41,22 +40,20 @@ async function handleSave() {
     return
   try {
     await updateItem(itemId, name.value, scores.value)
-    toast.success('Item updated successfully')
     router.push(`/lists/${listId}/items/${itemId}`)
   }
   catch {
-    toast.error('Failed to update item')
+    // silent
   }
 }
 
 async function confirmRemove() {
   try {
     await removeItem(itemId)
-    toast.success('Item deleted successfully')
     router.push(`/lists/${listId}`)
   }
   catch {
-    toast.error('Failed to delete item')
+    // silent
   }
 }
 
@@ -103,7 +100,7 @@ function toggleScore(criteriaId: number) {
                   role="checkbox"
                   :aria-checked="(scores[c.id!] || 0) > 0"
                   type="button"
-                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left"
+                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left active:scale-[0.97]"
                   :class="(scores[c.id!] || 0) > 0
                     ? 'bg-primary/10 border-primary text-foreground'
                     : 'bg-background border-zinc-800 text-muted-foreground hover:border-muted-foreground/50'"
@@ -115,7 +112,7 @@ function toggleScore(criteriaId: number) {
                       ? 'bg-primary border-primary text-primary-foreground'
                       : 'border-muted-foreground/50 group-hover:border-muted-foreground'"
                   >
-                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" />
+                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" class="animate-scale-in" />
                   </div>
                 </button>
               </div>

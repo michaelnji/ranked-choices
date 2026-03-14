@@ -1,0 +1,8 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <!-- Rank 1 — blue (primary) -->
+  <rect x="0" y="0"  width="32" height="7" rx="3.5" fill="#3b82f6"/>
+  <!-- Rank 2 — emerald (success) -->
+  <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981"/>
+  <!-- Rank 3 — amber (warning) -->
+  <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706"/>
+</svg>

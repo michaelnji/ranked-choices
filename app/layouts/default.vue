@@ -3,7 +3,7 @@ const route = useRoute()
 
 // Show bottom nav only on root-level pages
 const showBottomNav = computed(() => {
-  const rootPages = ['/', '/info', '/new']
+  const rootPages = ['/', '/info', '/new', '/settings']
   return rootPages.includes(route.path)
 })
 </script>
@@ -15,7 +15,7 @@ const showBottomNav = computed(() => {
       class="w-full max-w-[480px] h-dvh sm:h-[calc(100dvh-4rem)] bg-background sm:rounded-[32px] flex flex-col relative shadow-2xl border border-zinc-800 overflow-hidden"
     >
       <!-- Main Content -->
-      <main class="flex-1 overflow-y-auto flex flex-col relative w-full overflow-x-hidden">
+      <main class="flex-1 overflow-y-auto flex flex-col relative w-full overflow-x-hidden pb-16">
         <slot />
       </main>
 
@@ -23,6 +23,9 @@ const showBottomNav = computed(() => {
       <BottomNav v-if="showBottomNav" />
     </div>
   </div>
+
+  <!-- First-run onboarding (teleports to body, full-screen) -->
+  <WelcomeModal />
 </template>
 
 <style scoped>

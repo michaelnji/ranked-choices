@@ -23,7 +23,7 @@ const editWeight = ref([5])
 function handleAdd() {
   if (!newName.value.trim())
     return
-  emit('add', newName.value, newWeight.value[0])
+  emit('add', newName.value, newWeight.value[0] ?? 5)
   newName.value = ''
   newWeight.value = [5]
 }
@@ -42,7 +42,7 @@ function cancelEdit() {
 
 function saveEdit() {
   if (editingId.value !== null && editName.value.trim()) {
-    emit('update', editingId.value, editName.value, editWeight.value[0])
+    emit('update', editingId.value, editName.value, editWeight.value[0] ?? 5)
     cancelEdit()
   }
 }
@@ -74,7 +74,7 @@ function saveEdit() {
         />
         <UiButton
           size="icon"
-          class="h-10 w-10 shrink-0"
+          class="h-11 w-11 shrink-0"
           :disabled="!newName.trim() || criteria.length >= 20"
           aria-label="Add criterion"
           @click="handleAdd"
@@ -104,14 +104,11 @@ function saveEdit() {
             aria-label="New criterion weight (0 = ignore, 10 = highest priority)"
           />
         </div>
-        <p class="text-xs text-muted-foreground">
-          Weight controls how much this criterion influences the final score (0 = ignore, 10 = critical).
-        </p>
       </div>
     </div>
 
     <!-- List -->
-    <ul v-if="criteria.length > 0" class="space-y-2">
+    <TransitionGroup v-if="criteria.length > 0" tag="ul" name="criteria-item" class="space-y-2">
       <li
         v-for="c in criteria"
         :key="c.id"
@@ -120,7 +117,10 @@ function saveEdit() {
       >
         <!-- View Mode -->
         <div v-if="editingId !== c.id" class="flex items-center gap-3">
-          <span class="text-xs font-bold tabular-nums text-muted-foreground w-4 text-center shrink-0">
+          <span
+            class="text-xs font-bold tabular-nums w-4 text-center shrink-0"
+            :class="c.weight >= 8 ? 'text-warning' : c.weight >= 4 ? 'text-foreground' : 'text-muted-foreground'"
+          >
             {{ c.weight }}
           </span>
           <span class="text-sm font-medium text-foreground flex-1 truncate">{{ c.name }}</span>
@@ -129,7 +129,7 @@ function saveEdit() {
             <UiButton
               variant="ghost"
               size="icon"
-              class="h-9 w-9 text-muted-foreground hover:text-foreground"
+              class="h-11 w-11 text-muted-foreground hover:text-foreground"
               :aria-label="`Edit ${c.name}`"
               @click="startEdit(c)"
             >
@@ -138,7 +138,7 @@ function saveEdit() {
             <UiButton
               variant="ghost"
               size="icon"
-              class="h-9 w-9 text-muted-foreground hover:text-destructive"
+              class="h-11 w-11 text-muted-foreground hover:text-destructive"
               :aria-label="`Delete ${c.name}`"
               @click="c.id && emit('remove', c.id)"
             >
@@ -187,7 +187,7 @@ function saveEdit() {
           </div>
         </div>
       </li>
-    </ul>
+    </TransitionGroup>
 
     <!-- Empty State -->
     <div
@@ -204,3 +204,25 @@ function saveEdit() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.criteria-item-enter-active {
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.criteria-item-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  position: absolute;
+  width: 100%;
+}
+.criteria-item-enter-from {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.criteria-item-leave-to {
+  opacity: 0;
+  transform: scaleY(0.9);
+}
+.criteria-item-move {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+</style>

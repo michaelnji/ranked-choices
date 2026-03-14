@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AlertTriangle, Check, Save, Settings } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
-import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
 import { useListDetails } from '~/composables/useListDetails'
 
@@ -26,18 +25,15 @@ async function handleSave() {
   if (!name.value.trim())
     return
 
-  if (criteria.value.length === 0) {
-    toast.error('Please add criteria in settings first')
+  if (criteria.value.length === 0)
     return
-  }
 
   try {
     await addItem(name.value, scores.value)
-    toast.success('Item added successfully')
     router.push(`/lists/${listId}`)
   }
   catch {
-    toast.error('Failed to add item')
+    // silent
   }
 }
 
@@ -84,7 +80,7 @@ function toggleScore(criteriaId: number) {
                   role="checkbox"
                   :aria-checked="(scores[c.id!] || 0) > 0"
                   type="button"
-                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left"
+                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left active:scale-[0.97]"
                   :class="(scores[c.id!] || 0) > 0
                     ? 'bg-primary/10 border-primary text-foreground'
                     : 'bg-background border-zinc-800 text-muted-foreground hover:border-muted-foreground/50'"
@@ -96,7 +92,7 @@ function toggleScore(criteriaId: number) {
                       ? 'bg-primary border-primary text-primary-foreground'
                       : 'border-muted-foreground/50 group-hover:border-muted-foreground'"
                   >
-                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" />
+                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" class="animate-scale-in" />
                   </div>
                 </button>
               </div>

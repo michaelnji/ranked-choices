@@ -28,6 +28,9 @@ export default defineNuxtConfig({
       display: 'standalone',
       background_color: '#09090b',
       lang: 'en',
+      icons: [
+        { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
+      ],
     },
     workbox: {
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff,woff2}'],
