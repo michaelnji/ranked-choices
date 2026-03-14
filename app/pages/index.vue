@@ -1,14 +1,35 @@
 <script setup lang="ts">
-import { ArrowRight, Calendar1, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { ArrowRight, Calendar1, Layers, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
+import { computed, onMounted, ref } from 'vue'
 import { useLists } from '~/composables/useLists'
+import { db } from '~/utils/db'
 
 const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 const showDeleteDialog = ref(false)
 
-onMounted(() => {
+const username = ref<string>('')
+const isLoadingProfile = ref(true)
+
+const greeting = computed(() => {
+  const hour = new Date().getHours()
+  if (hour < 12)
+    return 'Good morning'
+  if (hour < 17)
+    return 'Good afternoon'
+  return 'Good evening'
+})
+
+const totalItems = computed(() =>
+  lists.value.reduce((sum, l) => sum + l.itemCount, 0),
+)
+
+onMounted(async () => {
   fetchLists()
+  const profiles = await db.profile.toArray()
+  if (profiles[0])
+    username.value = profiles[0].username
+  isLoadingProfile.value = false
 })
 
 function handleDelete(id: number) {
@@ -57,14 +78,37 @@ function formatTimeAgo(date: Date) {
           <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
         </svg>
         <h1 class="text-2xl text-display text-foreground">
-          My Lists
+          Ranked Choices
         </h1>
       </div>
-      <NuxtLink v-if="lists.length > 0" to="/new">
-        <UiButton size="icon" class="rounded-lg h-11 w-11" aria-label="Create new list">
-          <PlusCircle :size="18" :stroke-width="2" />
-        </UiButton>
-      </NuxtLink>
+    </div>
+
+    <!-- Greeting + Stats -->
+    <div class="space-y-3">
+      <div>
+        <template v-if="isLoadingProfile">
+          <div class="h-6 w-44 rounded-lg bg-muted animate-pulse" />
+        </template>
+        <template v-else>
+          <p class="text-base text-muted-foreground">
+            {{ greeting }}{{ username ? `, ${username}` : '' }} 👋
+          </p>
+        </template>
+      </div>
+
+      <!-- Stats Row -->
+      <div v-if="lists.length > 0" class="flex gap-2">
+        <div class="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2">
+          <LayoutList :size="13" class="text-primary shrink-0" />
+          <span class="text-sm font-semibold text-foreground">{{ lists.length }}</span>
+          <span class="text-xs text-muted-foreground">{{ lists.length === 1 ? 'list' : 'lists' }}</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2">
+          <Layers :size="13" class="text-success shrink-0" />
+          <span class="text-sm font-semibold text-foreground">{{ totalItems }}</span>
+          <span class="text-xs text-muted-foreground">{{ totalItems === 1 ? 'item' : 'items' }}</span>
+        </div>
+      </div>
     </div>
 
     <!-- Empty State with Inline Onboarding -->
@@ -184,4 +228,11 @@ function formatTimeAgo(date: Date) {
       </UiAlertDialogContent>
     </UiAlertDialog>
   </div>
+
+  <!-- FAB — outside the animated wrapper so position:fixed isn't broken by transform -->
+  <NuxtLink v-if="lists.length > 0" to="/new" class="fixed bottom-[88px] right-4 z-40" aria-label="Create new list">
+    <UiButton size="icon" class="h-14 w-14 rounded-full shadow-lg shadow-primary/20">
+      <PlusCircle :size="22" :stroke-width="2" />
+    </UiButton>
+  </NuxtLink>
 </template>
