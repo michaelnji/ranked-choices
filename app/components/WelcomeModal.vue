@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ArrowRight, LayoutList, Scale, Target } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const isOpen = ref(false)
 const currentStep = ref(0)
@@ -22,6 +22,8 @@ const steps = [
     description: 'Add your options, check which criteria they meet, and see the winner.',
   },
 ]
+
+const step = computed(() => steps[currentStep.value]!)
 
 onMounted(() => {
   if (typeof localStorage !== 'undefined') {
@@ -62,18 +64,20 @@ function dismiss() {
       </div>
 
       <!-- Step Content -->
-      <div class="px-6 pt-8 pb-6 text-center">
-        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
-          <component :is="steps[currentStep].icon" :size="32" :stroke-width="1.5" />
-        </div>
+      <Transition name="step" mode="out-in">
+        <div :key="currentStep" class="px-6 pt-8 pb-6 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
+            <component :is="step.icon" :size="32" :stroke-width="1.5" />
+          </div>
 
-        <h2 class="text-xl font-display font-bold text-foreground mb-2">
-          {{ steps[currentStep].title }}
-        </h2>
-        <p class="text-muted-foreground leading-relaxed max-w-[280px] mx-auto">
-          {{ steps[currentStep].description }}
-        </p>
-      </div>
+          <h2 class="text-xl font-display font-bold text-foreground mb-2">
+            {{ step.title }}
+          </h2>
+          <p class="text-muted-foreground leading-relaxed max-w-[280px] mx-auto">
+            {{ step.description }}
+          </p>
+        </div>
+      </Transition>
 
       <!-- Actions -->
       <div class="px-6 pb-6 space-y-2">
@@ -93,3 +97,20 @@ function dismiss() {
     </UiDialogContent>
   </UiDialog>
 </template>
+
+<style scoped>
+.step-enter-active {
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.step-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.step-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.step-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+</style>

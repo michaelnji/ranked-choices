@@ -23,7 +23,7 @@ const editWeight = ref([5])
 function handleAdd() {
   if (!newName.value.trim())
     return
-  emit('add', newName.value, newWeight.value[0])
+  emit('add', newName.value, newWeight.value[0] ?? 5)
   newName.value = ''
   newWeight.value = [5]
 }
@@ -42,7 +42,7 @@ function cancelEdit() {
 
 function saveEdit() {
   if (editingId.value !== null && editName.value.trim()) {
-    emit('update', editingId.value, editName.value, editWeight.value[0])
+    emit('update', editingId.value, editName.value, editWeight.value[0] ?? 5)
     cancelEdit()
   }
 }
@@ -111,7 +111,7 @@ function saveEdit() {
     </div>
 
     <!-- List -->
-    <ul v-if="criteria.length > 0" class="space-y-2">
+    <TransitionGroup v-if="criteria.length > 0" tag="ul" name="criteria-item" class="space-y-2">
       <li
         v-for="c in criteria"
         :key="c.id"
@@ -187,7 +187,7 @@ function saveEdit() {
           </div>
         </div>
       </li>
-    </ul>
+    </TransitionGroup>
 
     <!-- Empty State -->
     <div
@@ -204,3 +204,25 @@ function saveEdit() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.criteria-item-enter-active {
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.criteria-item-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  position: absolute;
+  width: 100%;
+}
+.criteria-item-enter-from {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.criteria-item-leave-to {
+  opacity: 0;
+  transform: scaleY(0.9);
+}
+.criteria-item-move {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+</style>
