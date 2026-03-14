@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Criteria, Item, RankingMode } from '~/types'
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
-import { GripVertical, Star, Trophy } from 'lucide-vue-next'
+import { GripVertical, ListOrdered, Plus, Settings, Trophy } from 'lucide-vue-next'
 import { computed, watch } from 'vue'
 import ProgressBar from '~/components/ProgressBar.vue'
 import { calculateScore, sortItems } from '~/utils/rankingEngine'
@@ -47,109 +47,122 @@ const [parent, manualItems] = useDragAndDrop(
   },
 )
 
+// Shallow watch: re-sort when items array reference changes (after DB operations)
 watch(() => props.items, (newItems) => {
   manualItems.value = sortItems(newItems, props.criteria, 'manual')
-}, { deep: true })
+})
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="p-2 rounded-lg bg-primary-500/10 text-primary-500">
-        <Trophy v-if="mode !== 'manual'" :size="24" />
-        <Star v-else :size="24" />
-      </div>
-      <h2 class="text-xl font-bold text-white tracking-tight">
-        {{ mode === 'manual' ? 'Manual Ranking' : 'Weighted Results' }}
-      </h2>
-    </div>
-
+  <div class="space-y-4">
     <!-- Manual Mode List (Drag & Drop) -->
-    <div v-show="mode === 'manual'" class="mt-8">
-      <div v-show="manualItems.length > 0" ref="parent" class="space-y-3">
-        <NuxtLink
-          v-for="(item, index) in manualItems" :key="item.id"
-          :to="`/lists/${listId}/items/${item.id}`"
-          class="group flex items-center gap-4 bg-surface-900 border border-surface-800 rounded-2xl p-4 shadow-sm hover:border-primary-500/30 transition-all select-none cursor-pointer"
-        >
-          <!-- Drag Handle -->
-          <div
-            class="drag-handle cursor-grab active:cursor-grabbing p-1 text-surface-500 hover:text-white transition-colors touch-none"
-            @click.prevent.stop
+    <div v-show="mode === 'manual'">
+      <ul v-show="manualItems.length > 0" ref="parent" class="space-y-2">
+        <li v-for="(item, index) in manualItems" :key="item.id">
+          <NuxtLink
+            :to="`/lists/${listId}/items/${item.id}`"
+            class="group flex items-center gap-3 bg-card border border-zinc-800 rounded-lg px-3 py-3 hover:border-primary/40 hover:bg-card/80 transition-all select-none cursor-pointer"
           >
-            <GripVertical :size="20" />
-          </div>
+            <button
+              type="button"
+              class="drag-handle cursor-grab active:cursor-grabbing p-1 text-muted-foreground hover:text-foreground transition-colors touch-none rounded"
+              aria-label="Drag to reorder"
+              @click.prevent.stop
+            >
+              <GripVertical :size="16" />
+            </button>
 
-          <!-- Rank Number -->
-          <div
-            class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-800 text-white font-bold text-sm border border-surface-700"
-          >
-            {{ index + 1 }}
-          </div>
+            <span class="flex items-center justify-center w-6 h-6 rounded text-xs font-semibold tabular-nums text-muted-foreground bg-muted">
+              {{ index + 1 }}
+            </span>
 
-          <!-- Content -->
-          <div class="flex-1">
-            <span class="text-base font-bold text-white group-hover:text-primary-400 transition-colors">{{ item.name
-            }}</span>
-          </div>
-        </NuxtLink>
-      </div>
+            <span class="flex-1 text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
+              {{ item.name }}
+            </span>
+          </NuxtLink>
+        </li>
+      </ul>
 
+      <!-- Manual Empty State -->
       <div
         v-if="manualItems.length === 0"
-        class="text-center py-12 text-surface-500 bg-surface-900/50 rounded-2xl border border-surface-800/50 border-dashed"
+        class="flex flex-col items-center text-center py-10 text-muted-foreground rounded-lg border border-dashed border-zinc-800"
       >
-        <p>Add items to start ranking manually.</p>
+        <ListOrdered :size="24" :stroke-width="1.5" class="mb-3 text-muted-foreground" />
+        <p class="text-sm font-medium text-foreground mb-1">
+          No items to rank
+        </p>
+        <p class="text-xs text-muted-foreground max-w-[200px] mb-4">
+          Add items to start ordering them.
+        </p>
+        <NuxtLink :to="`/lists/${listId}/add`">
+          <UiButton size="sm" variant="outline">
+            <Plus :size="14" class="mr-1.5" />
+            Add Items
+          </UiButton>
+        </NuxtLink>
       </div>
     </div>
 
     <!-- Weighted Mode List (Read Only) -->
-    <div v-if="mode !== 'manual'" class="space-y-4 mt-8">
-      <NuxtLink
-        v-for="(item, index) in weightedItems" :key="item.id"
-        :to="`/lists/${listId}/items/${item.id}`"
-        class="block relative overflow-hidden bg-surface-900 border border-surface-800 rounded-2xl p-5 shadow-sm transition-all hover:border-primary-500/30 cursor-pointer"
-        :class="{ 'ring-1 ring-primary-500/50 shadow-[0_0_20px_-10px_rgba(var(--color-primary-500),0.3)]': index === 0 }"
-      >
-        <div class="flex items-center gap-4 relative z-10">
-          <!-- Rank -->
-          <div
-            class="flex items-center justify-center size-8 rounded-full font-black  shadow-inner"
-            :class="index === 0 ? 'bg-primary-500 size-10 text-lg text-primary-950' : 'bg-surface-800 text-surface-300'"
+    <div v-if="mode !== 'manual'" class="space-y-2">
+      <ul class="space-y-2">
+        <li v-for="(item, index) in weightedItems" :key="item.id">
+          <NuxtLink
+            :to="`/lists/${listId}/items/${item.id}`"
+            class="flex items-center gap-4 bg-card border border-zinc-800 rounded-lg px-4 py-3 transition-all hover:border-primary/40 cursor-pointer"
+            :class="{ 'border-primary/30 bg-primary/5': index === 0 }"
           >
-            {{ index + 1 }}
-          </div>
+            <span
+              class="flex items-center justify-center size-7 rounded font-bold text-sm tabular-nums shrink-0"
+              :class="index === 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'"
+            >
+              {{ index + 1 }}
+            </span>
 
-          <!-- Content -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between gap-4 mb-2">
-              <div class="truncate">
-                <span class="line-clamp-1 font-bold text-white hover:text-primary-400 transition-colors">{{ item.name
-                }}</span>
+            <div class="flex-1 min-w-0 space-y-1.5">
+              <div class="flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-foreground truncate">{{ item.name }}</span>
+                <span class="text-xs font-semibold tabular-nums text-muted-foreground shrink-0">
+                  {{ getScore(item).toFixed(1) }}
+                </span>
               </div>
-              <span class="text-xs font-bold px-2 py-1 rounded bg-surface-800 text-primary-400 tabular-nums">
-                {{ getScore(item).toFixed(1) }} pts
-              </span>
-            </div>
-
-            <div class="flex items-center gap-3">
               <ProgressBar
-                :value="getContributionPercent(item)" :max="100"
-                :color-class="index === 0 ? 'from-primary-400 to-primary-300' : 'from-primary-600 to-primary-500'"
+                :value="getContributionPercent(item)"
+                :max="100"
+                :label="`${item.name} score share`"
               />
-              <span class="text-xs font-bold text-surface-400 tabular-nums w-12 text-right">
-                {{ getContributionPercent(item).toFixed(1) }}%
-              </span>
             </div>
-          </div>
-        </div>
-      </NuxtLink>
+          </NuxtLink>
+        </li>
+      </ul>
 
+      <!-- Weighted Empty State -->
       <div
         v-if="weightedItems.length === 0"
-        class="text-center py-12 text-surface-500 bg-surface-900/50 rounded-2xl border border-surface-800/50 border-dashed"
+        class="flex flex-col items-center text-center py-10 text-muted-foreground rounded-lg border border-dashed border-zinc-800"
       >
-        <p>Add items and criteria to see weighted results.</p>
+        <Trophy :size="24" :stroke-width="1.5" class="mb-3 text-muted-foreground" />
+        <p class="text-sm font-medium text-foreground mb-1">
+          No results yet
+        </p>
+        <p class="text-xs text-muted-foreground max-w-[200px] mb-4">
+          Add items and criteria to see weighted rankings.
+        </p>
+        <div class="flex gap-2">
+          <NuxtLink :to="`/lists/${listId}/add`">
+            <UiButton size="sm" variant="outline">
+              <Plus :size="14" class="mr-1.5" />
+              Add Items
+            </UiButton>
+          </NuxtLink>
+          <NuxtLink :to="`/lists/${listId}/settings`">
+            <UiButton size="sm" variant="outline">
+              <Settings :size="14" class="mr-1.5" />
+              Criteria
+            </UiButton>
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </div>

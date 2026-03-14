@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Criteria } from '~/types'
-import { Check, Pencil, Plus, Trash2, X } from 'lucide-vue-next'
+import { Check, Pencil, Plus, Scale, Trash2, X } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 defineProps<{
@@ -14,18 +14,18 @@ const emit = defineEmits<{
 }>()
 
 const newName = ref('')
-const newWeight = ref(5)
+const newWeight = ref([5])
 
 const editingId = ref<number | null>(null)
 const editName = ref('')
-const editWeight = ref(5)
+const editWeight = ref([5])
 
 function handleAdd() {
   if (!newName.value.trim())
     return
-  emit('add', newName.value, newWeight.value)
+  emit('add', newName.value, newWeight.value[0])
   newName.value = ''
-  newWeight.value = 5
+  newWeight.value = [5]
 }
 
 function startEdit(c: Criteria) {
@@ -33,7 +33,7 @@ function startEdit(c: Criteria) {
     return
   editingId.value = c.id
   editName.value = c.name
-  editWeight.value = c.weight
+  editWeight.value = [c.weight]
 }
 
 function cancelEdit() {
@@ -42,127 +42,165 @@ function cancelEdit() {
 
 function saveEdit() {
   if (editingId.value !== null && editName.value.trim()) {
-    emit('update', editingId.value, editName.value, editWeight.value)
+    emit('update', editingId.value, editName.value, editWeight.value[0])
     cancelEdit()
   }
 }
 </script>
 
 <template>
-  <div class="card space-y-6">
+  <div class="space-y-4">
+    <!-- Header -->
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-bold text-white">
-        Criteria <span class="text-surface-500 text-sm ml-2">({{ criteria.length
-        }}/20)</span>
+      <h2 class="text-sm font-semibold text-foreground">
+        Criteria
+        <span class="text-muted-foreground font-normal ml-1">({{ criteria.length }}/20)</span>
       </h2>
-      <span v-if="criteria.length >= 20" class="text-xs font-bold text-red-400 uppercase">Max Reached</span>
+      <UiBadge v-if="criteria.length >= 20" variant="destructive" class="text-xs">
+        Max Reached
+      </UiBadge>
     </div>
 
     <!-- Add Form -->
-    <div class="space-y-4 bg-surface-950/50 p-4 rounded-2xl border border-surface-800/50">
+    <div class="space-y-3 bg-muted/40 p-3 rounded-lg border border-zinc-800">
       <div class="flex gap-2">
-        <input
+        <UiInput
           v-model="newName"
           type="text"
-          placeholder="New Criterion (e.g. Cost)"
-          class="input bg-surface-900 border-surface-700 focus:border-primary-500 h-12"
+          placeholder="New criterion (e.g. Cost)"
+          class="h-10 text-sm"
+          aria-label="New criterion name"
           @keyup.enter="handleAdd"
-        >
-        <button
-          class="btn btn-primary aspect-square !p-0 w-12 flex-shrink-0 rounded-xl"
+        />
+        <UiButton
+          size="icon"
+          class="h-10 w-10 shrink-0"
           :disabled="!newName.trim() || criteria.length >= 20"
+          aria-label="Add criterion"
           @click="handleAdd"
         >
-          <Plus :size="24" />
-        </button>
+          <Plus :size="18" />
+        </UiButton>
       </div>
 
-      <div class="flex items-center gap-4 px-1">
-        <span class="text-xs font-bold uppercase text-surface-400 w-12">Weight</span>
-        <span class="flex items-center justify-center w-8 h-8 rounded bg-surface-800 text-white font-bold text-sm">
-          {{ newWeight }}
-        </span>
-        <input
-          v-model.number="newWeight"
-          type="range"
-          min="0"
-          max="10"
-          class="flex-1 h-2 bg-surface-700 rounded-lg appearance-none cursor-pointer accent-primary-500"
-        >
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-3">
+          <UiLabel class="text-label shrink-0 w-12">
+            Weight
+          </UiLabel>
+          <span
+            id="new-weight-display"
+            class="text-xs font-semibold tabular-nums text-foreground w-4 text-center"
+            aria-live="polite"
+          >
+            {{ newWeight[0] }}
+          </span>
+          <UiSlider
+            v-model="newWeight"
+            :min="0"
+            :max="10"
+            :step="1"
+            class="flex-1"
+            aria-label="New criterion weight (0 = ignore, 10 = highest priority)"
+          />
+        </div>
+        <p class="text-xs text-muted-foreground">
+          Weight controls how much this criterion influences the final score (0 = ignore, 10 = critical).
+        </p>
       </div>
     </div>
 
     <!-- List -->
-    <div class="space-y-3">
-      <div
+    <ul v-if="criteria.length > 0" class="space-y-2">
+      <li
         v-for="c in criteria"
         :key="c.id"
-        class="bg-surface-900 border border-surface-800 rounded-xl p-4 transition-all"
-        :class="{ 'ring-1 ring-primary-500 border-primary-500/50': editingId === c.id }"
+        class="bg-card border border-zinc-800 rounded-lg p-3 transition-all"
+        :class="{ 'ring-1 ring-primary border-primary/50': editingId === c.id }"
       >
         <!-- View Mode -->
         <div v-if="editingId !== c.id" class="flex items-center gap-3">
-          <div
-            class="flex items-center justify-center w-8 h-8 rounded bg-surface-800 text-primary-400 font-bold text-sm border border-surface-700"
-          >
+          <span class="text-xs font-bold tabular-nums text-muted-foreground w-4 text-center shrink-0">
             {{ c.weight }}
-          </div>
-          <span class="text-base font-medium text-white flex-1 truncate">{{ c.name }}</span>
+          </span>
+          <span class="text-sm font-medium text-foreground flex-1 truncate">{{ c.name }}</span>
 
-          <div class="flex items-center gap-1">
-            <button
-              class="p-2 text-surface-400 hover:text-white hover:bg-surface-800 rounded-lg transition-colors"
+          <div class="flex items-center gap-0.5">
+            <UiButton
+              variant="ghost"
+              size="icon"
+              class="h-9 w-9 text-muted-foreground hover:text-foreground"
+              :aria-label="`Edit ${c.name}`"
               @click="startEdit(c)"
             >
-              <Pencil :size="18" />
-            </button>
-            <button
-              class="p-2 text-surface-400 hover:text-red-400 hover:bg-surface-800 rounded-lg transition-colors"
+              <Pencil :size="14" />
+            </UiButton>
+            <UiButton
+              variant="ghost"
+              size="icon"
+              class="h-9 w-9 text-muted-foreground hover:text-destructive"
+              :aria-label="`Delete ${c.name}`"
               @click="c.id && emit('remove', c.id)"
             >
-              <Trash2 :size="18" />
-            </button>
+              <Trash2 :size="14" />
+            </UiButton>
           </div>
         </div>
 
         <!-- Edit Mode -->
-        <div v-else class="space-y-4">
-          <input
-            v-model="editName" type="text" class="input bg-surface-950 border-surface-700 h-10 text-sm"
+        <div v-else class="space-y-3">
+          <UiInput
+            v-model="editName"
+            type="text"
+            class="h-9 text-sm"
+            :aria-label="`Criterion name for ${c.name}`"
             @keyup.enter="saveEdit"
-          >
+          />
 
           <div class="flex items-center gap-3">
-            <span class="text-xs font-bold uppercase text-surface-400">Weight</span>
-            <span class="flex items-center justify-center w-6 h-6 rounded bg-surface-800 text-white font-bold text-xs">
-              {{ editWeight }}
-            </span>
-            <input
-              v-model.number="editWeight"
-              type="range"
-              min="0"
-              max="10"
-              class="flex-1 h-1.5 bg-surface-700 rounded-lg appearance-none cursor-pointer accent-primary-500"
+            <UiLabel class="text-label shrink-0">
+              Weight
+            </UiLabel>
+            <span
+              class="text-xs font-semibold tabular-nums text-foreground w-4 text-center"
+              aria-live="polite"
             >
+              {{ editWeight[0] }}
+            </span>
+            <UiSlider
+              v-model="editWeight"
+              :min="0"
+              :max="10"
+              :step="1"
+              class="flex-1"
+              :aria-label="`Weight for ${c.name} (0 = ignore, 10 = highest priority)`"
+            />
           </div>
 
-          <div class="flex justify-end gap-2 pt-1">
-            <button class="btn btn-ghost !p-2 h-9 text-xs" @click="cancelEdit">
-              <X :size="16" class="mr-1" /> Cancel
-            </button>
-            <button class="btn btn-primary !p-2 h-9 text-xs" :disabled="!editName.trim()" @click="saveEdit">
-              <Check :size="16" class="mr-1" /> Save
-            </button>
+          <div class="flex justify-end gap-2">
+            <UiButton variant="ghost" size="sm" @click="cancelEdit">
+              <X :size="14" class="mr-1" /> Cancel
+            </UiButton>
+            <UiButton size="sm" :disabled="!editName.trim()" @click="saveEdit">
+              <Check :size="14" class="mr-1" /> Save
+            </UiButton>
           </div>
         </div>
-      </div>
+      </li>
+    </ul>
 
-      <div
-        v-if="criteria.length === 0"
-        class="text-center py-8 text-surface-500 border border-dashed border-surface-800 rounded-xl"
-      >
-        No criteria defined yet.
-      </div>
+    <!-- Empty State -->
+    <div
+      v-if="criteria.length === 0"
+      class="flex flex-col items-center text-center py-8 text-muted-foreground border border-dashed border-zinc-800 rounded-lg"
+    >
+      <Scale :size="20" :stroke-width="1.5" class="mb-2 text-muted-foreground" />
+      <p class="text-sm font-medium text-foreground mb-1">
+        No criteria yet
+      </p>
+      <p class="text-xs max-w-[200px]">
+        Criteria determine how items are scored and ranked.
+      </p>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RankingMode } from '~/types'
-import { BarChart2, ChevronLeft, GripVertical, Trash2 } from 'lucide-vue-next'
+import { BarChart2, GripVertical, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue-hot-toast'
 import { useRoute, useRouter } from 'vue-router'
@@ -20,7 +20,7 @@ const {
   removeCriteria: _removeCriteria,
 } = useListDetails(listId)
 
-const showDeleteModal = ref(false)
+const showDeleteDialog = ref(false)
 
 onMounted(() => {
   fetchDetails()
@@ -32,10 +32,6 @@ async function updateRankingMode(mode: RankingMode) {
     await db.lists.update(listId, { rankingMode: mode })
     toast.success(`Switched to ${mode} mode`)
   }
-}
-
-function handleDelete() {
-  showDeleteModal.value = true
 }
 
 async function confirmDelete() {
@@ -66,152 +62,128 @@ async function handleRename() {
 async function handleAddCriteria(name: string, weight: number) {
   try {
     await _addCriteria(name, weight)
-    toast.success('Criteria added')
+    toast.success('Criterion added')
   }
   catch {
-    toast.error('Failed to add criteria')
+    toast.error('Failed to add criterion')
   }
 }
 
 async function handleUpdateCriteria(id: number, name: string, weight: number) {
   try {
     await _updateCriteria(id, name, weight)
-    toast.success('Criteria updated')
+    toast.success('Criterion updated')
   }
   catch {
-    toast.error('Failed to update criteria')
+    toast.error('Failed to update criterion')
   }
 }
 
 async function handleRemoveCriteria(id: number) {
   try {
     await _removeCriteria(id)
-    toast.success('Criteria removed')
+    toast.success('Criterion removed')
   }
   catch {
-    toast.error('Failed to remove criteria')
+    toast.error('Failed to remove criterion')
   }
 }
 </script>
 
 <template>
-  <div v-if="list" class="p-6 space-y-8 pb-6 animate-fade-in-up">
-    <!-- Header -->
-    <div class="flex items-center gap-4">
-      <NuxtLink
-        :to="`/lists/${listId}`"
-        class="btn btn-ghost rounded-full !p-3 hover:bg-surface-800 text-surface-400 hover:text-white transition-colors"
-      >
-        <ChevronLeft :size="24" stroke-width="2.5" />
-      </NuxtLink>
-      <div>
-        <h1 class="text-3xl text-display text-white">
-          Settings
-        </h1>
-        <p class="text-surface-400 font-medium">
-          Configure list options
-        </p>
-      </div>
-    </div>
+  <div v-if="list" class="space-y-8 animate-fade-in-up">
+    <AppHeader title="Settings" :subtitle="list.name" :back="`/lists/${listId}`" back-label="Back to list" />
 
-    <!-- General Settings -->
-    <div class="card space-y-6">
-      <h2 class="text-xl font-bold text-white">
-        General
-      </h2>
+    <div class="px-6 pb-6 space-y-6">
+      <!-- General Settings -->
+      <UiCard>
+        <UiCardContent class="space-y-6 pt-6">
+          <h2 class="text-xl font-bold text-foreground">
+            General
+          </h2>
 
-      <div class="space-y-2">
-        <label class="text-sm font-bold uppercase tracking-wider text-surface-400 ml-1">List Name</label>
-        <input
-          v-model="list.name"
-          type="text"
-          class="input bg-surface-950 border-surface-800 focus:border-primary-500 focus:ring-primary-500/20 placeholder:text-surface-600"
-          @blur="handleRename"
-        >
-      </div>
-
-      <div class="space-y-2">
-        <label class="text-sm font-bold uppercase tracking-wider text-surface-400 ml-1">Ranking Mode</label>
-        <div class="grid grid-cols-2 gap-3">
-          <button
-            class="btn flex items-center gap-2 justify-center border"
-            :class="list.rankingMode === 'manual' ? 'bg-primary-500 text-primary-950 border-primary-500' : 'bg-surface-950 border-surface-800 text-surface-400 hover:border-surface-600'"
-            @click="updateRankingMode('manual')"
-          >
-            <GripVertical :size="20" />
-            Manual
-          </button>
-          <button
-            class="btn flex items-center gap-2 justify-center border"
-            :class="list.rankingMode === 'weighted' ? 'bg-primary-500 text-primary-950 border-primary-500' : 'bg-surface-950 border-surface-800 text-surface-400 hover:border-surface-600'"
-            @click="updateRankingMode('weighted')"
-          >
-            <BarChart2 :size="20" />
-            Weighted
-          </button>
-        </div>
-        <div class="text-xs text-surface-500 px-1">
-          <span v-if="list.rankingMode === 'manual'">Drag and drop items to order them manually.</span>
-          <span v-else>Items are ordered based on weighted criteria scores.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Criteria Settings -->
-    <CriteriaManager
-      :criteria="criteria"
-      @add="handleAddCriteria" @update="handleUpdateCriteria"
-      @remove="handleRemoveCriteria"
-    />
-
-    <!-- Danger Zone -->
-    <div class="card border-red-500/30 bg-red-500/5 space-y-4">
-      <h2 class="text-xl font-bold text-red-400">
-        Danger Zone
-      </h2>
-      <p class="text-sm text-surface-400">
-        Once you delete a list, there is no going back. Please be certain.
-      </p>
-      <button
-        class="btn bg-red-500 hover:bg-red-600 text-white w-full flex items-center justify-center gap-2 border-0 shadow-none"
-        @click="handleDelete"
-      >
-        <Trash2 :size="20" />
-        Delete List
-      </button>
-    </div>
-
-    <!-- Delete Modal -->
-    <Teleport to="body">
-      <div v-if="showDeleteModal" class="fixed inset-0 z-100 flex items-center justify-center px-6">
-        <!-- Backdrop -->
-        <div
-          class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
-          @click="showDeleteModal = false"
-        />
-
-        <!-- Modal Content -->
-        <div
-          class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
-        >
-          <h3 class="text-xl font-bold text-white mb-2">
-            Delete List?
-          </h3>
-          <p class="text-surface-400 mb-8 leading-relaxed">
-            This action cannot be undone. The list and all its rankings
-            will be lost forever.
-          </p>
-
-          <div class="grid grid-cols-2 gap-4">
-            <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="showDeleteModal = false">
-              Cancel
-            </button>
-            <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
-              Delete
-            </button>
+          <div class="space-y-2">
+            <UiLabel for="list-name" class="text-label ml-1">
+              List Name
+            </UiLabel>
+            <UiInput
+              id="list-name" v-model="list.name" type="text"
+              @blur="handleRename"
+            />
           </div>
-        </div>
-      </div>
-    </Teleport>
+
+          <div class="space-y-2">
+            <UiLabel id="ranking-mode-label" class="text-label ml-1">
+              Ranking Mode
+            </UiLabel>
+            <div role="group" aria-labelledby="ranking-mode-label" class="grid grid-cols-2 gap-3">
+              <UiButton
+                :variant="list.rankingMode === 'manual' ? 'default' : 'outline'" class="justify-center gap-2"
+                @click="updateRankingMode('manual')"
+              >
+                <GripVertical :size="18" />
+                Manual
+              </UiButton>
+              <UiButton
+                :variant="list.rankingMode === 'weighted' ? 'default' : 'outline'" class="justify-center gap-2"
+                @click="updateRankingMode('weighted')"
+              >
+                <BarChart2 :size="18" />
+                Weighted
+              </UiButton>
+            </div>
+            <p class="text-xs text-muted-foreground px-1">
+              <span v-if="list.rankingMode === 'manual'">Drag and drop items to order them manually.</span>
+              <span v-else>Items are ordered based on weighted criteria scores.</span>
+            </p>
+          </div>
+        </UiCardContent>
+      </UiCard>
+
+      <!-- Criteria Settings -->
+      <CriteriaManager
+        :criteria="criteria" @add="handleAddCriteria" @update="handleUpdateCriteria"
+        @remove="handleRemoveCriteria"
+      />
+
+      <!-- Danger Zone -->
+      <UiCard class="border-destructive/30 bg-destructive/5">
+        <UiCardContent class="space-y-4 pt-6">
+          <h2 class="text-xl font-bold text-destructive">
+            Danger Zone
+          </h2>
+          <p class="text-sm text-muted-foreground">
+            Once you delete a list, there is no going back. Please be certain.
+          </p>
+          <UiButton variant="destructive" class="w-full" @click="showDeleteDialog = true">
+            <Trash2 :size="18" class="mr-2" />
+            Delete List
+          </UiButton>
+        </UiCardContent>
+      </UiCard>
+    </div>
+
+    <!-- Delete Confirmation Dialog -->
+    <UiAlertDialog :open="showDeleteDialog" @update:open="showDeleteDialog = $event">
+      <UiAlertDialogContent>
+        <UiAlertDialogHeader>
+          <UiAlertDialogTitle>Delete List?</UiAlertDialogTitle>
+          <UiAlertDialogDescription>
+            This action cannot be undone. The list and all its rankings will be lost forever.
+          </UiAlertDialogDescription>
+        </UiAlertDialogHeader>
+        <UiAlertDialogFooter>
+          <UiAlertDialogCancel @click="showDeleteDialog = false">
+            Cancel
+          </UiAlertDialogCancel>
+          <UiAlertDialogAction
+            class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            @click="confirmDelete"
+          >
+            Delete
+          </UiAlertDialogAction>
+        </UiAlertDialogFooter>
+      </UiAlertDialogContent>
+    </UiAlertDialog>
   </div>
 </template>

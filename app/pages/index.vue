@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ArrowRight, Calendar1, LayoutList, PlusCircle, Trash2 } from 'lucide-vue-next'
+import { ArrowRight, Calendar1, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue-hot-toast'
 import { useLists } from '~/composables/useLists'
 
 const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
+const showDeleteDialog = ref(false)
 
 onMounted(() => {
   fetchLists()
 })
 
-async function handleDelete(id: number) {
+function handleDelete(id: number) {
   deleteCandidateId.value = id
+  showDeleteDialog.value = true
 }
 
 async function confirmDelete() {
@@ -20,8 +22,9 @@ async function confirmDelete() {
     return
   try {
     await deleteList(deleteCandidateId.value)
-    toast.success('List deleted successfully')
+    toast.success('List deleted')
     deleteCandidateId.value = null
+    showDeleteDialog.value = false
   }
   catch {
     toast.error('Failed to delete list')
@@ -46,111 +49,132 @@ function formatTimeAgo(date: Date) {
 </script>
 
 <template>
-  <div class="p-6 space-y-8 animate-fade-in-up">
+  <div class="p-5 space-y-6 animate-fade-in-up">
     <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl text-display text-white">
-          My Lists
-        </h1>
-        <p class="text-surface-400 font-medium mt-1">
-          Manage your rankings
-        </p>
-      </div>
-      <NuxtLink v-if="lists.length > 0" to="/new" class="btn btn-primary rounded-full !p-3 aspect-square flex items-center justify-center">
-        <PlusCircle :size="24" stroke-width="2.5" />
+    <div class="flex items-center justify-between pt-1">
+      <h1 class="text-2xl text-display text-foreground">
+        My Lists
+      </h1>
+      <NuxtLink v-if="lists.length > 0" to="/new">
+        <UiButton size="icon" class="rounded-lg h-11 w-11" aria-label="Create new list">
+          <PlusCircle :size="18" :stroke-width="2" />
+        </UiButton>
       </NuxtLink>
     </div>
 
-    <!-- Empty State -->
-    <div v-if="lists.length === 0" class="card flex flex-col items-center text-center py-12 space-y-6">
-      <div class="w-20 h-20 rounded-full bg-surface-800 flex items-center justify-center text-primary-500 mb-2 shadow-inner">
-        <LayoutList :size="40" stroke-width="1.5" />
-      </div>
+    <!-- Empty State with Inline Onboarding -->
+    <div v-if="lists.length === 0" class="space-y-5">
+      <p class="text-label">
+        How it works
+      </p>
       <div class="space-y-2">
-        <h2 class="text-xl font-bold text-white">
-          No lists yet
-        </h2>
-        <p class="text-surface-400 max-w-[200px] mx-auto leading-relaxed">
-          Create your first list to start ranking items.
-        </p>
+        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
+          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+            <LayoutList :size="13" />
+          </span>
+          <div>
+            <p class="text-sm font-semibold text-foreground">
+              Create a list
+            </p>
+            <p class="text-xs text-muted-foreground mt-0.5">
+              Name your decision — "Best Laptops", "Vacation Spots"
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
+          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+            <Scale :size="13" />
+          </span>
+          <div>
+            <p class="text-sm font-semibold text-foreground">
+              Define criteria
+            </p>
+            <p class="text-xs text-muted-foreground mt-0.5">
+              Set what matters: cost, quality, fit. Give each a weight.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
+          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+            <Target :size="13" />
+          </span>
+          <div>
+            <p class="text-sm font-semibold text-foreground">
+              Score &amp; rank
+            </p>
+            <p class="text-xs text-muted-foreground mt-0.5">
+              Add options and see which one wins based on your criteria.
+            </p>
+          </div>
+        </div>
       </div>
-      <NuxtLink to="/new" class="btn btn-secondary w-full max-w-xs">
-        <PlusCircle :size="20" class="mr-2" />
-        Create New List
+      <NuxtLink to="/new">
+        <UiButton class="w-full">
+          <PlusCircle :size="16" class="mr-2" />
+          Create your first list
+        </UiButton>
       </NuxtLink>
     </div>
 
-    <!-- List Grid -->
-    <div v-else class="grid gap-5">
-      <div v-for="list in lists" :key="list.id" class="card group hover:border-primary-500/30 transition-all hover:-translate-y-1">
-        <div class="flex justify-between items-start mb-6">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 leading-tight">
+    <!-- List Items -->
+    <ul v-else class="space-y-2">
+      <li v-for="list in lists" :key="list.id">
+        <div class="group flex items-center gap-3 bg-card border border-zinc-800 rounded-lg px-4 py-3 hover:border-primary/30 transition-all">
+          <div class="flex-1 min-w-0">
+            <h2 class="text-sm font-semibold text-foreground truncate">
               {{ list.name }}
-            </h3>
-            <div class="flex flex-wrap items-center gap-2 mt-3">
-              <span
-                class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-surface-800"
-              >
-                <LayoutList :size="14" class="mr-1.5 text-primary-400" />
-                {{ list.itemCount }} Items
+            </h2>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="flex items-center gap-1 text-xs text-muted-foreground">
+                <LayoutList :size="11" />
+                {{ list.itemCount }} items
               </span>
-              <span
-                class="text-xs font-bold uppercase tracking-wider text-surface-400 bg-surface-950/50 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-surface-800"
-              >
-                <Calendar1 :size="14" class="mr-1.5 text-surface-500" />
+              <span class="text-muted-foreground/40">·</span>
+              <span class="flex items-center gap-1 text-xs text-muted-foreground">
+                <Calendar1 :size="11" />
                 {{ formatTimeAgo(list.createdAt) }}
               </span>
             </div>
           </div>
-          <button class="text-surface-500 hover:text-red-400 transition-colors p-2 -mr-2 -mt-2 rounded-full hover:bg-surface-800" @click="list.id && handleDelete(list.id)">
-            <Trash2 :size="20" />
-          </button>
-        </div>
 
-        <NuxtLink
-          :to="`/lists/${list.id}`"
-          class="btn btn-primary w-full justify-between group-hover:bg-primary-400 transition-colors"
-        >
-          <span>Open List</span>
-          <ArrowRight :size="20" />
-        </NuxtLink>
-      </div>
-    </div>
-
-    <!-- Delete Modal -->
-    <ClientOnly>
-      <Teleport to="body">
-        <div v-if="deleteCandidateId != null" class="fixed inset-0 z-100 flex items-center justify-center px-6">
-          <!-- Backdrop -->
-          <div
-            class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
-            @click="deleteCandidateId = null"
-          />
-
-          <!-- Modal Content -->
-          <div
-            class="card w-full max-w-sm relative z-10 animate-fade-in-up border-red-500/20 shadow-[0_0_50px_-20px_rgba(239,68,68,0.5)]"
-          >
-            <h3 class="text-xl font-bold text-white mb-2">
-              Delete List?
-            </h3>
-            <p class="text-surface-400 mb-8 leading-relaxed">
-              This action cannot be undone. The list and all its rankings will be lost forever.
-            </p>
-
-            <div class="grid grid-cols-2 gap-4">
-              <button class="btn bg-surface-800 text-white hover:bg-surface-700" @click="deleteCandidateId = null">
-                Cancel
-              </button>
-              <button class="btn bg-red-500 text-white hover:bg-red-600 shadow-none border-0" @click="confirmDelete">
-                Delete
-              </button>
-            </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <UiButton
+              variant="ghost"
+              size="icon"
+              class="h-11 w-11 text-muted-foreground hover:text-destructive"
+              :aria-label="`Delete ${list.name}`"
+              @click.prevent="list.id && handleDelete(list.id)"
+            >
+              <Trash2 :size="15" />
+            </UiButton>
+            <NuxtLink :to="`/lists/${list.id}`">
+              <UiButton size="icon" variant="ghost" class="h-11 w-11 text-muted-foreground hover:text-foreground" :aria-label="`Open ${list.name}`">
+                <ArrowRight :size="15" />
+              </UiButton>
+            </NuxtLink>
           </div>
         </div>
-      </Teleport>
-    </ClientOnly>
+      </li>
+    </ul>
+
+    <!-- Delete Confirmation Dialog -->
+    <UiAlertDialog :open="showDeleteDialog" @update:open="showDeleteDialog = $event">
+      <UiAlertDialogContent>
+        <UiAlertDialogHeader>
+          <UiAlertDialogTitle>Delete list?</UiAlertDialogTitle>
+          <UiAlertDialogDescription>
+            This cannot be undone. The list and all its rankings will be permanently deleted.
+          </UiAlertDialogDescription>
+        </UiAlertDialogHeader>
+        <UiAlertDialogFooter>
+          <UiAlertDialogCancel @click="showDeleteDialog = false">
+            Cancel
+          </UiAlertDialogCancel>
+          <UiAlertDialogAction class="bg-destructive text-destructive-foreground hover:bg-destructive/90" @click="confirmDelete">
+            Delete
+          </UiAlertDialogAction>
+        </UiAlertDialogFooter>
+      </UiAlertDialogContent>
+    </UiAlertDialog>
   </div>
 </template>

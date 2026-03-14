@@ -3,14 +3,18 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  components: [
+    {
+      path: '~/components',
+      ignore: ['**/ui/**/index.ts'],
+    },
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
   css: ['~/assets/css/app.css'],
   modules: [
     '@nuxt/fonts',
-    '@nuxt/icon',
-    '@nuxt/image',
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
     '@vite-pwa/nuxt',
@@ -19,14 +23,14 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     manifest: {
       name: 'Ranked Choices',
-      short_name: 'RankedChoices',
-      theme_color: '#ffffff',
+      short_name: 'Ranked',
+      theme_color: '#09090b',
       display: 'standalone',
-      background_color: '#ffffff',
+      background_color: '#09090b',
       lang: 'en',
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      globPatterns: ['**/*.{js,css,html,png,svg,ico,woff,woff2}'],
     },
     client: {
       installPrompt: true,
@@ -36,11 +40,6 @@ export default defineNuxtConfig({
       suppressWarnings: true,
       navigateFallback: '/',
       type: 'module',
-    },
-  },
-  icon: {
-    serverBundle: {
-      collections: ['solar'],
     },
   },
   fonts: {

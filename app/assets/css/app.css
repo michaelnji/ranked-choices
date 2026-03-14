@@ -4,95 +4,135 @@
 @import "@fontsource/dm-sans/600.css";
 @import "@fontsource/dm-sans/700.css";
 
+/* ─── Design Tokens ─── */
 @theme {
   --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-    --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
-  /* Shadow Grey - Surface */
-    --color-surface-50: #f0f0f5;
-    --color-surface-100: #e2e1ea;
-    --color-surface-200: #c5c3d5;
-    --color-surface-300: #a8a5c0;
-    --color-surface-400: #8b87ab;
-    --color-surface-500: #6e6996;
-    --color-surface-600: #585478;
-    --color-surface-700: #423f5a;
-    --color-surface-800: #2c2a3c;
-    --color-surface-900: #16151e;
-    --color-surface-950: #0f0f15;
+  /* Zinc scale — base surface */
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
 
-  /* Lime Cream - Primary */
-    --color-primary-50: #f5fbe9;
-    --color-primary-100: #ecf8d3;
-    --color-primary-200: #d8f0a8;
-    --color-primary-300: #c5e97c;
-    --color-primary-400: #b1e151;
-    --color-primary-500: #9eda25;
-    --color-primary-600: #7eae1e;
-    --color-primary-700: #5f8316;
-    --color-primary-800: #3f570f;
-    --color-primary-900: #202c07;
-    --color-primary-950: #161f05;
+  /* Blue scale — primary actions */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+  --color-blue-950: #172554;
 
-  /* White - Foreground (Text/Icons) */
-    --color-foreground-50: #e5e5ff;
-    --color-foreground-100: #ccccff;
-    --color-foreground-200: #9999ff;
-    --color-foreground-300: #6666ff;
-    --color-foreground-400: #3333ff;
-    --color-foreground-500: #0000ff;
-    --color-foreground-600: #0000cc;
-    --color-foreground-700: #000099;
-    --color-foreground-800: #000066;
-    --color-foreground-900: #000033;
-    --color-foreground-950: #000024;
+  /* Neutral (keep for compatibility) */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
+}
 
-  /* Vintage Grape - Neutral */
-    --color-neutral-50: #f0f0f5;
-    --color-neutral-100: #e2e1ea;
-    --color-neutral-200: #c5c2d6;
-    --color-neutral-300: #a8a4c1;
-    --color-neutral-400: #8b86ac;
-    --color-neutral-500: #6e6798;
-    --color-neutral-600: #585379;
-    --color-neutral-700: #423e5b;
-    --color-neutral-800: #2c293d;
-    --color-neutral-900: #16151e;
-    --color-neutral-950: #0f0e15;
-
-  /* Mauve Magic - Secondary */
-    --color-secondary-50: #f7e8fc;
-    --color-secondary-100: #eed1fa;
-    --color-secondary-200: #dea3f5;
-    --color-secondary-300: #cd75f0;
-    --color-secondary-400: #bc47eb;
-    --color-secondary-500: #ac19e6;
-    --color-secondary-600: #8914b8;
-    --color-secondary-700: #670f8a;
-    --color-secondary-800: #450a5c;
-    --color-secondary-900: #22052e;
-    --color-secondary-950: #180420;
-  /* Semantic Aliases */
-    --color-bg-app: var(--color-surface-950);
-    --color-bg-card: var(--color-surface-900);
-    --color-text-main: #ffffff;
-    --color-text-muted: var(--color-surface-300);
-  }
-
-/* Global Reset & Base Styles */
+/* ─── shadcn-vue Semantic Tokens — Vercel/Linear dark theme ─── */
 :root {
   color-scheme: dark;
+
+  --radius: 0.5rem;
+
+  --background: #09090b;
+  --foreground: #fafafa;
+
+  --card: #111113;
+  --card-foreground: #fafafa;
+
+  --popover: #111113;
+  --popover-foreground: #fafafa;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #1c1c1f;
+  --secondary-foreground: #fafafa;
+
+  --muted: #1c1c1f;
+  --muted-foreground: #71717a;
+
+  --accent: #1c1c1f;
+  --accent-foreground: #fafafa;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+
+  --border: #27272a;
+  --input: #1c1c1f;
+  --ring: #3b82f6;
 }
 
+/* ─── Wire shadcn-vue variables into Tailwind v4 ─── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+/* ─── Global Base Styles ─── */
 body {
-  @apply bg-bg-app text-text-main font-body antialiased min-h-screen selection:bg-primary-500 selection:text-primary-950 overflow-x-hidden;
+  @apply bg-background text-foreground font-body antialiased min-h-screen overflow-x-hidden;
 }
 
-/* Animations */
+::selection {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* ─── Animations ─── */
 @keyframes fade-in-up {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
 
   100% {
@@ -100,49 +140,38 @@ body {
     transform: translateY(0);
   }
 }
+
 .animate-fade-in-up {
-  animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-in-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-/* Custom Components (Replacements for k-*) */
 
-/* Buttons */
-.btn {
-  @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm tracking-wide transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none;
-}
-.btn-primary {
-  @apply bg-primary-400 text-primary-950 hover:bg-primary-300 shadow-[0_0_20px_-5px_var(--color-primary-500)];
-}
-.btn-secondary {
-  @apply bg-secondary-500 text-white hover:bg-secondary-400 shadow-[0_0_20px_-5px_var(--color-secondary-500)];
-}
-.btn-ghost {
-  @apply bg-transparent text-white hover:bg-surface-800;
-}
-.btn-icon {
-  @apply p-3 rounded-xl hover:bg-surface-800 transition-colors text-white;
-}
-/* Cards */
-.card {
-  @apply bg-surface-900 rounded-[32px] p-6 border border-surface-800 shadow-xl backdrop-blur-md relative overflow-hidden;
-}
-/* Inputs */
-.input {
-  @apply w-full bg-surface-800 border border-surface-700 rounded-2xl px-5 py-4 text-white placeholder-surface-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all text-base;
-}
-/* Typography */
+/* ─── Typography ─── */
 .text-display {
-  @apply font-display font-bold tracking-tight;
-}
-.text-label {
-  @apply text-xs font-bold uppercase tracking-wider text-surface-400;
-}
-/* Utilities */
-.glass {
-  @apply bg-surface-900/80 backdrop-blur-xl border border-surface-700/50;
+  @apply font-display font-black tracking-tight;
 }
 
-/* Fix for vue-hot-toast z-index */
-/* Targeting the wrapper div created by Toaster which is a direct child of body */
-.wrapper[data-v-1c6a3f6f] {
-  z-index: 99999 !important;
+.text-label {
+  @apply text-xs font-medium uppercase tracking-widest text-muted-foreground;
+}
+
+/* ─── Utilities ─── */
+.glass {
+  background: color-mix(in oklch, var(--card) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.glass-nav {
+  background: color-mix(in oklch, var(--background) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Global focus ring ─── */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) - 2px);
 }
