@@ -61,48 +61,50 @@ function formatTimeAgo(date: Date) {
     </div>
 
     <!-- Empty State with Inline Onboarding -->
-    <div v-if="lists.length === 0" class="space-y-5">
-      <p class="text-label">
-        How it works
-      </p>
-      <div class="space-y-2">
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <LayoutList :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Create a list
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Name your decision — "Best Laptops", "Vacation Spots"
-            </p>
+    <div v-if="lists.length === 0" class="space-y-6">
+      <div class="space-y-4">
+        <p class="text-label">
+          How it works
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+              <LayoutList :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Create a list
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Name your decision — "Best Laptops", "Vacation Spots"
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <Scale :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Define criteria
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Set what matters: cost, quality, fit. Give each a weight.
-            </p>
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-success/10 text-success shrink-0 mt-0.5">
+              <Scale :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Define criteria
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Set what matters: cost, quality, fit. Give each a weight.
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="flex items-start gap-3 p-3 rounded-lg border border-zinc-800 bg-card">
-          <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-            <Target :size="13" />
-          </span>
-          <div>
-            <p class="text-sm font-semibold text-foreground">
-              Score &amp; rank
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5">
-              Add options and see which one wins based on your criteria.
-            </p>
+          <div class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-warning/10 text-warning shrink-0 mt-0.5">
+              <Target :size="13" />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-foreground">
+                Score &amp; rank
+              </p>
+              <p class="text-xs text-muted-foreground mt-0.5">
+                Add options and see which one wins based on your criteria.
+              </p>
+            </div>
           </div>
         </div>
       </div>

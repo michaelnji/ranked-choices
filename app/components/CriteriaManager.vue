@@ -104,9 +104,6 @@ function saveEdit() {
             aria-label="New criterion weight (0 = ignore, 10 = highest priority)"
           />
         </div>
-        <p class="text-xs text-muted-foreground">
-          Weight controls how much this criterion influences the final score (0 = ignore, 10 = critical).
-        </p>
       </div>
     </div>
 
@@ -120,7 +117,10 @@ function saveEdit() {
       >
         <!-- View Mode -->
         <div v-if="editingId !== c.id" class="flex items-center gap-3">
-          <span class="text-xs font-bold tabular-nums text-muted-foreground w-4 text-center shrink-0">
+          <span
+            class="text-xs font-bold tabular-nums w-4 text-center shrink-0"
+            :class="c.weight >= 8 ? 'text-warning' : c.weight >= 4 ? 'text-foreground' : 'text-muted-foreground'"
+          >
             {{ c.weight }}
           </span>
           <span class="text-sm font-medium text-foreground flex-1 truncate">{{ c.name }}</span>

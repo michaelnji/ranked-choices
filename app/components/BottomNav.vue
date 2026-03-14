@@ -34,10 +34,6 @@ function isActive(path: string) {
           :stroke-width="isActive(tab.to) ? 2.5 : 1.75"
         />
         <span class="text-xs font-medium tracking-wide">{{ tab.label }}</span>
-        <span
-          class="h-0.5 w-3 rounded-full transition-all duration-300"
-          :class="isActive(tab.to) ? 'bg-primary scale-x-100 opacity-100' : 'bg-transparent scale-x-0 opacity-0'"
-        />
       </NuxtLink>
     </div>
   </nav>

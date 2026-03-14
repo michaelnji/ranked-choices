@@ -115,7 +115,7 @@ watch(() => props.items, (newItems) => {
           <NuxtLink
             :to="`/lists/${listId}/items/${item.id}`"
             class="flex items-center gap-4 bg-card border border-zinc-800 rounded-lg px-4 py-3 transition-all hover:border-primary/40 cursor-pointer"
-            :class="index === 0 ? 'border-primary/30 bg-primary/5 animate-ring-once' : ''"
+            :class="index === 0 ? 'border-primary/30 bg-primary/5' : ''"
           >
             <span
               class="flex items-center justify-center size-7 rounded font-bold text-sm tabular-nums shrink-0"

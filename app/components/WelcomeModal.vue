@@ -10,16 +10,22 @@ const steps = [
     icon: LayoutList,
     title: 'Create a List',
     description: 'Give your decision a name — like "Best Laptops" or "Vacation Spots".',
+    iconClass: 'bg-primary/10 text-primary',
+    dotClass: 'bg-primary',
   },
   {
     icon: Scale,
     title: 'Add Criteria',
     description: 'Define what matters most: cost, quality, design. Set weights to prioritize.',
+    iconClass: 'bg-success/10 text-success',
+    dotClass: 'bg-success',
   },
   {
     icon: Target,
     title: 'Score & Rank',
     description: 'Add your options, check which criteria they meet, and see the winner.',
+    iconClass: 'bg-warning/10 text-warning',
+    dotClass: 'bg-warning',
   },
 ]
 
@@ -57,16 +63,16 @@ function dismiss() {
       <!-- Step Indicator -->
       <div class="flex gap-1.5 px-6 pt-6">
         <div
-          v-for="(_, i) in steps" :key="i"
+          v-for="(s, i) in steps" :key="i"
           class="h-1 flex-1 rounded-full transition-all duration-300"
-          :class="i <= currentStep ? 'bg-primary' : 'bg-muted'"
+          :class="i <= currentStep ? s.dotClass : 'bg-muted'"
         />
       </div>
 
       <!-- Step Content -->
       <Transition name="step" mode="out-in">
         <div :key="currentStep" class="px-6 pt-8 pb-6 text-center">
-          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-6">
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" :class="[step.iconClass]">
             <component :is="step.icon" :size="32" :stroke-width="1.5" />
           </div>
 

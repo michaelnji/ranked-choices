@@ -45,7 +45,12 @@ const item = computed(() => items.value.find(i => i.id === itemId))
             <div v-for="c in criteria" :key="c.id" class="space-y-2">
               <div class="flex justify-between items-center">
                 <span class="font-bold text-muted-foreground">{{ c.name }}</span>
-                <UiBadge variant="secondary" class="font-bold">
+                <UiBadge
+                  class="font-bold"
+                  :class="(item.scores[c.id!] || 0) > 0
+                    ? 'bg-success/15 text-success border-success/30 border'
+                    : 'bg-muted text-muted-foreground'"
+                >
                   {{ (item.scores[c.id!] || 0) > 0 ? 'Yes' : 'No' }}
                 </UiBadge>
               </div>
