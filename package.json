@@ -16,6 +16,7 @@
     "@fontsource/dm-sans": "^5.2.8",
     "@formkit/auto-animate": "^0.9.0",
     "@formkit/drag-and-drop": "^0.5.3",
+    "@neoconfetti/vue": "^2.2.1",
     "@nuxt/fonts": "^0.13.0",
     "@nuxt/image": "^2.0.0",
     "@tailwindcss/vite": "^4.1.18",
