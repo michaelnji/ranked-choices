@@ -8,7 +8,9 @@ useHead({
   htmlAttrs: { lang: 'en' },
   title: 'Ranked Choices',
   link: [
+    { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
     { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' },
+    { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png', sizes: '180x180' },
   ],
   meta: [
     { name: 'description', content: 'Offline-first ranking tool' },
