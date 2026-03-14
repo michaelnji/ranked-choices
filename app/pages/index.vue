@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowRight, Calendar1, Layers, LayoutList, PlusCircle, Scale, Target, Trash2 } from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { ArrowRight, Calendar1, Layers, LayoutList, PlusCircle, Scale, Target, Trash2, TrendingUp } from 'lucide-vue-next'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useLists } from '~/composables/useLists'
 import { db } from '~/utils/db'
 
@@ -23,6 +23,41 @@ const greeting = computed(() => {
 const totalItems = computed(() =>
   lists.value.reduce((sum, l) => sum + l.itemCount, 0),
 )
+
+const avgPerList = computed(() =>
+  lists.value.length > 0 ? Math.round(totalItems.value / lists.value.length) : 0,
+)
+
+// Count-up animated display values
+const animatedLists = ref(0)
+const animatedItems = ref(0)
+const animatedAvg = ref(0)
+
+function countUp(target: { value: number }, to: number, duration = 650) {
+  if (to === 0) {
+    target.value = 0
+    return
+  }
+  const start = performance.now()
+  const tick = (now: number) => {
+    const t = Math.min((now - start) / duration, 1)
+    const eased = 1 - (1 - t) ** 4 // ease-out-quart
+    target.value = Math.round(eased * to)
+    if (t < 1)
+      requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+}
+
+let statsAnimated = false
+watch(lists, (newLists) => {
+  if (newLists.length > 0 && !statsAnimated) {
+    statsAnimated = true
+    countUp(animatedLists, newLists.length, 500)
+    countUp(animatedItems, totalItems.value, 700)
+    countUp(animatedAvg, avgPerList.value, 550)
+  }
+})
 
 onMounted(async () => {
   fetchLists()
@@ -96,17 +131,48 @@ function formatTimeAgo(date: Date) {
         </template>
       </div>
 
-      <!-- Stats Row -->
-      <div v-if="lists.length > 0" class="flex gap-2">
-        <div class="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2">
-          <LayoutList :size="13" class="text-primary shrink-0" />
-          <span class="text-sm font-semibold text-foreground">{{ lists.length }}</span>
-          <span class="text-xs text-muted-foreground">{{ lists.length === 1 ? 'list' : 'lists' }}</span>
+      <!-- Stats Grid -->
+      <div v-if="lists.length > 0" class="grid grid-cols-3 gap-2">
+        <div class="animate-fade-in-up stagger-1 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+            <LayoutList :size="13" class="text-primary" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedLists }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              {{ lists.length === 1 ? 'decision' : 'decisions' }}
+            </p>
+          </div>
         </div>
-        <div class="flex items-center gap-1.5 bg-card border border-border rounded-lg px-3 py-2">
-          <Layers :size="13" class="text-success shrink-0" />
-          <span class="text-sm font-semibold text-foreground">{{ totalItems }}</span>
-          <span class="text-xs text-muted-foreground">{{ totalItems === 1 ? 'item' : 'items' }}</span>
+
+        <div class="animate-fade-in-up stagger-2 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-success/15 flex items-center justify-center shrink-0">
+            <Layers :size="13" class="text-success" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedItems }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              {{ totalItems === 1 ? 'option' : 'options' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="animate-fade-in-up stagger-3 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
+          <div class="w-7 h-7 rounded-lg bg-warning/15 flex items-center justify-center shrink-0">
+            <TrendingUp :size="13" class="text-warning" />
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
+              {{ animatedAvg }}
+            </p>
+            <p class="text-xs text-muted-foreground mt-1 leading-tight">
+              avg per list
+            </p>
+          </div>
         </div>
       </div>
     </div>
