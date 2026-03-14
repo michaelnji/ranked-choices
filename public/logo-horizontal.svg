@@ -1,0 +1,16 @@
+<svg viewBox="0 0 220 44" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ranked Choices">
+  <title>Ranked Choices</title>
+
+  <!-- Icon container -->
+  <rect width="44" height="44" rx="10" fill="#111113"/>
+  <!-- Rank 1 — blue -->
+  <rect x="6" y="8"  width="32" height="7" rx="3.5" fill="#3b82f6"/>
+  <!-- Rank 2 — emerald -->
+  <rect x="6" y="19" width="23" height="7" rx="3.5" fill="#10b981"/>
+  <!-- Rank 3 — amber -->
+  <rect x="6" y="30" width="14" height="7" rx="3.5" fill="#d97706"/>
+
+  <!-- Wordmark -->
+  <text x="56" y="19" font-family="DM Sans, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" letter-spacing="-0.3" fill="#fafafa">Ranked</text>
+  <text x="56" y="36" font-family="DM Sans, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="400" letter-spacing="-0.3" fill="#71717a">Choices</text>
+</svg>

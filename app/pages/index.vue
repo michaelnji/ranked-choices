@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, Calendar1, Layers, LayoutList, PlusCircle, Scale, Target, Trash2, TrendingUp } from 'lucide-vue-next'
+import { ArrowRight, Calendar1, Download, Layers, LayoutList, PlusCircle, Scale, Target, Trash2, TrendingUp } from 'lucide-vue-next'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useLists } from '~/composables/useLists'
 import { db } from '~/utils/db'
@@ -7,6 +7,14 @@ import { db } from '~/utils/db'
 const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 const showDeleteDialog = ref(false)
+const showInstallConfirm = ref(false)
+
+const { canInstall, isInstalled, promptInstall } = usePwaInstall()
+
+async function doInstall() {
+  showInstallConfirm.value = false
+  await promptInstall()
+}
 
 const username = ref<string>('')
 const isLoadingProfile = ref(true)
@@ -116,6 +124,18 @@ function formatTimeAgo(date: Date) {
           Ranked Choices
         </h1>
       </div>
+
+      <!-- Install button — hidden once app is installed -->
+      <UiButton
+        v-if="canInstall && !isInstalled"
+        variant="outline"
+        size="sm"
+        class="gap-1.5 h-8 text-xs border-primary/30 text-primary hover:bg-primary/10 hover:text-primary hover:border-primary/50 shrink-0"
+        @click="showInstallConfirm = true"
+      >
+        <Download :size="13" />
+        Install
+      </UiButton>
     </div>
 
     <!-- Greeting + Stats -->
@@ -273,6 +293,27 @@ function formatTimeAgo(date: Date) {
         </div>
       </li>
     </ul>
+
+    <!-- Install Confirm Dialog -->
+    <UiDialog :open="showInstallConfirm" @update:open="showInstallConfirm = $event">
+      <UiDialogContent class="max-w-[90vw] rounded-2xl">
+        <UiDialogHeader>
+          <UiDialogTitle>Install Ranked Choices?</UiDialogTitle>
+          <UiDialogDescription>
+            Add the app to your home screen for instant access. Works offline, loads fast — no app store required.
+          </UiDialogDescription>
+        </UiDialogHeader>
+        <UiDialogFooter>
+          <UiButton variant="outline" class="flex-1" @click="showInstallConfirm = false">
+            Cancel
+          </UiButton>
+          <UiButton class="flex-1" @click="doInstall">
+            <Download :size="15" class="mr-1.5" />
+            Install
+          </UiButton>
+        </UiDialogFooter>
+      </UiDialogContent>
+    </UiDialog>
 
     <!-- Delete Confirmation Dialog -->
     <UiAlertDialog :open="showDeleteDialog" @update:open="showDeleteDialog = $event">

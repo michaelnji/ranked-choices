@@ -1,0 +1,11 @@
+<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ranked Choices">
+  <title>Ranked Choices</title>
+  <!-- App icon container -->
+  <rect width="44" height="44" rx="10" fill="#111113"/>
+  <!-- Rank 1 — blue (primary) -->
+  <rect x="6" y="8"  width="32" height="7" rx="3.5" fill="#3b82f6"/>
+  <!-- Rank 2 — emerald (success) -->
+  <rect x="6" y="19" width="23" height="7" rx="3.5" fill="#10b981"/>
+  <!-- Rank 3 — amber (warning) -->
+  <rect x="6" y="30" width="14" height="7" rx="3.5" fill="#d97706"/>
+</svg>

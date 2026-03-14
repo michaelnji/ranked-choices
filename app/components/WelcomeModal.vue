@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { vConfetti } from '@neoconfetti/vue'
-import { ArrowRight, Scale, Target, UserRound } from 'lucide-vue-next'
+import { ArrowRight, Scale, Smartphone, Target, UserRound } from 'lucide-vue-next'
 import { computed, onMounted, ref } from 'vue'
 import { db } from '~/utils/db'
 
@@ -13,6 +13,9 @@ const saving = ref(false)
 
 const USERNAME_STEP = 3
 const WELCOME_STEP = 4
+const INSTALL_STEP = 5
+
+const { canInstall, promptInstall } = usePwaInstall()
 
 const infoSteps = [
   {
@@ -55,12 +58,21 @@ const infoSteps = [
     iconClass: '',
     dotClass: 'bg-primary',
   },
+  {
+    icon: Smartphone,
+    title: 'One tap away',
+    description: 'Add Ranked Choices to your home screen. Works offline, loads instantly — no app store needed.',
+    bgClass: 'bg-primary/10',
+    iconClass: 'text-primary',
+    dotClass: 'bg-primary',
+  },
 ]
 
 const step = computed(() => infoSteps[currentStep.value]!)
 const isUsernameStep = computed(() => currentStep.value === USERNAME_STEP)
 const isWelcomeStep = computed(() => currentStep.value === WELCOME_STEP)
-const isLastStep = computed(() => currentStep.value === infoSteps.length - 1)
+const isInstallStep = computed(() => currentStep.value === INSTALL_STEP)
+const isLastStep = computed(() => currentStep.value === INSTALL_STEP)
 const transitionName = computed(() => direction.value > 0 ? 'slide-fwd' : 'slide-bk')
 
 const confettiOptions = {
@@ -86,8 +98,8 @@ onMounted(async () => {
 })
 
 function goToStep(i: number) {
-  if (i === WELCOME_STEP)
-    return // welcome step only reachable via saveAndContinue
+  if (i === WELCOME_STEP || i === INSTALL_STEP)
+    return // these steps only reachable via saveAndContinue / next
   direction.value = i > currentStep.value ? 1 : -1
   currentStep.value = i
 }
@@ -129,6 +141,11 @@ async function saveAndContinue() {
 
 function finish() {
   isOpen.value = false
+}
+
+async function installAndFinish() {
+  await promptInstall()
+  finish()
 }
 </script>
 
@@ -175,6 +192,21 @@ function finish() {
               </h2>
               <p class="text-base text-muted-foreground text-center leading-relaxed max-w-[300px]">
                 {{ step.description }}
+              </p>
+            </template>
+
+            <!-- Install step -->
+            <template v-else-if="isInstallStep">
+              <div class="w-44 h-44 rounded-[2.5rem] flex items-center justify-center mb-12 bg-primary/10">
+                <Smartphone :size="68" :stroke-width="1.25" class="text-primary" />
+              </div>
+              <h2 class="text-[2rem] text-display font-bold text-foreground text-center mb-3 leading-tight px-2">
+                {{ canInstall ? 'One tap away' : 'You\'re all set!' }}
+              </h2>
+              <p class="text-base text-muted-foreground text-center leading-relaxed max-w-[300px]">
+                {{ canInstall
+                  ? 'Add Ranked Choices to your home screen. Works offline, loads instantly — no app store needed.'
+                  : 'Ranked Choices is ready to use. Make your first decision.' }}
               </p>
             </template>
 
@@ -225,7 +257,7 @@ function finish() {
 
         <!-- Bottom controls -->
         <div class="shrink-0 px-6 pb-10 space-y-5">
-          <!-- Step dots (5 total, welcome dot not tappable) -->
+          <!-- Step dots (6 total, welcome + install dots not tappable) -->
           <div class="flex justify-center gap-2">
             <button
               v-for="(s, i) in infoSteps"
@@ -237,10 +269,10 @@ function finish() {
                   : i < currentStep
                     ? `w-2 h-2 ${s.dotClass} opacity-50`
                     : 'w-2 h-2 bg-muted',
-                i === WELCOME_STEP ? 'cursor-default' : 'cursor-pointer',
+                i === WELCOME_STEP || i === INSTALL_STEP ? 'cursor-default' : 'cursor-pointer',
               ]"
               :aria-label="i < WELCOME_STEP ? `Go to step ${i + 1}` : undefined"
-              :disabled="i === WELCOME_STEP"
+              :disabled="i === WELCOME_STEP || i === INSTALL_STEP"
               @click="goToStep(i)"
             />
           </div>
@@ -248,10 +280,11 @@ function finish() {
           <UiButton
             class="w-full h-12 text-base"
             :disabled="saving"
-            @click="isWelcomeStep ? finish() : isUsernameStep ? saveAndContinue() : next()"
+            @click="isInstallStep ? (canInstall ? installAndFinish() : finish()) : isUsernameStep ? saveAndContinue() : next()"
           >
-            <template v-if="isWelcomeStep">
-              Get Started
+            <template v-if="isInstallStep">
+              <Smartphone :size="18" class="mr-2" />
+              {{ canInstall ? 'Install App' : 'Get Started' }}
             </template>
             <template v-else-if="saving">
               Saving…
@@ -261,6 +294,15 @@ function finish() {
               <ArrowRight :size="18" class="ml-2" />
             </template>
           </UiButton>
+
+          <!-- Maybe Later — install step only -->
+          <button
+            v-if="isInstallStep && canInstall"
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors py-1 w-full text-center"
+            @click="finish"
+          >
+            Maybe later
+          </button>
         </div>
       </div>
     </Transition>
