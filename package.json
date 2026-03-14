@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "format": "eslint . --fix",
     "test": "vitest",
-    "pwa:gen-icons": "pwa-assets-generator --preset minimal app/public/icon.svg"
+    "pwa:gen-icons": "pwa-assets-generator --preset minimal public/icon.svg"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
