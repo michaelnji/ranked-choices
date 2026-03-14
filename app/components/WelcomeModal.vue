@@ -60,8 +60,17 @@ function dismiss() {
 <template>
   <UiDialog :open="isOpen" @update:open="dismiss">
     <UiDialogContent class="sm:max-w-[380px] gap-0 p-0 overflow-hidden">
+      <!-- Logo mark -->
+      <div class="flex justify-center pt-6">
+        <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
+          <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
+          <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
+        </svg>
+      </div>
+
       <!-- Step Indicator -->
-      <div class="flex gap-1.5 px-6 pt-6">
+      <div class="flex gap-1.5 px-6 pt-3">
         <div
           v-for="(s, i) in steps" :key="i"
           class="h-1 flex-1 rounded-full transition-all duration-300"

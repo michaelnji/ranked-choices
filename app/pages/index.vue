@@ -50,9 +50,16 @@ function formatTimeAgo(date: Date) {
   <div class="p-5 space-y-6 animate-fade-in-up">
     <!-- Header -->
     <div class="flex items-center justify-between pt-1">
-      <h1 class="text-2xl text-display text-foreground">
-        My Lists
-      </h1>
+      <div class="flex items-center gap-2.5">
+        <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
+          <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
+          <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
+        </svg>
+        <h1 class="text-2xl text-display text-foreground">
+          My Lists
+        </h1>
+      </div>
       <NuxtLink v-if="lists.length > 0" to="/new">
         <UiButton size="icon" class="rounded-lg h-11 w-11" aria-label="Create new list">
           <PlusCircle :size="18" :stroke-width="2" />
