@@ -238,9 +238,7 @@ body {
 
 /* ─── Global focus ring ─── */
 :focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-  border-radius: calc(var(--radius) - 2px);
+  outline: none;
 }
 
 /* ─── Reduced Motion ─── */

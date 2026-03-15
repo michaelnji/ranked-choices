@@ -121,7 +121,7 @@ function formatTimeAgo(date: Date) {
 </script>
 
 <template>
-  <div class="px-5 pt-8 pb-32 min-h-full flex flex-col gap-8 animate-fade-in-up">
+  <div class="px-5 pt-8 pb-32! min-h-full flex flex-col gap-8 animate-fade-in-up">
     <!-- Native Large Title Header -->
     <header class="flex items-end justify-between pt-4">
       <div class="space-y-1">
@@ -139,7 +139,9 @@ function formatTimeAgo(date: Date) {
             <div class="h-9 w-44 rounded-lg bg-zinc-800 animate-pulse mt-1" />
           </template>
           <template v-else>
-            {{ greeting }}<br v-if="username"><span v-if="username" class="text-primary">{{ username }}</span>
+            <div class="flex items-center gap-3">
+              {{ greeting }}<span v-if="username" class="text-primary">{{ username }}</span>
+            </div>
           </template>
         </h1>
       </div>
@@ -216,7 +218,7 @@ function formatTimeAgo(date: Date) {
     </div>
 
     <!-- Empty State with Inline Onboarding -->
-    <div v-if="lists.length === 0" class="flex-1 flex flex-col justify-center space-y-8 mt-12 animate-fade-in">
+    <div v-if="lists.length === 0" class="flex-1 flex flex-col justify-center space-y-8 pb-32 animate-fade-in">
       <div class="space-y-6 bg-zinc-900/60 backdrop-blur-xl rounded-[24px] p-6 ring-1 ring-white/5">
         <h2 class="text-lg font-semibold text-foreground">
           How it works
@@ -248,7 +250,7 @@ function formatTimeAgo(date: Date) {
                 Define criteria
               </p>
               <p class="text-[13px] text-muted-foreground mt-0.5 leading-snug">
-                Set what matters: cost, quality, fit. Give each a weight.
+                Set what matters: cost, quality. Give each a weight.
               </p>
             </div>
           </div>
@@ -313,47 +315,74 @@ function formatTimeAgo(date: Date) {
 
     <!-- Install Confirm Dialog -->
     <UiDialog :open="showInstallConfirm" @update:open="showInstallConfirm = $event">
-      <UiDialogContent class="max-w-[90vw] rounded-2xl">
+      <UiDialogContent>
         <UiDialogHeader>
-          <UiDialogTitle>Install Ranked Choices?</UiDialogTitle>
-          <UiDialogDescription>
+          <UiDialogTitle class="text-[22px] font-bold tracking-tight text-foreground">
+            Install Ranked Choices?
+          </UiDialogTitle>
+          <UiDialogDescription class="text-[15px] text-muted-foreground mt-2 leading-relaxed">
             Add the app to your home screen for instant access. Works offline, loads fast — no app store required.
           </UiDialogDescription>
         </UiDialogHeader>
-        <UiDialogFooter>
-          <UiButton variant="outline" class="flex-1" @click="showInstallConfirm = false">
+
+        <div class="flex gap-3 mt-4">
+          <button class="flex-1 py-3.5 rounded-[14px] bg-zinc-800 text-foreground font-semibold active-scale-down-sm transition-colors hover:bg-zinc-700" @click="showInstallConfirm = false">
             Cancel
-          </UiButton>
-          <UiButton class="flex-1" @click="doInstall">
-            <Download :size="15" class="mr-1.5" />
+          </button>
+          <button class="flex-1 py-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-primary text-primary-foreground font-semibold active-scale-down-sm transition-colors hover:bg-primary/90 shadow-md shadow-primary/20" @click="doInstall">
+            <Download :size="18" stroke-width="2.5" />
             Install
-          </UiButton>
-        </UiDialogFooter>
+          </button>
+        </div>
       </UiDialogContent>
     </UiDialog>
 
     <!-- iOS Install Instructions Dialog -->
     <UiDialog :open="showIOSInstructions" @update:open="showIOSInstructions = $event">
-      <UiDialogContent class="max-w-[90vw] rounded-2xl">
+      <UiDialogContent>
         <UiDialogHeader>
-          <UiDialogTitle>Install on iOS</UiDialogTitle>
-          <UiDialogDescription class="space-y-3 pt-2">
-            <p>To install this app on your iPhone or iPad:</p>
-            <ol class="space-y-2 text-sm list-decimal list-inside text-foreground">
-              <li>Tap the <strong>Share button</strong> (square with arrow) at the bottom of Safari</li>
-              <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
-              <li>Tap <strong>Add</strong> in the top right corner</li>
-            </ol>
-            <p class="text-xs text-muted-foreground pt-2">
-              The app will appear on your home screen and work offline!
-            </p>
+          <UiDialogTitle class="text-[22px] font-bold tracking-tight text-foreground">
+            Install on iOS
+          </UiDialogTitle>
+          <UiDialogDescription class="text-[15px] text-muted-foreground mt-2">
+            To install this app on your iPhone or iPad:
           </UiDialogDescription>
         </UiDialogHeader>
-        <UiDialogFooter>
-          <UiButton class="w-full" @click="showIOSInstructions = false">
-            Got it
-          </UiButton>
-        </UiDialogFooter>
+
+        <div class="ios-list p-0 my-5 shadow-sm overflow-hidden border border-white/5">
+          <div class="p-4 flex items-start gap-4 border-b border-white/5">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">1</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Tap the <strong class="font-semibold text-primary">Share button</strong> (square with arrow) at the bottom of Safari.
+            </p>
+          </div>
+          <div class="p-4 flex items-start gap-4 border-b border-white/5">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">2</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Scroll down and tap <strong class="font-semibold text-primary">Add to Home Screen</strong>.
+            </p>
+          </div>
+          <div class="p-4 flex items-start gap-4">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">3</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Tap <strong class="font-semibold text-primary">Add</strong> in the top right corner.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-[14px] text-center text-zinc-500 mb-6 font-medium">
+          The app will appear on your home screen and work fully offline!
+        </p>
+
+        <button class="w-full h-14 rounded-[16px] bg-primary text-primary-foreground text-[17px] font-semibold active-scale-down transition-colors hover:bg-primary/90 shadow-md shadow-primary/20 tracking-wide" @click="showIOSInstructions = false">
+          Got it
+        </button>
       </UiDialogContent>
     </UiDialog>
 

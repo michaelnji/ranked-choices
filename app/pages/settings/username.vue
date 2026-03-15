@@ -41,21 +41,22 @@ async function saveUsername() {
 </script>
 
 <template>
-  <div class="animate-fade-in-up">
+  <div class="animate-fade-in-up pb-24">
     <AppHeader
       title="Edit Username"
       back="/settings"
-      back-label="Back to settings"
+      back-label="Done"
     />
 
-    <div class="px-5 pt-5 pb-8 space-y-6">
-      <UiCard>
-        <UiCardContent class="space-y-5 pt-6">
-          <div class="space-y-2">
-            <UiLabel for="username-input" class="text-label ml-1">
-              Your name
-            </UiLabel>
-            <UiInput
+    <div class="px-5 pt-6 space-y-8">
+      <!-- Input Group -->
+      <div class="space-y-2">
+        <label for="username-input" class="text-[13px] font-medium text-muted-foreground uppercase tracking-wider ml-4">
+          Your Name
+        </label>
+        <div class="ios-list">
+          <div class="ios-list-item h-14">
+            <input
               id="username-input"
               v-model="username"
               type="text"
@@ -63,29 +64,35 @@ async function saveUsername() {
               autocomplete="off"
               autocorrect="off"
               autocapitalize="words"
+              class="w-full h-full bg-transparent border-none outline-none text-[17px] text-foreground placeholder:text-muted-foreground/50 px-2"
               @keydown.enter="saveUsername"
-            />
-            <p class="text-xs text-muted-foreground px-1">
-              This is how we'll greet you across the app.
-            </p>
+            >
           </div>
+        </div>
+        <p class="text-[13px] text-muted-foreground ml-4 mt-2">
+          This is how we'll greet you across the app.
+        </p>
+      </div>
 
-          <!-- Live preview -->
-          <div class="rounded-xl bg-primary/5 border border-primary/15 px-4 py-3 text-center">
-            <p class="text-base font-bold text-display text-foreground">
-              Hello, {{ username.trim() || '…' }} 👋
-            </p>
-          </div>
+      <!-- Live preview -->
+      <div v-if="username.trim()" class="flex flex-col items-center justify-center p-8 bg-secondary/30 rounded-[32px] border border-border/50 backdrop-blur-md animate-fade-in">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+          <span class="text-2xl">👋</span>
+        </div>
+        <p class="text-xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent text-center">
+          Hello, {{ username.trim() }}
+        </p>
+      </div>
 
-          <UiButton
-            class="w-full"
-            :disabled="!username.trim() || isSaving"
-            @click="saveUsername"
-          >
-            {{ isSaving ? 'Saving…' : 'Save Username' }}
-          </UiButton>
-        </UiCardContent>
-      </UiCard>
+      <!-- Action Button -->
+      <button
+        class="w-full h-14 bg-primary text-primary-foreground font-semibold text-[17px] rounded-[20px] active-scale-down transition-all flex items-center justify-center disabled:opacity-50 disabled:active:scale-100 shadow-sm"
+        :disabled="!username.trim() || isSaving"
+        @click="saveUsername"
+      >
+        <span v-if="isSaving" class="i-ph-spinner animate-spin mr-2 text-xl" />
+        {{ isSaving ? 'Saving…' : 'Save Username' }}
+      </button>
     </div>
   </div>
 </template>

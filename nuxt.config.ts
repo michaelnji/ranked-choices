@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   components: [
@@ -20,6 +21,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
   ],
   pwa: {
+    strategies: 'generateSW',
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
     manifest: {
@@ -43,6 +45,7 @@ export default defineNuxtConfig({
       categories: ['productivity', 'utilities'],
     },
     workbox: {
+      navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff,woff2}'],
       runtimeCaching: [
         {
@@ -53,6 +56,20 @@ export default defineNuxtConfig({
             expiration: {
               maxEntries: 10,
               maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/www\.michaelnji\.codes\/.*/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'external-images-cache',
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
             },
             cacheableResponse: {
               statuses: [0, 200],
