@@ -57,7 +57,7 @@ using namespace metal;
 ### Glass Effect with Three.js
 
 ```javascript
-import * as THREE from 'three';
+import * as THREE from 'three'
 
 const GlassShader = {
   vertexShader: `
@@ -95,16 +95,16 @@ const GlassShader = {
 
   uniforms: {
     time: { value: 0 },
-    color: { value: new THREE.Color(0x4facfe) },
+    color: { value: new THREE.Color(0x4FACFE) },
     opacity: { value: 0.8 }
   }
-};
+}
 
 // Use in your component
 const mesh = new THREE.Mesh(
   geometry,
   new THREE.ShaderMaterial(GlassShader)
-);
+)
 ```
 
 ## Shader Ideas for Unique UI

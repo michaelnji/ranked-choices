@@ -5,10 +5,10 @@ Deep reference for modern JavaScript UI patterns with native-feel animations and
 ## React: Micro-interactions with Framer Motion
 
 ```jsx
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
-const DelightfulCard = ({ item }) => {
-  const [isHovered, setIsHovered] = useState(false);
+function DelightfulCard({ item }) {
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <motion.div
@@ -18,7 +18,7 @@ const DelightfulCard = ({ item }) => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       transition={{
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 20
       }}
@@ -28,7 +28,7 @@ const DelightfulCard = ({ item }) => {
         animate={{
           y: isHovered ? -4 : 0,
         }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       >
         <div className="card-image-wrapper">
           <img src={item.image} alt={item.title} />
@@ -58,8 +58,8 @@ const DelightfulCard = ({ item }) => {
         </motion.button>
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
 ```
 
 ## Vue: Organic State Transitions
@@ -150,23 +150,23 @@ const handleHover = (id) => {
 
 **Framer Motion** (React):
 ```jsx
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion'
 
 // Spring physics
 <motion.div
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ type: "spring", stiffness: 300 }}
+  transition={{ type: 'spring', stiffness: 300 }}
 />
 ```
 
 **GSAP** (Any framework):
 ```javascript
-gsap.to(".element", {
+gsap.to('.element', {
   duration: 0.6,
   y: 0,
-  ease: "elastic.out(1, 0.5)"
-});
+  ease: 'elastic.out(1, 0.5)'
+})
 ```
 
 **react-spring**:
@@ -175,7 +175,7 @@ const props = useSpring({
   to: { opacity: 1, transform: 'translateY(0)' },
   from: { opacity: 0, transform: 'translateY(20px)' },
   config: { tension: 300, friction: 20 }
-});
+})
 ```
 
 ## Responsive Design Patterns
@@ -223,14 +223,15 @@ const props = useSpring({
 // Feature detection
 if ('IntersectionObserver' in window) {
   // Use intersection observer for lazy loading
-} else {
+}
+else {
   // Fallback to eager loading
 }
 
 // Reduced motion
 const prefersReducedMotion = window.matchMedia(
   '(prefers-reduced-motion: reduce)'
-).matches;
+).matches
 
 if (prefersReducedMotion) {
   // Use instant transitions

@@ -8,12 +8,22 @@ const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 const showDeleteDialog = ref(false)
 const showInstallConfirm = ref(false)
+const showIOSInstructions = ref(false)
 
-const { canInstall, isInstalled, promptInstall } = usePwaInstall()
+const { canInstall, canShowIOSInstructions, canShowInstallUI, isInstalled, promptInstall } = usePwaInstall()
 
 async function doInstall() {
   showInstallConfirm.value = false
   await promptInstall()
+}
+
+function showInstallDialog() {
+  if (canInstall.value) {
+    showInstallConfirm.value = true
+  }
+  else if (canShowIOSInstructions.value) {
+    showIOSInstructions.value = true
+  }
 }
 
 const username = ref<string>('')
@@ -127,11 +137,11 @@ function formatTimeAgo(date: Date) {
 
       <!-- Install button — hidden once app is installed -->
       <UiButton
-        v-if="canInstall && !isInstalled"
+        v-if="canShowInstallUI && !isInstalled"
         variant="outline"
         size="sm"
         class="gap-1.5 h-8 text-xs border-primary/30 text-primary hover:bg-primary/10 hover:text-primary hover:border-primary/50 shrink-0"
-        @click="showInstallConfirm = true"
+        @click="showInstallDialog"
       >
         <Download :size="16" />
         Install
@@ -297,6 +307,31 @@ function formatTimeAgo(date: Date) {
           <UiButton class="flex-1" @click="doInstall">
             <Download :size="15" class="mr-1.5" />
             Install
+          </UiButton>
+        </UiDialogFooter>
+      </UiDialogContent>
+    </UiDialog>
+
+    <!-- iOS Install Instructions Dialog -->
+    <UiDialog :open="showIOSInstructions" @update:open="showIOSInstructions = $event">
+      <UiDialogContent class="max-w-[90vw] rounded-2xl">
+        <UiDialogHeader>
+          <UiDialogTitle>Install on iOS</UiDialogTitle>
+          <UiDialogDescription class="space-y-3 pt-2">
+            <p>To install this app on your iPhone or iPad:</p>
+            <ol class="space-y-2 text-sm list-decimal list-inside text-foreground">
+              <li>Tap the <strong>Share button</strong> (square with arrow) at the bottom of Safari</li>
+              <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+              <li>Tap <strong>Add</strong> in the top right corner</li>
+            </ol>
+            <p class="text-xs text-muted-foreground pt-2">
+              The app will appear on your home screen and work offline!
+            </p>
+          </UiDialogDescription>
+        </UiDialogHeader>
+        <UiDialogFooter>
+          <UiButton class="w-full" @click="showIOSInstructions = false">
+            Got it
           </UiButton>
         </UiDialogFooter>
       </UiDialogContent>
