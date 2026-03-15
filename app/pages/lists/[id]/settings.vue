@@ -54,90 +54,139 @@ async function handleRename() {
 </script>
 
 <template>
-  <div v-if="list" class="space-y-8 animate-fade-in-up">
-    <AppHeader title="Settings" :subtitle="list.name" :back="`/lists/${listId}`" back-label="Back to list" />
+  <div v-if="list" class="space-y-6 pt-4 min-h-full animate-fade-in-up pb-32">
+    <!-- Header -->
+    <header class="px-5 flex items-center justify-between mb-2">
+      <NuxtLink :to="`/lists/${listId}`" class="active-scale-down-sm size-10 flex items-center justify-center -ml-2 text-primary">
+        <span class="text-[17px] font-medium tracking-tight">Done</span>
+      </NuxtLink>
+    </header>
 
-    <div class="px-6 pb-6 space-y-6">
+    <div class="px-5 space-y-8">
+      <div class="space-y-1">
+        <h1 class="text-3xl font-bold tracking-tight text-foreground">
+          Settings
+        </h1>
+        <p class="text-[15px] text-muted-foreground">
+          {{ list.name }}
+        </p>
+      </div>
+
       <!-- General Settings -->
-      <UiCard>
-        <UiCardContent class="space-y-6 ">
-          <h2 class="text-xl font-bold text-foreground">
-            General
-          </h2>
+      <div class="space-y-4">
+        <h2 class="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground ml-2">
+          General
+        </h2>
 
-          <div class="space-y-2">
-            <UiLabel for="list-name" class="text-label ml-1">
-              List Name
-            </UiLabel>
-            <UiInput
-              id="list-name" v-model="list.name" type="text"
+        <div class="ios-list shadow-md">
+          <div class="p-4 bg-transparent flex items-center gap-4">
+            <label for="list-name" class="text-[17px] text-foreground font-medium whitespace-nowrap">Name</label>
+            <input
+              id="list-name"
+              v-model="list.name"
+              type="text"
+              class="w-full bg-transparent border-0 text-[17px] text-zinc-400 focus:ring-0 text-right outline-none"
               @blur="handleRename"
-            />
+            >
           </div>
+        </div>
+      </div>
 
-          <div class="space-y-2">
-            <UiLabel id="ranking-mode-label" class="text-label ml-1">
-              Ranking Mode
-            </UiLabel>
-            <div role="group" aria-labelledby="ranking-mode-label" class="grid grid-cols-2 gap-3">
-              <UiButton
-                :variant="list.rankingMode === 'manual' ? 'default' : 'outline'" class="justify-center gap-2"
-                @click="updateRankingMode('manual')"
-              >
-                <GripVertical :size="18" />
-                Manual
-              </UiButton>
-              <UiButton
-                :variant="list.rankingMode === 'weighted' ? 'default' : 'outline'" class="justify-center gap-2"
-                @click="updateRankingMode('weighted')"
-              >
-                <BarChart2 :size="18" />
-                Weighted
-              </UiButton>
+      <!-- Ranking Mode -->
+      <div class="space-y-4">
+        <h2 class="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground ml-2">
+          Ranking Mode
+        </h2>
+
+        <div class="ios-list shadow-md">
+          <button
+            class="ios-list-item w-full flex items-center justify-between active-scale-down-sm group"
+            @click="updateRankingMode('manual')"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors" :class="list.rankingMode === 'manual' ? 'bg-primary' : 'bg-zinc-800'">
+                <GripVertical :size="16" :class="list.rankingMode === 'manual' ? 'text-primary-foreground' : 'text-zinc-400'" />
+              </div>
+              <div class="text-left">
+                <p class="text-[17px] font-medium text-foreground">
+                  Manual
+                </p>
+                <p class="text-[13px] text-muted-foreground">
+                  Drag and drop ordering
+                </p>
+              </div>
             </div>
-            <p class="text-xs text-muted-foreground px-1">
-              <span v-if="list.rankingMode === 'manual'">Drag and drop items to order them manually.</span>
-              <span v-else>Items are ordered based on weighted scores.</span>
-            </p>
-          </div>
-        </UiCardContent>
-      </UiCard>
+            <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors" :class="list.rankingMode === 'manual' ? 'border-primary' : 'border-zinc-700'">
+              <div v-if="list.rankingMode === 'manual'" class="w-2.5 h-2.5 rounded-full bg-primary animate-scale-in" />
+            </div>
+          </button>
 
-      <!-- Criteria Navigation Row -->
-      <NuxtLink :to="`/lists/${listId}/criteria`">
-        <UiCard class="hover:border-primary/30 transition-colors">
-          <UiCardContent class="flex items-center gap-4 px-3 py-0">
-            <div class="w-9 h-9 rounded-lg bg-success/10 flex items-center justify-center shrink-0">
-              <Scale :size="16" class="text-success" />
+          <button
+            class="ios-list-item w-full flex items-center justify-between active-scale-down-sm group border-t border-white/5"
+            @click="updateRankingMode('weighted')"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors" :class="list.rankingMode === 'weighted' ? 'bg-primary' : 'bg-zinc-800'">
+                <BarChart2 :size="16" :class="list.rankingMode === 'weighted' ? 'text-primary-foreground' : 'text-zinc-400'" />
+              </div>
+              <div class="text-left">
+                <p class="text-[17px] font-medium text-foreground">
+                  Weighted
+                </p>
+                <p class="text-[13px] text-muted-foreground">
+                  Intelligent scoring
+                </p>
+              </div>
+            </div>
+            <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors" :class="list.rankingMode === 'weighted' ? 'border-primary' : 'border-zinc-700'">
+              <div v-if="list.rankingMode === 'weighted'" class="w-2.5 h-2.5 rounded-full bg-primary animate-scale-in" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Configuration -->
+      <div class="space-y-4">
+        <h2 class="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground ml-2">
+          Configuration
+        </h2>
+
+        <div class="ios-list shadow-md">
+          <NuxtLink :to="`/lists/${listId}/criteria`" class="ios-list-item group">
+            <div class="w-8 h-8 rounded-full bg-success flex items-center justify-center shrink-0 shadow-sm shadow-success/30 mr-3">
+              <Scale :size="16" class="text-success-foreground" />
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold text-foreground">
+              <p class="text-[17px] font-medium text-foreground">
                 Criteria
               </p>
-              <p class="text-xs text-muted-foreground mt-0.5">
-                {{ criteria.length === 0 ? 'No criteria defined yet' : `${criteria.length} criterion${criteria.length !== 1 ? 'a' : 'on'} defined` }}
-              </p>
             </div>
-            <ChevronRight :size="16" class="text-muted-foreground shrink-0" />
-          </UiCardContent>
-        </UiCard>
-      </NuxtLink>
+            <div class="flex items-center gap-2">
+              <p class="text-[15px] text-muted-foreground truncate">
+                {{ criteria.length === 0 ? 'None' : criteria.length }}
+              </p>
+              <ChevronRight :size="20" class="text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
 
       <!-- Danger Zone -->
-      <UiCard class="border-destructive/30 bg-destructive/5">
-        <UiCardContent class="space-y-4 pt-6">
-          <h2 class="text-xl font-bold text-destructive">
-            Danger Zone
-          </h2>
-          <p class="text-sm text-muted-foreground">
-            Once you delete a list, there is no going back. Please be certain.
-          </p>
-          <UiButton variant="destructive" class="w-full" @click="showDeleteDialog = true">
-            <Trash2 :size="18" class="mr-2" />
-            Delete List
-          </UiButton>
-        </UiCardContent>
-      </UiCard>
+      <div class="pt-4">
+        <div class="ios-list shadow-md ring-destructive/20 border border-destructive/10">
+          <button class="ios-list-item w-full text-left active-scale-down-sm flex items-center gap-3" @click="showDeleteDialog = true">
+            <Trash2 :size="20" class="text-destructive shrink-0" />
+            <div class="flex-1 min-w-0">
+              <p class="text-[17px] font-medium text-destructive">
+                Delete List
+              </p>
+            </div>
+          </button>
+        </div>
+        <p class="text-[13px] text-muted-foreground text-center mt-3">
+          This action cannot be undone.
+        </p>
+      </div>
     </div>
 
     <!-- Delete Confirmation Dialog -->

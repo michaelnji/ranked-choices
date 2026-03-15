@@ -64,94 +64,105 @@ function toggleScore(criteriaId: number) {
 </script>
 
 <template>
-  <div v-if="isReady" class="space-y-8 animate-fade-in-up">
+  <div v-if="isReady" class="min-h-screen bg-background pb-32 animate-fade-in-up">
     <AppHeader title="Edit Item" subtitle="Update details" :back="`/lists/${listId}/items/${itemId}`" />
 
-    <div class="px-6 pb-6">
-      <UiCard>
-        <UiCardContent class="pt-6">
-          <form class="space-y-8" @submit.prevent="handleSave">
-            <!-- Name Input -->
-            <div class="space-y-2">
-              <UiLabel for="item-name" class="text-label ml-1">
-                Item Name
-              </UiLabel>
-              <UiInput
-                id="item-name" v-model="name" type="text"
-                class="h-14 text-lg" autofocus
-              />
-            </div>
-
-            <!-- Criteria Selection -->
-            <div v-if="criteria.length > 0" class="space-y-4">
-              <div class="pb-2">
-                <h3 id="criteria-match-label" class="text-lg font-bold text-foreground">
-                  Criteria Match
-                </h3>
-                <p class="text-sm text-muted-foreground">
-                  Select all criteria that apply to this item.
-                </p>
-              </div>
-              <UiSeparator />
-
-              <div class="grid gap-3" role="group" aria-labelledby="criteria-match-label">
-                <button
-                  v-for="c in criteria" :key="c.id"
-                  role="checkbox"
-                  :aria-checked="(scores[c.id!] || 0) > 0"
-                  type="button"
-                  class="group relative flex items-center justify-between p-4 rounded-xl border transition-all text-left active:scale-[0.97]"
-                  :class="(scores[c.id!] || 0) > 0
-                    ? 'bg-primary/10 border-primary text-foreground'
-                    : 'bg-background border-zinc-800 text-muted-foreground hover:border-muted-foreground/50'"
-                  @click="c.id && toggleScore(c.id)"
-                >
-                  <span class="font-bold text-lg">{{ c.name }}</span>
-                  <div
-                    class="w-6 h-6 rounded-full border flex items-center justify-center transition-all" :class="(scores[c.id!] || 0) > 0
-                      ? 'bg-primary border-primary text-primary-foreground'
-                      : 'border-muted-foreground/50 group-hover:border-muted-foreground'"
-                  >
-                    <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="4" aria-hidden="true" class="animate-scale-in" />
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            <!-- Save Button -->
-            <UiButton type="submit" class="w-full h-14 text-lg" :disabled="!name.trim()">
-              <Save :size="22" class="mr-2" />
-              Save Changes
-            </UiButton>
-
-            <!-- Delete Button -->
-            <UiButton
-              type="button" variant="ghost" class="w-full text-destructive hover:bg-destructive/10 hover:text-destructive"
-              @click="showDeleteDialog = true"
+    <div class="px-5 mt-6 space-y-8">
+      <form class="space-y-8" @submit.prevent="handleSave">
+        <!-- Item Name -->
+        <div class="space-y-2">
+          <label for="item-name" class="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground ml-2">
+            Item Name
+          </label>
+          <div class="ios-list p-1 shadow-sm">
+            <input
+              id="item-name"
+              v-model="name"
+              type="text"
+              placeholder="Enter item name..."
+              class="w-full bg-transparent border-0 px-4 py-3.5 text-[19px] font-medium text-foreground placeholder:text-zinc-600 focus:ring-0 focus:outline-none"
+              autofocus
             >
-              <Trash2 :size="18" class="mr-2" />
-              Delete Item
-            </UiButton>
-          </form>
-        </UiCardContent>
-      </UiCard>
+          </div>
+        </div>
+
+        <!-- Criteria Selection -->
+        <div v-if="criteria.length > 0" class="space-y-2">
+          <div class="mb-2">
+            <h3 id="criteria-match-label" class="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground ml-2">
+              Criteria Match
+            </h3>
+          </div>
+
+          <div class="ios-list p-0 overflow-hidden shadow-sm" role="group" aria-labelledby="criteria-match-label">
+            <button
+              v-for="(c, idx) in criteria" :key="c.id"
+              role="checkbox"
+              :aria-checked="(scores[c.id!] || 0) > 0"
+              type="button"
+              class="ios-list-item w-full flex items-center justify-between p-4 px-5 active-scale-down-sm relative"
+              @click="c.id && toggleScore(c.id)"
+            >
+              <span class="text-[17px] font-medium transition-colors text-foreground">
+                {{ c.name }}
+              </span>
+
+              <!-- Custom Native-Feeling Checkbox -->
+              <div
+                class="w-7 h-7 rounded-full border-[1.5px] flex items-center justify-center transition-all duration-300"
+                :class="(scores[c.id!] || 0) > 0
+                  ? 'bg-primary border-primary text-primary-foreground'
+                  : 'border-zinc-700 bg-zinc-800/50'"
+              >
+                <Check v-if="(scores[c.id!] || 0) > 0" :size="16" :stroke-width="3.5" class="animate-in zoom-in text-white" />
+              </div>
+
+              <!-- Separator line -->
+              <div v-if="idx !== criteria.length - 1" class="h-[1px] bg-white/5 absolute bottom-0 left-5 right-0 pointer-events-none" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="space-y-4 pt-4">
+          <button
+            type="submit"
+            class="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-4 rounded-[14px] font-semibold text-[17px] active-scale-down shadow-md disabled:opacity-50 transition-opacity"
+            :disabled="!name.trim()"
+          >
+            <Save :size="20" />
+            Save Changes
+          </button>
+
+          <button
+            type="button"
+            class="w-full flex items-center justify-center gap-2 bg-destructive/10 text-destructive py-4 rounded-[14px] font-semibold text-[17px] active-scale-down"
+            @click="showDeleteDialog = true"
+          >
+            <Trash2 :size="20" />
+            Delete Item
+          </button>
+        </div>
+      </form>
     </div>
 
     <!-- Delete Confirmation Dialog -->
     <UiAlertDialog :open="showDeleteDialog" @update:open="showDeleteDialog = $event">
-      <UiAlertDialogContent>
+      <UiAlertDialogContent class="bg-zinc-900 border border-white/10 rounded-[24px]">
         <UiAlertDialogHeader>
-          <UiAlertDialogTitle>Delete Item?</UiAlertDialogTitle>
-          <UiAlertDialogDescription>
+          <UiAlertDialogTitle class="text-[20px] font-semibold text-foreground tracking-tight">
+            Delete Item?
+          </UiAlertDialogTitle>
+          <UiAlertDialogDescription class="text-[15px] text-muted-foreground">
             This action cannot be undone. The item and its scores will be lost forever.
           </UiAlertDialogDescription>
         </UiAlertDialogHeader>
-        <UiAlertDialogFooter>
-          <UiAlertDialogCancel @click="showDeleteDialog = false">
+        <UiAlertDialogFooter class="gap-2 sm:gap-0 mt-2">
+          <UiAlertDialogCancel class="rounded-xl border-white/10 text-foreground active-scale-down-sm" @click="showDeleteDialog = false">
             Cancel
           </UiAlertDialogCancel>
           <UiAlertDialogAction
-            class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            class="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90 active-scale-down-sm font-semibold"
             @click="confirmRemove"
           >
             Delete

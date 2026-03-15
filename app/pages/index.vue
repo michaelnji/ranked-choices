@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Calendar1, Download, Layers, LayoutList, Plus, Scale, Target, TrendingUp } from 'lucide-vue-next'
+import { ChevronRight, Download, Layers, LayoutList, Plus, Scale, Target, TrendingUp } from 'lucide-vue-next'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useLists } from '~/composables/useLists'
 import { db } from '~/utils/db'
@@ -8,12 +8,22 @@ const { lists, fetchLists, deleteList } = useLists()
 const deleteCandidateId = ref<number | null>(null)
 const showDeleteDialog = ref(false)
 const showInstallConfirm = ref(false)
+const showIOSInstructions = ref(false)
 
-const { canInstall, isInstalled, promptInstall } = usePwaInstall()
+const { canInstall, canShowIOSInstructions, canShowInstallUI, isInstalled, promptInstall } = usePwaInstall()
 
 async function doInstall() {
   showInstallConfirm.value = false
   await promptInstall()
+}
+
+function showInstallDialog() {
+  if (canInstall.value) {
+    showInstallConfirm.value = true
+  }
+  else if (canShowIOSInstructions.value) {
+    showIOSInstructions.value = true
+  }
 }
 
 const username = ref<string>('')
@@ -111,194 +121,268 @@ function formatTimeAgo(date: Date) {
 </script>
 
 <template>
-  <div class="p-5 space-y-12 animate-fade-in-up">
-    <!-- Header -->
-    <div class="flex items-center justify-between pt-1">
-      <div class="flex items-center gap-2.5">
-        <svg width="16" height="16" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
-          <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
-          <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
-        </svg>
-        <h1 class="text-lg font-medium! text-display text-foreground">
-          Ranked Choices
+  <div class="px-5 pt-8 pb-32! min-h-full flex flex-col gap-8 animate-fade-in-up">
+    <!-- Native Large Title Header -->
+    <header class="flex items-end justify-between pt-4">
+      <div class="space-y-1">
+        <!-- Optional smaller brand label above the large title -->
+        <div class="flex items-center gap-2 mb-2 opacity-80">
+          <svg width="14" height="14" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
+            <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
+            <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
+          </svg>
+          <span class="text-xs font-semibold tracking-wider uppercase text-muted-foreground">Ranked</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground">
+          <template v-if="isLoadingProfile">
+            <div class="h-9 w-44 rounded-lg bg-zinc-800 animate-pulse mt-1" />
+          </template>
+          <template v-else>
+            <div class="flex items-center gap-3">
+              {{ greeting }}<span v-if="username" class="text-primary">{{ username }}</span>
+            </div>
+          </template>
         </h1>
       </div>
 
-      <!-- Install button — hidden once app is installed -->
-      <UiButton
-        v-if="canInstall && !isInstalled"
-        variant="outline"
-        size="sm"
-        class="gap-1.5 h-8 text-xs border-primary/30 text-primary hover:bg-primary/10 hover:text-primary hover:border-primary/50 shrink-0"
-        @click="showInstallConfirm = true"
+      <!-- Install button — positioned naturally -->
+      <button
+        v-if="canShowInstallUI && !isInstalled"
+        class="active-scale-down-sm flex items-center justify-center size-10 rounded-full bg-zinc-800 text-primary shrink-0 relative overflow-hidden"
+        aria-label="Install App" @click="showInstallDialog"
       >
-        <Download :size="16" />
-        Install
-      </UiButton>
-    </div>
+        <div class="absolute inset-0 bg-primary/10 rounded-full" />
+        <Download :size="18" class="relative z-10" />
+      </button>
+    </header>
 
-    <!-- Greeting + Stats -->
-    <div class="space-y-6">
-      <div>
-        <template v-if="isLoadingProfile">
-          <div class="h-6 w-44 rounded-lg bg-muted animate-pulse" />
-        </template>
-        <template v-else>
-          <p class="text-2xl font-medium text-foreground">
-            {{ greeting }}{{ username ? `, ${username}` : '' }} 👋
+    <!-- Stats Grid -->
+    <div v-if="lists.length > 0" class="grid grid-cols-3 gap-3">
+      <div
+        class="active-scale-down-sm animate-fade-in-up stagger-1 relative overflow-hidden rounded-[20px] bg-zinc-900/80 p-3.5 ring-1 ring-white/5 flex flex-col gap-3 group"
+      >
+        <div
+          class="absolute -top-6 -right-6 w-16 h-16 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/30 transition-colors"
+        />
+        <div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+          <LayoutList :size="16" class="text-primary" />
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-foreground tabular-nums tracking-tight">
+            {{ animatedLists }}
           </p>
-        </template>
+          <p class="text-[11px] font-medium text-muted-foreground mt-0.5 uppercase tracking-wide">
+            {{ lists.length === 1 ? 'List' : 'Lists' }}
+          </p>
+        </div>
       </div>
 
-      <!-- Stats Grid -->
-      <div v-if="lists.length > 0" class="grid grid-cols-3 gap-2">
-        <div class="animate-fade-in-up stagger-1 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
-          <div class="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
-            <LayoutList :size="16" class="text-primary" />
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
-              {{ animatedLists }}
-            </p>
-            <p class="text-xs text-muted-foreground mt-1 leading-tight">
-              {{ lists.length === 1 ? 'list' : 'lists' }}
-            </p>
-          </div>
+      <div
+        class="active-scale-down-sm animate-fade-in-up stagger-2 relative overflow-hidden rounded-[20px] bg-zinc-900/80 p-3.5 ring-1 ring-white/5 flex flex-col gap-3 group"
+      >
+        <div
+          class="absolute -top-6 -right-6 w-16 h-16 bg-success/20 blur-xl rounded-full group-hover:bg-success/30 transition-colors"
+        />
+        <div class="w-8 h-8 rounded-full bg-success/15 flex items-center justify-center shrink-0">
+          <Layers :size="16" class="text-success" />
         </div>
-
-        <div class="animate-fade-in-up stagger-2 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
-          <div class="w-7 h-7 rounded-lg bg-success/15 flex items-center justify-center shrink-0">
-            <Layers :size="16" class="text-success" />
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
-              {{ animatedItems }}
-            </p>
-            <p class="text-xs text-muted-foreground mt-1 leading-tight">
-              {{ totalItems === 1 ? 'item' : 'items' }}
-            </p>
-          </div>
+        <div>
+          <p class="text-2xl font-bold text-foreground tabular-nums tracking-tight">
+            {{ animatedItems }}
+          </p>
+          <p class="text-[11px] font-medium text-muted-foreground mt-0.5 uppercase tracking-wide">
+            {{ totalItems === 1 ? 'Item' : 'Items' }}
+          </p>
         </div>
+      </div>
 
-        <div class="animate-fade-in-up stagger-3 bg-card border border-border rounded-xl p-3 flex flex-col gap-2">
-          <div class="w-7 h-7 rounded-lg bg-warning/15 flex items-center justify-center shrink-0">
-            <TrendingUp :size="16" class="text-warning" />
-          </div>
-          <div>
-            <p class="text-2xl font-bold text-display text-foreground tabular-nums leading-none">
-              {{ animatedAvg }}
-            </p>
-            <p class="text-xs text-muted-foreground mt-1 leading-tight">
-              avg per list
-            </p>
-          </div>
+      <div
+        class="active-scale-down-sm animate-fade-in-up stagger-3 relative overflow-hidden rounded-[20px] bg-zinc-900/80 p-3.5 ring-1 ring-white/5 flex flex-col gap-3 group"
+      >
+        <div
+          class="absolute -top-6 -right-6 w-16 h-16 bg-warning/20 blur-xl rounded-full group-hover:bg-warning/30 transition-colors"
+        />
+        <div class="w-8 h-8 rounded-full bg-warning/15 flex items-center justify-center shrink-0">
+          <TrendingUp :size="16" class="text-warning" />
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-foreground tabular-nums tracking-tight">
+            {{ animatedAvg }}
+          </p>
+          <p class="text-[11px] font-medium text-muted-foreground mt-0.5 uppercase tracking-wide">
+            Avg / List
+          </p>
         </div>
       </div>
     </div>
 
     <!-- Empty State with Inline Onboarding -->
-    <div v-if="lists.length === 0" class="space-y-6">
-      <div class="space-y-4">
-        <p class="text-label">
+    <div v-if="lists.length === 0" class="flex-1 flex flex-col justify-center space-y-8 pb-32 animate-fade-in">
+      <div class="space-y-6 bg-zinc-900/60 backdrop-blur-xl rounded-[24px] p-6 ring-1 ring-white/5">
+        <h2 class="text-lg font-semibold text-foreground">
           How it works
-        </p>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
-              <LayoutList :size="16" />
-            </span>
-            <div>
+        </h2>
+        <div class="space-y-5">
+          <div class="flex items-start gap-4">
+            <div
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary shrink-0 ring-1 ring-primary/20"
+            >
+              <LayoutList :size="20" stroke-width="2.5" />
+            </div>
+            <div class="pt-0.5">
               <p class="text-sm font-semibold text-foreground">
                 Create a list
               </p>
-              <p class="text-xs text-muted-foreground mt-0.5">
+              <p class="text-[13px] text-muted-foreground mt-0.5 leading-snug">
                 Name your decision — "Best Laptops", "Vacation Spots"
               </p>
             </div>
           </div>
-          <div class="flex items-start gap-3">
-            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-success/10 text-success shrink-0 mt-0.5">
-              <Scale :size="16" />
-            </span>
-            <div>
+          <div class="flex items-start gap-4">
+            <div
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-success/10 text-success shrink-0 ring-1 ring-success/20"
+            >
+              <Scale :size="20" stroke-width="2.5" />
+            </div>
+            <div class="pt-0.5">
               <p class="text-sm font-semibold text-foreground">
                 Define criteria
               </p>
-              <p class="text-xs text-muted-foreground mt-0.5">
-                Set what matters: cost, quality, fit. Give each a weight.
+              <p class="text-[13px] text-muted-foreground mt-0.5 leading-snug">
+                Set what matters: cost, quality. Give each a weight.
               </p>
             </div>
           </div>
-          <div class="flex items-start gap-3">
-            <span class="flex items-center justify-center w-6 h-6 rounded-md bg-warning/10 text-warning shrink-0 mt-0.5">
-              <Target :size="16" />
-            </span>
-            <div>
+          <div class="flex items-start gap-4">
+            <div
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-warning/10 text-warning shrink-0 ring-1 ring-warning/20"
+            >
+              <Target :size="20" stroke-width="2.5" />
+            </div>
+            <div class="pt-0.5">
               <p class="text-sm font-semibold text-foreground">
                 Score &amp; rank
               </p>
-              <p class="text-xs text-muted-foreground mt-0.5">
+              <p class="text-[13px] text-muted-foreground mt-0.5 leading-snug">
                 Add options and see which one wins based on your criteria.
               </p>
             </div>
           </div>
         </div>
       </div>
-      <NuxtLink to="/new">
-        <UiButton class="w-full" size="lg">
-          <Plus :size="16" class="mr-2" />
+      <NuxtLink to="/new" class="active-scale-down block">
+        <UiButton
+          class="w-full h-14 rounded-2xl text-[15px] font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 border-0"
+        >
+          <Plus :size="20" class="mr-2" stroke-width="2.5" />
           Create your first list
         </UiButton>
       </NuxtLink>
     </div>
 
     <!-- List Items -->
-    <ul v-else class="space-y-2 mt-8">
-      <li v-for="list in lists" :key="list.id">
-        <NuxtLink :to="`/lists/${list.id}`">
-          <div
-            class="group flex items-center gap-3 bg-card border border-zinc-800 rounded-lg px-4 py-3 hover:border-primary/30 transition-all"
-          >
-            <div class="flex-1 min-w-0">
-              <h2 class="text-base font-medium text-foreground truncate">
-                {{ list.name }}
-              </h2>
-              <div class="flex items-center gap-2 mt-1">
-                <span class="flex items-center gap-1 text-xs text-muted-foreground">
-                  <LayoutList :size="11" />
-                  {{ list.itemCount }} items
-                </span>
-                <span class="text-muted-foreground/40">·</span>
-                <span class="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Calendar1 :size="11" />
-                  {{ formatTimeAgo(list.createdAt) }}
-                </span>
-              </div>
+    <div v-else class="space-y-3 animate-fade-in-up stagger-4">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-[15px] font-semibold text-foreground tracking-tight">
+          Your Lists
+        </h2>
+      </div>
+
+      <div class="ios-list">
+        <NuxtLink v-for="list in lists" :key="list.id" :to="`/lists/${list.id}`" class="ios-list-item group">
+          <div class="flex-1 min-w-0 py-1">
+            <h3 class="text-[15px] font-medium text-foreground truncate tracking-tight">
+              {{ list.name }}
+            </h3>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="flex items-center gap-1 text-[13px] text-muted-foreground">
+                {{ list.itemCount }} items
+              </span>
+              <span class="text-zinc-600">·</span>
+              <span class="flex items-center gap-1 text-[13px] text-muted-foreground">
+                {{ formatTimeAgo(list.createdAt) }}
+              </span>
             </div>
           </div>
+          <ChevronRight
+            :size="18"
+            class="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0 translate-x-1 group-hover:translate-x-0"
+          />
         </NuxtLink>
-      </li>
-    </ul>
+      </div>
+    </div>
 
     <!-- Install Confirm Dialog -->
     <UiDialog :open="showInstallConfirm" @update:open="showInstallConfirm = $event">
-      <UiDialogContent class="max-w-[90vw] rounded-2xl">
+      <UiDialogContent>
         <UiDialogHeader>
-          <UiDialogTitle>Install Ranked Choices?</UiDialogTitle>
-          <UiDialogDescription>
+          <UiDialogTitle class="text-[22px] font-bold tracking-tight text-foreground">
+            Install Ranked Choices?
+          </UiDialogTitle>
+          <UiDialogDescription class="text-[15px] text-muted-foreground mt-2 leading-relaxed">
             Add the app to your home screen for instant access. Works offline, loads fast — no app store required.
           </UiDialogDescription>
         </UiDialogHeader>
-        <UiDialogFooter>
-          <UiButton variant="outline" class="flex-1" @click="showInstallConfirm = false">
+
+        <div class="flex gap-3 mt-4">
+          <button class="flex-1 py-3.5 rounded-[14px] bg-zinc-800 text-foreground font-semibold active-scale-down-sm transition-colors hover:bg-zinc-700" @click="showInstallConfirm = false">
             Cancel
-          </UiButton>
-          <UiButton class="flex-1" @click="doInstall">
-            <Download :size="15" class="mr-1.5" />
+          </button>
+          <button class="flex-1 py-3.5 flex items-center justify-center gap-2 rounded-[14px] bg-primary text-primary-foreground font-semibold active-scale-down-sm transition-colors hover:bg-primary/90 shadow-md shadow-primary/20" @click="doInstall">
+            <Download :size="18" stroke-width="2.5" />
             Install
-          </UiButton>
-        </UiDialogFooter>
+          </button>
+        </div>
+      </UiDialogContent>
+    </UiDialog>
+
+    <!-- iOS Install Instructions Dialog -->
+    <UiDialog :open="showIOSInstructions" @update:open="showIOSInstructions = $event">
+      <UiDialogContent>
+        <UiDialogHeader>
+          <UiDialogTitle class="text-[22px] font-bold tracking-tight text-foreground">
+            Install on iOS
+          </UiDialogTitle>
+          <UiDialogDescription class="text-[15px] text-muted-foreground mt-2">
+            To install this app on your iPhone or iPad:
+          </UiDialogDescription>
+        </UiDialogHeader>
+
+        <div class="ios-list p-0 my-5 shadow-sm overflow-hidden border border-white/5">
+          <div class="p-4 flex items-start gap-4 border-b border-white/5">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">1</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Tap the <strong class="font-semibold text-primary">Share button</strong> (square with arrow) at the bottom of Safari.
+            </p>
+          </div>
+          <div class="p-4 flex items-start gap-4 border-b border-white/5">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">2</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Scroll down and tap <strong class="font-semibold text-primary">Add to Home Screen</strong>.
+            </p>
+          </div>
+          <div class="p-4 flex items-start gap-4">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 mt-0.5">
+              <span class="text-[14px] font-bold text-foreground">3</span>
+            </div>
+            <p class="text-[16px] text-foreground leading-snug">
+              Tap <strong class="font-semibold text-primary">Add</strong> in the top right corner.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-[14px] text-center text-zinc-500 mb-6 font-medium">
+          The app will appear on your home screen and work fully offline!
+        </p>
+
+        <button class="w-full h-14 rounded-[16px] bg-primary text-primary-foreground text-[17px] font-semibold active-scale-down transition-colors hover:bg-primary/90 shadow-md shadow-primary/20 tracking-wide" @click="showIOSInstructions = false">
+          Got it
+        </button>
       </UiDialogContent>
     </UiDialog>
 
@@ -324,9 +408,14 @@ function formatTimeAgo(date: Date) {
   </div>
 
   <!-- FAB — outside the animated wrapper so position:fixed isn't broken by transform -->
-  <NuxtLink v-if="lists.length > 0" to="/new" class="fixed bottom-22 right-4 z-40" aria-label="Create new list">
-    <UiButton size="icon-lg" class="size-12 rounded-full shadow-lg shadow-primary/20">
-      <Plus :size="48" />
-    </UiButton>
+  <NuxtLink
+    v-if="lists.length > 0" to="/new" class="fixed bottom-[90px] right-5 z-40 active-scale-down block"
+    aria-label="Create new list"
+  >
+    <button
+      class="flex items-center justify-center size-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 ring-1 ring-white/10 hover:bg-primary/90 transition-all"
+    >
+      <Plus :size="28" stroke-width="2.5" />
+    </button>
   </NuxtLink>
 </template>

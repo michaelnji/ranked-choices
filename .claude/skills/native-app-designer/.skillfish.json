@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "native-app-designer",
+  "owner": "erichowens",
+  "repo": "some_claude_skills",
+  "path": ".claude/skills/native-app-designer",
+  "branch": "main",
+  "sha": "31f530a0bbe7cb0616f78801611e2cbdeb917eee",
+  "source": "manual"
+}

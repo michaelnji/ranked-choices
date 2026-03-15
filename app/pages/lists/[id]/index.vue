@@ -34,7 +34,7 @@ onMounted(() => {
     </AppHeader>
 
     <!-- Main Content -->
-    <div class="flex-1 px-6 py-4 pb-24">
+    <div class="flex-1 px-5 py-4 pb-32">
       <RankingView
         :items="items" :criteria="criteria" :mode="list.rankingMode" :list-id="listId"
         @reorder="updateItemRanks"
@@ -42,14 +42,11 @@ onMounted(() => {
     </div>
 
     <!-- FAB -->
-    <div class="fixed bottom-3 right-6 z-30">
-      <NuxtLink :to="`/lists/${listId}/add`">
-        <UiButton
-          size="icon-lg" class="rounded-full size-12  shadow-lg hover:scale-105 active:scale-95 transition-all"
-          aria-label="Add item"
-        >
-          <Plus :size="24" :stroke-width="2.5" />
-        </UiButton>
+    <div class="fixed bottom-6 right-5 z-40">
+      <NuxtLink :to="`/lists/${listId}/add`" class="active-scale-down block" aria-label="Add item">
+        <button class="flex items-center justify-center size-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 ring-1 ring-white/10 hover:bg-primary/90 transition-all">
+          <Plus :size="28" stroke-width="2.5" />
+        </button>
       </NuxtLink>
     </div>
   </div>

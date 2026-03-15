@@ -45,7 +45,7 @@ const infoSteps = [
   {
     icon: UserRound,
     title: 'What should we call you?',
-    description: 'Set a username so we can personalise your experience.',
+    description: '',
     bgClass: 'bg-muted/60',
     iconClass: 'text-muted-foreground',
     dotClass: 'bg-foreground',
@@ -154,7 +154,7 @@ async function installAndFinish() {
     <Transition name="onboard">
       <div
         v-if="isOpen"
-        class="fixed inset-0 z-[9998] bg-background flex flex-col"
+        class="fixed inset-0 z-[9998] bg-zinc-950/70 backdrop-blur-2xl flex flex-col supports-[backdrop-filter]:bg-background/80"
         role="dialog"
         aria-modal="true"
         aria-label="Welcome to Ranked Choices"
@@ -163,15 +163,15 @@ async function installAndFinish() {
         <div
           v-if="isWelcomeStep"
           v-confetti="confettiOptions"
-          class="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          class="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none z-50"
           aria-hidden="true"
         />
 
         <!-- Top bar: Skip (info steps only) -->
-        <div class="flex justify-end items-center px-5 pt-5 shrink-0 h-14">
+        <div class="flex justify-end items-center px-6 pt-12 shrink-0 h-20">
           <button
             v-if="!isUsernameStep && !isWelcomeStep"
-            class="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2 -mr-3"
+            class="text-[17px] font-medium text-muted-foreground hover:text-foreground active-scale-down-sm transition-colors py-2 px-4 rounded-full bg-zinc-800/50 backdrop-blur-md border border-white/5"
             @click="skip"
           >
             Skip
@@ -182,28 +182,33 @@ async function installAndFinish() {
         <Transition :name="transitionName" mode="out-in">
           <div
             :key="currentStep"
-            class="flex-1 flex flex-col items-center justify-center px-8 pb-4"
+            class="flex-1 flex flex-col items-center justify-center px-8 pb-10 mt-[-5vh]"
           >
             <!-- Welcome step -->
             <template v-if="isWelcomeStep">
-              <span class="emoji-pop text-8xl mb-10 select-none" aria-hidden="true">🎊</span>
-              <h2 class="text-[2rem] text-display font-bold text-foreground text-center mb-3 leading-tight px-2">
+              <div class="emoji-pop text-[120px] mb-8 select-none filter drop-shadow-2xl" aria-hidden="true">
+                🎊
+              </div>
+              <h2 class="text-[36px] font-bold text-foreground text-center mb-4 leading-tight tracking-tight px-2">
                 Hey, {{ savedUsername }}!
               </h2>
-              <p class="text-base text-muted-foreground text-center leading-relaxed max-w-[300px]">
+              <p class="text-[17px] text-muted-foreground text-center leading-relaxed max-w-[320px] font-medium">
                 {{ step.description }}
               </p>
             </template>
 
             <!-- Install step -->
             <template v-else-if="isInstallStep">
-              <div class="w-44 h-44 rounded-[2.5rem] flex items-center justify-center mb-12 bg-primary/10">
-                <Smartphone :size="68" :stroke-width="1.25" class="text-primary" />
+              <div
+                class="w-40 h-40 rounded-[40px] flex items-center justify-center mb-10 bg-primary/20 shadow-2xl shadow-primary/20 border border-primary/20 ring-1 ring-primary/10 relative overflow-hidden group"
+              >
+                <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent" />
+                <Smartphone :size="64" class="text-primary relative z-10 drop-shadow-md" />
               </div>
-              <h2 class="text-[2rem] text-display font-bold text-foreground text-center mb-3 leading-tight px-2">
+              <h2 class="text-[36px] font-bold text-foreground text-center mb-4 leading-tight tracking-tight px-2">
                 {{ canInstall ? 'One tap away' : 'You\'re all set!' }}
               </h2>
-              <p class="text-base text-muted-foreground text-center leading-relaxed max-w-[300px]">
+              <p class="text-[17px] text-muted-foreground text-center leading-relaxed max-w-[320px] font-medium">
                 {{ canInstall
                   ? 'Add Ranked Choices to your home screen. Works offline, loads instantly — no app store needed.'
                   : 'Ranked Choices is ready to use. Make your first decision.' }}
@@ -214,11 +219,23 @@ async function installAndFinish() {
             <template v-else>
               <!-- Visual hero -->
               <div
-                class="w-44 h-44 rounded-[2.5rem] flex items-center justify-center mb-12 transition-colors duration-500"
-                :class="step.bgClass"
+                class="w-40 h-40 rounded-[40px] flex items-center justify-center mb-10 transition-colors duration-500 shadow-2xl border relative overflow-hidden"
+                :class="[
+                  step.bgClass,
+                  currentStep === 0 ? 'border-primary/20 shadow-primary/20'
+                  : currentStep === 1 ? 'border-success/20 shadow-success/20'
+                    : currentStep === 2 ? 'border-warning/20 shadow-warning/20'
+                      : 'border-white/5 shadow-white/5 bg-zinc-800',
+                ]"
               >
+                <!-- Subtle gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent mix-blend-overlay" />
+
                 <template v-if="currentStep === 0">
-                  <svg width="88" height="88" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <svg
+                    width="80" height="80" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                    class="relative z-10 drop-shadow-md"
+                  >
                     <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
                     <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
                     <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
@@ -227,48 +244,48 @@ async function installAndFinish() {
                 <component
                   :is="step.icon"
                   v-else
-                  :size="68"
-                  :stroke-width="1.25"
+                  :size="64" class="relative z-10 drop-shadow-md"
                   :class="step.iconClass"
                 />
               </div>
 
-              <h2 class="text-[2rem] text-display font-bold text-foreground text-center mb-3 leading-tight px-2">
+              <h2 class="text-[32px] font-bold text-foreground text-center mb-4 leading-tight tracking-tight px-2">
                 {{ step.title }}
               </h2>
-              <p class="text-base text-muted-foreground text-center leading-relaxed max-w-[300px]">
+              <p class="text-[17px] text-muted-foreground text-center leading-relaxed max-w-[320px] font-medium">
                 {{ step.description }}
               </p>
 
               <!-- Username input -->
-              <div v-if="isUsernameStep" class="w-full max-w-[300px] mt-6">
-                <UiInput
-                  v-model="username"
-                  placeholder="Enter your name…"
-                  class="text-center text-base h-12"
-                  maxlength="32"
-                  autofocus
-                  @keydown.enter="saveAndContinue"
-                />
+              <div v-if="isUsernameStep" class="w-full max-w-[320px] mt-8">
+                <div class="ios-list p-1 shadow-lg border border-white/5">
+                  <input
+                    v-model="username" placeholder="Enter your name…"
+                    class="w-full h-[56px] text-center text-[19px] font-medium bg-transparent border-0 focus:ring-0 outline-none text-foreground placeholder:text-zinc-600 rounded-xl"
+                    maxlength="32" autofocus @keydown.enter="saveAndContinue"
+                  >
+                </div>
               </div>
             </template>
           </div>
         </Transition>
 
         <!-- Bottom controls -->
-        <div class="shrink-0 px-6 pb-10 space-y-5">
-          <!-- Step dots (6 total, welcome + install dots not tappable) -->
-          <div class="flex justify-center gap-2">
+        <div
+          class="shrink-0 px-6 pb-12 pt-6 space-y-8 bg-gradient-to-t from-background via-background/95 to-transparent relative z-20"
+        >
+          <!-- Step dots -->
+          <div class="flex justify-center gap-2.5">
             <button
               v-for="(s, i) in infoSteps"
               :key="i"
               class="rounded-full transition-all duration-300"
               :class="[
                 i === currentStep
-                  ? `w-6 h-2 ${s.dotClass}`
+                  ? `w-8 h-2.5 ${s.dotClass} shadow-md`
                   : i < currentStep
-                    ? `w-2 h-2 ${s.dotClass} opacity-50`
-                    : 'w-2 h-2 bg-muted',
+                    ? `w-2.5 h-2.5 ${s.dotClass} opacity-60`
+                    : 'w-2.5 h-2.5 bg-zinc-800 border border-white/5',
                 i === WELCOME_STEP || i === INSTALL_STEP ? 'cursor-default' : 'cursor-pointer',
               ]"
               :aria-label="i < WELCOME_STEP ? `Go to step ${i + 1}` : undefined"
@@ -277,32 +294,35 @@ async function installAndFinish() {
             />
           </div>
 
-          <UiButton
-            class="w-full h-12 text-base"
-            :disabled="saving"
-            @click="isInstallStep ? (canInstall ? installAndFinish() : finish()) : isUsernameStep ? saveAndContinue() : next()"
-          >
-            <template v-if="isInstallStep">
-              <Smartphone :size="18" class="mr-2" />
-              {{ canInstall ? 'Install App' : 'Get Started' }}
-            </template>
-            <template v-else-if="saving">
-              Saving…
-            </template>
-            <template v-else>
-              Continue
-              <ArrowRight :size="18" class="ml-2" />
-            </template>
-          </UiButton>
+          <div class="space-y-4 max-w-sm mx-auto w-full">
+            <button
+              class="w-full h-[56px] rounded-[18px] bg-primary text-primary-foreground text-[19px] font-semibold active-scale-down flex items-center justify-center gap-2 shadow-lg shadow-primary/25 disabled:opacity-50 transition-all duration-300"
+              :disabled="saving || (isUsernameStep && !username.trim())"
+              @click="isInstallStep ? (canInstall ? installAndFinish() : finish()) : isUsernameStep ? saveAndContinue() : next()"
+            >
+              <template v-if="isInstallStep">
+                <Smartphone :size="22" stroke-width="2.5" />
+                {{ canInstall ? 'Install App' : 'Get Started' }}
+              </template>
+              <template v-else-if="saving">
+                Saving…
+              </template>
+              <template v-else>
+                Continue
+                <ArrowRight :size="22" stroke-width="2.5" />
+              </template>
+            </button>
 
-          <!-- Maybe Later — install step only -->
-          <button
-            v-if="isInstallStep && canInstall"
-            class="text-sm text-muted-foreground hover:text-foreground transition-colors py-1 w-full text-center"
-            @click="finish"
-          >
-            Maybe later
-          </button>
+            <!-- Maybe Later — install step only -->
+            <div v-if="isInstallStep && canInstall" class="h-[40px] flex items-center justify-center">
+              <button
+                class="text-[17px] font-medium text-muted-foreground hover:text-foreground transition-colors active-scale-down-sm px-6 py-2 rounded-full"
+                @click="finish"
+              >
+                Maybe later
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </Transition>
