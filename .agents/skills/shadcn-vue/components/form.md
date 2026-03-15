@@ -4,7 +4,6 @@
 
 ---
 
-
 ::callout{title="We are not actively developing this component anymore."}
 
 The Form component is an abstraction over the `vee-validate` library. Going forward, we recommend using the [`<Field />`](/docs/components/field) component to build forms. See the [Form](/docs/forms) documentation for more information.

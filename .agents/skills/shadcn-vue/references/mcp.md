@@ -250,7 +250,10 @@ To configure MCP in Codex, add the shadcn server to `~/.codex/config.toml`:
 ```toml title="~/.codex/config.toml" showLineNumbers
 [mcp_servers.shadcn]
 command = "npx"
-args = ["shadcn-vue@latest", "mcp"]
+args = [
+  "shadcn-vue@latest",
+  "mcp"
+]
 ```
 
 After adding the configuration, restart Codex to load the MCP server.

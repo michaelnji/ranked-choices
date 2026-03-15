@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: "ChartBarInteractive"
@@ -132,23 +131,24 @@ import {
 } from '@/components/ui/chart'
 
 const chartData = [
-  { date: new Date("2024-01-01"), desktop: 186, mobile: 80 },
-  { date: new Date("2024-02-01"), desktop: 305, mobile: 200 },
-  { date: new Date("2024-03-01"), desktop: 237, mobile: 120 },
-];
+  { date: new Date('2024-01-01'), desktop: 186, mobile: 80 },
+  { date: new Date('2024-02-01'), desktop: 305, mobile: 200 },
+  { date: new Date('2024-03-01'), desktop: 237, mobile: 120 },
+]
 type Data = (typeof chartData)[number]
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
+    label: 'Desktop',
+    color: 'var(--chart-1)',
   },
   mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
+    label: 'Mobile',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig
 </script>
+
 <template>
   <ChartContainer :config="chartConfig" class="min-h-[400px] w-full">
     <VisXYContainer :data="chartData">

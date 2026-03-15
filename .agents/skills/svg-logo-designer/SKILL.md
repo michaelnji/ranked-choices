@@ -272,9 +272,9 @@ Use the Write tool to save each variation:
 ```javascript
 // Example
 Write({
-  file_path: "./logos/acme-logo-concept1-horizontal.svg",
+  file_path: './logos/acme-logo-concept1-horizontal.svg',
   content: svgCode
-});
+})
 ```
 
 ### Phase 7: Usage Guidelines

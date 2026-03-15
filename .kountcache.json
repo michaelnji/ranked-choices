@@ -1,0 +1,1874 @@
+{
+  "version": 1,
+  "entries": {
+    "/Users/michaelnji/Projects/ranked-choices/.gitignore": {
+      "mtimeMs": 1770926767549.8455,
+      "size": 193,
+      "metrics": {
+        "TotalLines": 24,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 193,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 34,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/.nuxtrc": {
+      "mtimeMs": 1770929469481.758,
+      "size": 31,
+      "metrics": {
+        "TotalLines": 1,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 31,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 11,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/AGENTS.md": {
+      "mtimeMs": 1771039465369.895,
+      "size": 0,
+      "metrics": {
+        "TotalLines": 0,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 0,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 10,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/GEMINI.md": {
+      "mtimeMs": 1773476318201.607,
+      "size": 3195,
+      "metrics": {
+        "TotalLines": 60,
+        "BlankLines": 11,
+        "CommentLines": 0,
+        "FileSize": 3195,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 70,
+        "Complexity": 12
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/README.md": {
+      "mtimeMs": 1771046571724.674,
+      "size": 1052,
+      "metrics": {
+        "TotalLines": 57,
+        "BlankLines": 19,
+        "CommentLines": 0,
+        "FileSize": 1052,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 3,
+        "DependencyTracker": 0,
+        "TechDebt": 87,
+        "Complexity": 4
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/app.vue": {
+      "mtimeMs": 1773509330010.759,
+      "size": 2834,
+      "metrics": {
+        "TotalLines": 85,
+        "BlankLines": 8,
+        "CommentLines": 3,
+        "FileSize": 2834,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 10,
+        "DependencyTracker": 0,
+        "TechDebt": 52,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/assets/css/app.css": {
+      "mtimeMs": 1773501437066.544,
+      "size": 6016,
+      "metrics": {
+        "TotalLines": 229,
+        "BlankLines": 37,
+        "CommentLines": 13,
+        "FileSize": 6016,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 6016,
+        "DebtTracker": 0,
+        "CodeChurn": 10,
+        "DependencyTracker": 0,
+        "TechDebt": 58,
+        "Complexity": 3
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/AppHeader.vue": {
+      "mtimeMs": 1773500372747.932,
+      "size": 923,
+      "metrics": {
+        "TotalLines": 35,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 923,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 0,
+        "TechDebt": 55,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/BottomNav.vue": {
+      "mtimeMs": 1773506208607.4668,
+      "size": 1296,
+      "metrics": {
+        "TotalLines": 45,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 1296,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 5,
+        "DependencyTracker": 0,
+        "TechDebt": 95,
+        "Complexity": 3
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/CriteriaManager.vue": {
+      "mtimeMs": 1773501464358.784,
+      "size": 6693,
+      "metrics": {
+        "TotalLines": 228,
+        "BlankLines": 18,
+        "CommentLines": 6,
+        "FileSize": 6693,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 6693,
+        "DebtTracker": 0,
+        "CodeChurn": 8,
+        "DependencyTracker": 0,
+        "TechDebt": 117,
+        "Complexity": 11
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ItemManager.vue": {
+      "mtimeMs": 1773501244253.0264,
+      "size": 2025,
+      "metrics": {
+        "TotalLines": 59,
+        "BlankLines": 5,
+        "CommentLines": 1,
+        "FileSize": 2025,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 5,
+        "DependencyTracker": 0,
+        "TechDebt": 64,
+        "Complexity": 3
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ProgressBar.test.ts": {
+      "mtimeMs": 1771048114685.4014,
+      "size": 2321,
+      "metrics": {
+        "TotalLines": 78,
+        "BlankLines": 6,
+        "CommentLines": 3,
+        "FileSize": 2321,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 2,
+        "TechDebt": 23,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ProgressBar.vue": {
+      "mtimeMs": 1773499471626.6135,
+      "size": 1179,
+      "metrics": {
+        "TotalLines": 43,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 1179,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 3,
+        "DependencyTracker": 0,
+        "TechDebt": 73,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/RankingView.test.ts": {
+      "mtimeMs": 1771049784570.8506,
+      "size": 4029,
+      "metrics": {
+        "TotalLines": 143,
+        "BlankLines": 17,
+        "CommentLines": 7,
+        "FileSize": 4029,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 3,
+        "TechDebt": 33,
+        "Complexity": 6,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/RankingView.vue": {
+      "mtimeMs": 1773503938925.2385,
+      "size": 6296,
+      "metrics": {
+        "TotalLines": 173,
+        "BlankLines": 15,
+        "CommentLines": 7,
+        "FileSize": 6296,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 6296,
+        "DebtTracker": 0,
+        "CodeChurn": 14,
+        "DependencyTracker": 0,
+        "TechDebt": 77,
+        "Complexity": 7
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/WelcomeModal.vue": {
+      "mtimeMs": 1773512094462.5842,
+      "size": 11584,
+      "metrics": {
+        "TotalLines": 373,
+        "BlankLines": 28,
+        "CommentLines": 12,
+        "FileSize": 11584,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 11584,
+        "DebtTracker": 0,
+        "CodeChurn": 7,
+        "DependencyTracker": 0,
+        "TechDebt": 138,
+        "Complexity": 18
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert/Alert.vue": {
+      "mtimeMs": 1773499471628.4602,
+      "size": 441,
+      "metrics": {
+        "TotalLines": 21,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 441,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 31,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert/AlertDescription.vue": {
+      "mtimeMs": 1773499471628.4763,
+      "size": 396,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 396,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert/AlertTitle.vue": {
+      "mtimeMs": 1773499471628.4832,
+      "size": 355,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 355,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert/index.ts": {
+      "mtimeMs": 1773499471628.489,
+      "size": 735,
+      "metrics": {
+        "TotalLines": 20,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 735,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 2,
+        "TechDebt": 30,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialog.vue": {
+      "mtimeMs": 1773499471626.6873,
+      "size": 472,
+      "metrics": {
+        "TotalLines": 15,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 472,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 25,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogAction.vue": {
+      "mtimeMs": 1773499471626.7114,
+      "size": 601,
+      "metrics": {
+        "TotalLines": 18,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 601,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 28,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogCancel.vue": {
+      "mtimeMs": 1773499471626.7415,
+      "size": 675,
+      "metrics": {
+        "TotalLines": 25,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 675,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 35,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogContent.vue": {
+      "mtimeMs": 1773500365443.7979,
+      "size": 1549,
+      "metrics": {
+        "TotalLines": 44,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 1549,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 0,
+        "TechDebt": 64,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogDescription.vue": {
+      "mtimeMs": 1773499471626.8188,
+      "size": 640,
+      "metrics": {
+        "TotalLines": 23,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 640,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 33,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogFooter.vue": {
+      "mtimeMs": 1773499471628.4597,
+      "size": 395,
+      "metrics": {
+        "TotalLines": 22,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 395,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 32,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogHeader.vue": {
+      "mtimeMs": 1773499471628.4724,
+      "size": 348,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 348,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogTitle.vue": {
+      "mtimeMs": 1773499471628.0713,
+      "size": 593,
+      "metrics": {
+        "TotalLines": 21,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 593,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 31,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/alert-dialog/AlertDialogTrigger.vue": {
+      "mtimeMs": 1773499471628.0425,
+      "size": 321,
+      "metrics": {
+        "TotalLines": 12,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 321,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 22,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/badge/Badge.vue": {
+      "mtimeMs": 1773499471628.5015,
+      "size": 660,
+      "metrics": {
+        "TotalLines": 26,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 660,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 36,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/badge/index.ts": {
+      "mtimeMs": 1773499471628.5056,
+      "size": 1258,
+      "metrics": {
+        "TotalLines": 24,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 1258,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 2,
+        "TechDebt": 34,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/button/Button.vue": {
+      "mtimeMs": 1773499471628.5073,
+      "size": 729,
+      "metrics": {
+        "TotalLines": 31,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 729,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 41,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/button/index.ts": {
+      "mtimeMs": 1773500426207.6692,
+      "size": 1776,
+      "metrics": {
+        "TotalLines": 36,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 1776,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 2,
+        "TechDebt": 56,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/Card.vue": {
+      "mtimeMs": 1773499471628.5195,
+      "size": 401,
+      "metrics": {
+        "TotalLines": 22,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 401,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 32,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardAction.vue": {
+      "mtimeMs": 1773499471628.523,
+      "size": 358,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 358,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardContent.vue": {
+      "mtimeMs": 1773499471628.5315,
+      "size": 301,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 301,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardDescription.vue": {
+      "mtimeMs": 1773499471628.5325,
+      "size": 326,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 326,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardFooter.vue": {
+      "mtimeMs": 1773499471628.5388,
+      "size": 335,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 335,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardHeader.vue": {
+      "mtimeMs": 1773499471628.5425,
+      "size": 450,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 450,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/card/CardTitle.vue": {
+      "mtimeMs": 1773499471628.546,
+      "size": 319,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 319,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/Dialog.vue": {
+      "mtimeMs": 1773499471628.5503,
+      "size": 462,
+      "metrics": {
+        "TotalLines": 19,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 462,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 29,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogClose.vue": {
+      "mtimeMs": 1773499471628.5547,
+      "size": 289,
+      "metrics": {
+        "TotalLines": 15,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 289,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 25,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogContent.vue": {
+      "mtimeMs": 1773507671196.6692,
+      "size": 1961,
+      "metrics": {
+        "TotalLines": 53,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 1961,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 0,
+        "TechDebt": 73,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogDescription.vue": {
+      "mtimeMs": 1773499471628.5654,
+      "size": 679,
+      "metrics": {
+        "TotalLines": 23,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 679,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 33,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogFooter.vue": {
+      "mtimeMs": 1773499471628.5674,
+      "size": 599,
+      "metrics": {
+        "TotalLines": 26,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 599,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 36,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogHeader.vue": {
+      "mtimeMs": 1773499471628.5708,
+      "size": 342,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 342,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogOverlay.vue": {
+      "mtimeMs": 1773499471628.581,
+      "size": 703,
+      "metrics": {
+        "TotalLines": 21,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 703,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 31,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogScrollContent.vue": {
+      "mtimeMs": 1773499471628.5857,
+      "size": 1880,
+      "metrics": {
+        "TotalLines": 59,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 1880,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 69,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogTitle.vue": {
+      "mtimeMs": 1773499471628.5925,
+      "size": 648,
+      "metrics": {
+        "TotalLines": 23,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 648,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 33,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/dialog/DialogTrigger.vue": {
+      "mtimeMs": 1773499471628.6072,
+      "size": 301,
+      "metrics": {
+        "TotalLines": 15,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 301,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 25,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/input/Input.vue": {
+      "mtimeMs": 1773499471628.6694,
+      "size": 1269,
+      "metrics": {
+        "TotalLines": 33,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 1269,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 43,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/label/Label.vue": {
+      "mtimeMs": 1773499471628.68,
+      "size": 752,
+      "metrics": {
+        "TotalLines": 26,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 752,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 36,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/separator/Separator.vue": {
+      "mtimeMs": 1773499471628.634,
+      "size": 768,
+      "metrics": {
+        "TotalLines": 29,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 768,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 39,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/skeleton/Skeleton.vue": {
+      "mtimeMs": 1773499471628.684,
+      "size": 349,
+      "metrics": {
+        "TotalLines": 17,
+        "BlankLines": 3,
+        "CommentLines": 0,
+        "FileSize": 349,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 27,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/slider/Slider.vue": {
+      "mtimeMs": 1773499471628.6235,
+      "size": 1777,
+      "metrics": {
+        "TotalLines": 43,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 1777,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 53,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/toggle/Toggle.vue": {
+      "mtimeMs": 1773499471628.649,
+      "size": 962,
+      "metrics": {
+        "TotalLines": 35,
+        "BlankLines": 4,
+        "CommentLines": 0,
+        "FileSize": 962,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 45,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/toggle/index.ts": {
+      "mtimeMs": 1773499471628.6648,
+      "size": 1199,
+      "metrics": {
+        "TotalLines": 26,
+        "BlankLines": 2,
+        "CommentLines": 0,
+        "FileSize": 1199,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 2,
+        "TechDebt": 36,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/toggle-group/ToggleGroup.vue": {
+      "mtimeMs": 1773499471628.6274,
+      "size": 1485,
+      "metrics": {
+        "TotalLines": 49,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 1485,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 59,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/components/ui/toggle-group/ToggleGroupItem.vue": {
+      "mtimeMs": 1773499471628.6409,
+      "size": 1632,
+      "metrics": {
+        "TotalLines": 46,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 1632,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 56,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/composables/useListDetails.ts": {
+      "mtimeMs": 1771041005751.019,
+      "size": 3703,
+      "metrics": {
+        "TotalLines": 130,
+        "BlankLines": 19,
+        "CommentLines": 9,
+        "FileSize": 3703,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 3,
+        "DependencyTracker": 2,
+        "TechDebt": 23,
+        "Complexity": 11,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/composables/useLists.ts": {
+      "mtimeMs": 1771050189942.3284,
+      "size": 1187,
+      "metrics": {
+        "TotalLines": 43,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 1187,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 3,
+        "DependencyTracker": 2,
+        "TechDebt": 73,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/composables/usePwaInstall.ts": {
+      "mtimeMs": 1773512513442.7258,
+      "size": 1671,
+      "metrics": {
+        "TotalLines": 57,
+        "BlankLines": 9,
+        "CommentLines": 0,
+        "FileSize": 1671,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 67,
+        "Complexity": 8,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/layouts/default.vue": {
+      "mtimeMs": 1773505328813.5261,
+      "size": 1021,
+      "metrics": {
+        "TotalLines": 36,
+        "BlankLines": 5,
+        "CommentLines": 5,
+        "FileSize": 1021,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 9,
+        "DependencyTracker": 0,
+        "TechDebt": 9,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/lib/utils.ts": {
+      "mtimeMs": 1773499471628.6987,
+      "size": 188,
+      "metrics": {
+        "TotalLines": 7,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 188,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 3,
+        "TechDebt": 17,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/index.vue": {
+      "mtimeMs": 1773512094463.488,
+      "size": 12355,
+      "metrics": {
+        "TotalLines": 345,
+        "BlankLines": 28,
+        "CommentLines": 11,
+        "FileSize": 12355,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 12355,
+        "DebtTracker": 0,
+        "CodeChurn": 14,
+        "DependencyTracker": 0,
+        "TechDebt": 152,
+        "Complexity": 19
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/info.vue": {
+      "mtimeMs": 1773502550866.3264,
+      "size": 2933,
+      "metrics": {
+        "TotalLines": 83,
+        "BlankLines": 7,
+        "CommentLines": 3,
+        "FileSize": 2933,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 9,
+        "DependencyTracker": 0,
+        "TechDebt": 48,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/add.vue": {
+      "mtimeMs": 1773500774628.249,
+      "size": 4617,
+      "metrics": {
+        "TotalLines": 132,
+        "BlankLines": 14,
+        "CommentLines": 5,
+        "FileSize": 4617,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 4617,
+        "DebtTracker": 0,
+        "CodeChurn": 7,
+        "DependencyTracker": 0,
+        "TechDebt": 53,
+        "Complexity": 7
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/criteria.vue": {
+      "mtimeMs": 1773504006260.713,
+      "size": 1017,
+      "metrics": {
+        "TotalLines": 45,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 1017,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 55,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/index.vue": {
+      "mtimeMs": 1773500415788.649,
+      "size": 2075,
+      "metrics": {
+        "TotalLines": 66,
+        "BlankLines": 7,
+        "CommentLines": 4,
+        "FileSize": 2075,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 7,
+        "DependencyTracker": 0,
+        "TechDebt": 22,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/items/[itemId]/edit.vue": {
+      "mtimeMs": 1773500808488.388,
+      "size": 5435,
+      "metrics": {
+        "TotalLines": 163,
+        "BlankLines": 14,
+        "CommentLines": 7,
+        "FileSize": 5435,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 5435,
+        "DebtTracker": 0,
+        "CodeChurn": 6,
+        "DependencyTracker": 0,
+        "TechDebt": 52,
+        "Complexity": 8
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/items/[itemId]/index.vue": {
+      "mtimeMs": 1773501445645.8672,
+      "size": 2820,
+      "metrics": {
+        "TotalLines": 87,
+        "BlankLines": 9,
+        "CommentLines": 1,
+        "FileSize": 2820,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 5,
+        "DependencyTracker": 0,
+        "TechDebt": 119,
+        "Complexity": 4
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/lists/[id]/settings.vue": {
+      "mtimeMs": 1773503815529.0825,
+      "size": 5581,
+      "metrics": {
+        "TotalLines": 166,
+        "BlankLines": 14,
+        "CommentLines": 6,
+        "FileSize": 5581,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 5581,
+        "DebtTracker": 0,
+        "CodeChurn": 8,
+        "DependencyTracker": 0,
+        "TechDebt": 68,
+        "Complexity": 6
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/new.vue": {
+      "mtimeMs": 1773500750622.5286,
+      "size": 1268,
+      "metrics": {
+        "TotalLines": 50,
+        "BlankLines": 6,
+        "CommentLines": 2,
+        "FileSize": 1268,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 6,
+        "DependencyTracker": 0,
+        "TechDebt": 28,
+        "Complexity": 3
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/settings/index.vue": {
+      "mtimeMs": 1773506208606.7207,
+      "size": 10595,
+      "metrics": {
+        "TotalLines": 308,
+        "BlankLines": 21,
+        "CommentLines": 8,
+        "FileSize": 10595,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 10595,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 122,
+        "Complexity": 12
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/pages/settings/username.vue": {
+      "mtimeMs": 1773506208606.7285,
+      "size": 2477,
+      "metrics": {
+        "TotalLines": 91,
+        "BlankLines": 9,
+        "CommentLines": 1,
+        "FileSize": 2477,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 92,
+        "Complexity": 5
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/plugins/neoconfetti.client.ts": {
+      "mtimeMs": 1773503678527.4045,
+      "size": 146,
+      "metrics": {
+        "TotalLines": 5,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 146,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 15,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/plugins/primevue.ts": {
+      "mtimeMs": 1770928509996.3625,
+      "size": 103,
+      "metrics": {
+        "TotalLines": 3,
+        "BlankLines": 0,
+        "CommentLines": 1,
+        "FileSize": 103,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 0,
+        "TechDebt": 1,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/types/index.ts": {
+      "mtimeMs": 1773503282044.5342,
+      "size": 592,
+      "metrics": {
+        "TotalLines": 32,
+        "BlankLines": 5,
+        "CommentLines": 1,
+        "FileSize": 592,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 0,
+        "TechDebt": 17,
+        "Complexity": 5,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/utils/db.ts": {
+      "mtimeMs": 1773503292748.035,
+      "size": 825,
+      "metrics": {
+        "TotalLines": 28,
+        "BlankLines": 4,
+        "CommentLines": 3,
+        "FileSize": 825,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 3,
+        "TechDebt": 4,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/app/utils/rankingEngine.ts": {
+      "mtimeMs": 1771041005754.7412,
+      "size": 1946,
+      "metrics": {
+        "TotalLines": 64,
+        "BlankLines": 8,
+        "CommentLines": 27,
+        "FileSize": 1946,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 1,
+        "TechDebt": 2,
+        "Complexity": 6,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/biome.json": {
+      "mtimeMs": 1770926767552.4626,
+      "size": 523,
+      "metrics": {
+        "TotalLines": 28,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 523,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 38,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/00_PROJECT_OVERVIEW.md": {
+      "mtimeMs": 1770926767554.2358,
+      "size": 3898,
+      "metrics": {
+        "TotalLines": 75,
+        "BlankLines": 18,
+        "CommentLines": 0,
+        "FileSize": 3898,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 85,
+        "Complexity": 5
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/ARCHITECTURE.md": {
+      "mtimeMs": 1770926767554.518,
+      "size": 4243,
+      "metrics": {
+        "TotalLines": 87,
+        "BlankLines": 19,
+        "CommentLines": 0,
+        "FileSize": 4243,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "LargestFiles": 4243,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 97,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/CONFIGURATION_REFERENCE.md": {
+      "mtimeMs": 1770926767554.8855,
+      "size": 2757,
+      "metrics": {
+        "TotalLines": 82,
+        "BlankLines": 28,
+        "CommentLines": 0,
+        "FileSize": 2757,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 92,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/DESIGN_PATTERNS.md": {
+      "mtimeMs": 1770926767555.1265,
+      "size": 1757,
+      "metrics": {
+        "TotalLines": 41,
+        "BlankLines": 14,
+        "CommentLines": 0,
+        "FileSize": 1757,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 51,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/DIRECTORY_STRUCTURE.md": {
+      "mtimeMs": 1770926767555.343,
+      "size": 1981,
+      "metrics": {
+        "TotalLines": 37,
+        "BlankLines": 10,
+        "CommentLines": 0,
+        "FileSize": 1981,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 47,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/RUN_BUILD_INSTALL.md": {
+      "mtimeMs": 1770926767555.5713,
+      "size": 2177,
+      "metrics": {
+        "TotalLines": 77,
+        "BlankLines": 27,
+        "CommentLines": 0,
+        "FileSize": 2177,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 87,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/TODO.md": {
+      "mtimeMs": 1770926767555.8098,
+      "size": 207,
+      "metrics": {
+        "TotalLines": 14,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 207,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 24,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/modules/app-shell.md": {
+      "mtimeMs": 1770926767556.1577,
+      "size": 2291,
+      "metrics": {
+        "TotalLines": 75,
+        "BlankLines": 22,
+        "CommentLines": 1,
+        "FileSize": 2291,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 64,
+        "Complexity": 11
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/modules/nuxt-modules.md": {
+      "mtimeMs": 1770926767556.3513,
+      "size": 2280,
+      "metrics": {
+        "TotalLines": 54,
+        "BlankLines": 16,
+        "CommentLines": 0,
+        "FileSize": 2280,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 64,
+        "Complexity": 7
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/modules/public-assets.md": {
+      "mtimeMs": 1770926767556.5615,
+      "size": 885,
+      "metrics": {
+        "TotalLines": 47,
+        "BlankLines": 16,
+        "CommentLines": 0,
+        "FileSize": 885,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 57,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/codebase-docs/modules/styling.md": {
+      "mtimeMs": 1770926767556.769,
+      "size": 2547,
+      "metrics": {
+        "TotalLines": 78,
+        "BlankLines": 21,
+        "CommentLines": 0,
+        "FileSize": 2547,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 88,
+        "Complexity": 3
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/components.json": {
+      "mtimeMs": 1773499386166.8022,
+      "size": 417,
+      "metrics": {
+        "TotalLines": 19,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 417,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 29,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/eslint.config.mjs": {
+      "mtimeMs": 1770926767556.9697,
+      "size": 92,
+      "metrics": {
+        "TotalLines": 5,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 92,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 15,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/nuxt.config.ts": {
+      "mtimeMs": 1773509314856.386,
+      "size": 1552,
+      "metrics": {
+        "TotalLines": 60,
+        "BlankLines": 1,
+        "CommentLines": 17,
+        "FileSize": 1552,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 5,
+        "DependencyTracker": 1,
+        "TechDebt": 4,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/package.json": {
+      "mtimeMs": 1773512094464.4648,
+      "size": 1805,
+      "metrics": {
+        "TotalLines": 67,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 1805,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 10,
+        "DependencyTracker": 0,
+        "TechDebt": 167,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/public/robots.txt": {
+      "mtimeMs": 1770926767559.0723,
+      "size": 24,
+      "metrics": {
+        "TotalLines": 2,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 24,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 12,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/ranked-choices-full-docs/docs/PRD.md": {
+      "mtimeMs": 1770841138000,
+      "size": 840,
+      "metrics": {
+        "TotalLines": 30,
+        "BlankLines": 5,
+        "CommentLines": 0,
+        "FileSize": 840,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 40,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/ranked-choices-full-docs/docs/REPO-STRUCTURE.md": {
+      "mtimeMs": 1770841138000,
+      "size": 367,
+      "metrics": {
+        "TotalLines": 16,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 367,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 26,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/ranked-choices-full-docs/spec/execution-contract.json": {
+      "mtimeMs": 1770930830387.0862,
+      "size": 833,
+      "metrics": {
+        "TotalLines": 37,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 833,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 47,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/ranked-choices-full-docs/spec/state-machines.json": {
+      "mtimeMs": 1770930830386.2732,
+      "size": 480,
+      "metrics": {
+        "TotalLines": 24,
+        "BlankLines": 0,
+        "CommentLines": 0,
+        "FileSize": 480,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 34,
+        "Complexity": 1
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/ranked-choices-full-docs/tasks/TASKS.md": {
+      "mtimeMs": 1770841138000,
+      "size": 785,
+      "metrics": {
+        "TotalLines": 35,
+        "BlankLines": 6,
+        "CommentLines": 0,
+        "FileSize": 785,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 0,
+        "TechDebt": 45,
+        "Complexity": 2
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/tests/constraints.test.ts": {
+      "mtimeMs": 1770931188240.598,
+      "size": 3064,
+      "metrics": {
+        "TotalLines": 110,
+        "BlankLines": 21,
+        "CommentLines": 10,
+        "FileSize": 3064,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 13,
+        "Complexity": 7,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/tests/db.test.ts": {
+      "mtimeMs": 1770930830387.4087,
+      "size": 1508,
+      "metrics": {
+        "TotalLines": 61,
+        "BlankLines": 9,
+        "CommentLines": 0,
+        "FileSize": 1508,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 71,
+        "Complexity": 6,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/tests/rankingEngine.test.ts": {
+      "mtimeMs": 1771041005769.5344,
+      "size": 3275,
+      "metrics": {
+        "TotalLines": 114,
+        "BlankLines": 11,
+        "CommentLines": 0,
+        "FileSize": 3275,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 2,
+        "DependencyTracker": 1,
+        "TechDebt": 134,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/tests/setup.ts": {
+      "mtimeMs": 1770930830386.3132,
+      "size": 127,
+      "metrics": {
+        "TotalLines": 4,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 127,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 14,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/tests/useListDetails.test.ts": {
+      "mtimeMs": 1771041043184.4348,
+      "size": 2281,
+      "metrics": {
+        "TotalLines": 75,
+        "BlankLines": 18,
+        "CommentLines": 4,
+        "FileSize": 2281,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 16,
+        "Complexity": 8,
+        "CircularDeps": 0
+      }
+    },
+    "/Users/michaelnji/Projects/ranked-choices/vitest.config.ts": {
+      "mtimeMs": 1770929607947.6465,
+      "size": 180,
+      "metrics": {
+        "TotalLines": 8,
+        "BlankLines": 1,
+        "CommentLines": 0,
+        "FileSize": 180,
+        "TotalFiles": 1,
+        "LanguageDistribution": 1,
+        "DebtTracker": 0,
+        "CodeChurn": 1,
+        "DependencyTracker": 1,
+        "TechDebt": 18,
+        "Complexity": 1,
+        "CircularDeps": 0
+      }
+    }
+  }
+}

@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: TabsDemo

@@ -32,7 +32,7 @@ This document contains all 7 documented issues and their solutions for shadcn-vu
 **Also Configure Vite**:
 ```typescript
 // vite.config.ts
-import path from 'path'
+import path from 'node:path'
 
 export default defineConfig({
   resolve: {

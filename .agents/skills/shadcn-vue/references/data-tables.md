@@ -12,28 +12,28 @@ npm install @tanstack/vue-table
 
 ```vue
 <script setup lang="ts">
-import { DataTable } from "@/components/ui/data-table";
-import { h } from "vue";
+import { h } from 'vue'
+import { DataTable } from '@/components/ui/data-table'
 
 const columns = [
   {
-    accessorKey: "id",
-    header: "ID",
+    accessorKey: 'id',
+    header: 'ID',
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: 'name',
+    header: 'Name',
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: 'email',
+    header: 'Email',
   },
-];
+]
 
 const data = [
-  { id: 1, name: "John Doe", email: "john@example.com" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com" },
-];
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+]
 </script>
 
 <template>

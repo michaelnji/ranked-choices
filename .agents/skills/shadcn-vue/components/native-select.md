@@ -4,7 +4,6 @@
 
 ---
 
-
 ::callout
 ---
 icon: true

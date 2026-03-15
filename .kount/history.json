@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1773567382429-becglg",
+    "timestamp": "2026-03-15T09:36:22.428Z",
+    "totalFiles": 108,
+    "totalLines": 6024,
+    "commentRatio": 3,
+    "totalSize": 187889,
+    "techDebtScore": 5063
+  },
+  {
+    "id": "1773567664244-179q9p",
+    "timestamp": "2026-03-15T09:41:04.242Z",
+    "totalFiles": 108,
+    "totalLines": 6024,
+    "commentRatio": 3,
+    "totalSize": 187889,
+    "techDebtScore": 5063
+  }
+]

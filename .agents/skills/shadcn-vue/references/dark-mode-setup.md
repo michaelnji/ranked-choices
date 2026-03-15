@@ -55,7 +55,6 @@ export function useTheme() {
 ```vue
 <!-- components/ThemeToggle.vue -->
 <script setup lang="ts">
-import { useTheme } from '@/composables/useTheme'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -63,6 +62,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useTheme } from '@/composables/useTheme'
 
 const { mode, setTheme } = useTheme()
 </script>
@@ -186,7 +186,7 @@ import {
 
 const colorMode = useColorMode()
 
-const setTheme = (theme: 'light' | 'dark' | 'system') => {
+function setTheme(theme: 'light' | 'dark' | 'system') {
   colorMode.preference = theme
 }
 </script>
