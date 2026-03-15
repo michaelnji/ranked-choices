@@ -4,7 +4,6 @@
 
 ---
 
-
 We do not ship any typography styles by default. This page is an example of how you can use utility classes to style your text.
 
 ::component-preview

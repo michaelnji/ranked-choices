@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Home, PlusCircle, User } from 'lucide-vue-next'
+import { Home, Plus, User } from 'lucide-vue-next'
 
 const route = useRoute()
 
 const tabs = [
   { to: '/', icon: Home, label: 'Home' },
-  { to: '/new', icon: PlusCircle, label: 'New' },
+  { to: '/new', icon: Plus, label: 'New' },
   { to: '/settings', icon: User, label: 'Settings' },
 ]
 
@@ -35,10 +35,9 @@ function isActive(path: string) {
       >
         <component
           :is="tab.icon"
-          :size="tab.to === '/new' ? 26 : 20"
-          :stroke-width="isActive(tab.to) ? 2.5 : 1.75"
+          :size="tab.to === '/new' ? 32 : 28"
         />
-        <span class="text-xs font-medium tracking-wide">{{ tab.label }}</span>
+        <!-- <span class="text-xs font-medium tracking-wide">{{ tab.label }}</span> -->
       </NuxtLink>
     </div>
   </nav>

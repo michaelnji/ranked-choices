@@ -60,7 +60,7 @@ async function handleRename() {
     <div class="px-6 pb-6 space-y-6">
       <!-- General Settings -->
       <UiCard>
-        <UiCardContent class="space-y-6 pt-6">
+        <UiCardContent class="space-y-6 ">
           <h2 class="text-xl font-bold text-foreground">
             General
           </h2>
@@ -97,7 +97,7 @@ async function handleRename() {
             </div>
             <p class="text-xs text-muted-foreground px-1">
               <span v-if="list.rankingMode === 'manual'">Drag and drop items to order them manually.</span>
-              <span v-else>Items are ordered based on weighted criteria scores.</span>
+              <span v-else>Items are ordered based on weighted scores.</span>
             </p>
           </div>
         </UiCardContent>
@@ -106,7 +106,7 @@ async function handleRename() {
       <!-- Criteria Navigation Row -->
       <NuxtLink :to="`/lists/${listId}/criteria`">
         <UiCard class="hover:border-primary/30 transition-colors">
-          <UiCardContent class="flex items-center gap-4 py-4 px-5">
+          <UiCardContent class="flex items-center gap-4 px-3 py-0">
             <div class="w-9 h-9 rounded-lg bg-success/10 flex items-center justify-center shrink-0">
               <Scale :size="16" class="text-success" />
             </div>

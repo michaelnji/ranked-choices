@@ -11,12 +11,12 @@ Quick reference with copy-paste examples for common component patterns.
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { toast } from 'vue-sonner'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -34,9 +34,10 @@ async function handleSubmit() {
     const data = loginSchema.parse({ email: email.value, password: password.value })
     // Handle login
     toast.success('Login successful!')
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof z.ZodError) {
-      error.errors.forEach(err => {
+      error.errors.forEach((err) => {
         if (err.path[0]) {
           errors.value[err.path[0]] = err.message
         }
@@ -62,7 +63,9 @@ async function handleSubmit() {
           placeholder="you@example.com"
           :class="{ 'border-destructive': errors.email }"
         />
-        <p v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</p>
+        <p v-if="errors.email" class="text-sm text-destructive">
+          {{ errors.email }}
+        </p>
       </div>
       <div class="space-y-2">
         <Label for="password">Password</Label>
@@ -72,11 +75,15 @@ async function handleSubmit() {
           type="password"
           :class="{ 'border-destructive': errors.password }"
         />
-        <p v-if="errors.password" class="text-sm text-destructive">{{ errors.password }}</p>
+        <p v-if="errors.password" class="text-sm text-destructive">
+          {{ errors.password }}
+        </p>
       </div>
     </CardContent>
     <CardFooter>
-      <Button @click="handleSubmit" class="w-full">Sign In</Button>
+      <Button class="w-full" @click="handleSubmit">
+        Sign In
+      </Button>
     </CardFooter>
   </Card>
 </template>
@@ -86,10 +93,10 @@ async function handleSubmit() {
 
 ```vue
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { z } from 'zod'
 import AutoForm from '@/components/ui/auto-form/AutoForm.vue'
 import { Button } from '@/components/ui/button'
-import { toast } from 'vue-sonner'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -97,8 +104,7 @@ const contactSchema = z.object({
   subject: z.enum(['general', 'support', 'sales'], {
     required_error: 'Please select a subject'
   }).describe('Subject // enumLabels:General Inquiry,Support Request,Sales'),
-  message: z.string().min(10, 'Message must be at least 10 characters')
-    .describe('Message // type:textarea'),
+  message: z.string().min(10, 'Message must be at least 10 characters').describe('Message // type:textarea'),
   subscribe: z.boolean().default(false).describe('Subscribe to newsletter')
 })
 
@@ -114,7 +120,9 @@ function onSubmit(values: z.infer<typeof contactSchema>) {
     @submit="onSubmit"
   >
     <template #submit>
-      <Button type="submit">Send Message</Button>
+      <Button type="submit">
+        Send Message
+      </Button>
     </template>
   </AutoForm>
 </template>
@@ -128,16 +136,18 @@ function onSubmit(values: z.infer<typeof contactSchema>) {
 
 ```vue
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import type { ColumnDef, SortingState } from '@tanstack/vue-table'
 import {
-  useVueTable,
+
   getCoreRowModel,
-  getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  type ColumnDef,
-  type SortingState
+  getSortedRowModel,
+
+  useVueTable
 } from '@tanstack/vue-table'
+import { computed, ref } from 'vue'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -148,7 +158,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
 
 interface User {
   id: number
@@ -256,8 +265,8 @@ const table = useVueTable({
       <Button
         variant="outline"
         size="sm"
-        @click="table.previousPage()"
         :disabled="!table.getCanPreviousPage()"
+        @click="table.previousPage()"
       >
         Previous
       </Button>
@@ -267,8 +276,8 @@ const table = useVueTable({
       <Button
         variant="outline"
         size="sm"
-        @click="table.nextPage()"
         :disabled="!table.getCanNextPage()"
+        @click="table.nextPage()"
       >
         Next
       </Button>
@@ -353,6 +362,7 @@ const menuItems = [
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -365,7 +375,6 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { toast } from 'vue-sonner'
 
 const open = ref(false)
 
@@ -379,7 +388,9 @@ function handleDelete() {
 <template>
   <AlertDialog v-model:open="open">
     <AlertDialogTrigger as-child>
-      <Button variant="destructive">Delete Item</Button>
+      <Button variant="destructive">
+        Delete Item
+      </Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -391,7 +402,9 @@ function handleDelete() {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction @click="handleDelete">Continue</AlertDialogAction>
+        <AlertDialogAction @click="handleDelete">
+          Continue
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -435,12 +448,14 @@ const config = {
 
 <template>
   <div class="space-y-4">
-    <h3 class="text-lg font-semibold">Financial Overview</h3>
+    <h3 class="text-lg font-semibold">
+      Financial Overview
+    </h3>
     <LineChart
       :data="data"
       :config="config"
       :categories="['revenue', 'expenses', 'profit']"
-      :index="'month'"
+      index="month"
       :show-legend="true"
       class="h-[400px]"
     />
@@ -498,11 +513,21 @@ function showPromise() {
 
 <template>
   <div class="flex gap-2">
-    <Button @click="showSuccess">Success</Button>
-    <Button @click="showError" variant="destructive">Error</Button>
-    <Button @click="showInfo" variant="outline">Info</Button>
-    <Button @click="showWarning" variant="secondary">Warning</Button>
-    <Button @click="showPromise" variant="ghost">Promise</Button>
+    <Button @click="showSuccess">
+      Success
+    </Button>
+    <Button variant="destructive" @click="showError">
+      Error
+    </Button>
+    <Button variant="outline" @click="showInfo">
+      Info
+    </Button>
+    <Button variant="secondary" @click="showWarning">
+      Warning
+    </Button>
+    <Button variant="ghost" @click="showPromise">
+      Promise
+    </Button>
   </div>
 </template>
 ```
@@ -516,12 +541,12 @@ function showPromise() {
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 import { z } from 'zod'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import AutoForm from '@/components/ui/auto-form/AutoForm.vue'
 import { Button } from '@/components/ui/button'
-import { toast } from 'vue-sonner'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 const profileSchema = z.object({
   username: z.string().min(3),
@@ -533,8 +558,8 @@ const securitySchema = z.object({
   currentPassword: z.string().describe('Current Password // type:password'),
   newPassword: z.string().min(8).describe('New Password // type:password'),
   confirmPassword: z.string().describe('Confirm Password // type:password')
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
+}).refine(data => data.newPassword === data.confirmPassword, {
+  message: 'Passwords don\'t match',
   path: ['confirmPassword']
 })
 
@@ -551,13 +576,21 @@ function handleSecuritySubmit(values: z.infer<typeof securitySchema>) {
 
 <template>
   <div class="container mx-auto py-10">
-    <h1 class="text-3xl font-bold mb-6">Settings</h1>
+    <h1 class="text-3xl font-bold mb-6">
+      Settings
+    </h1>
 
     <Tabs default-value="profile" class="w-full">
       <TabsList class="grid w-full grid-cols-3">
-        <TabsTrigger value="profile">Profile</TabsTrigger>
-        <TabsTrigger value="security">Security</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        <TabsTrigger value="profile">
+          Profile
+        </TabsTrigger>
+        <TabsTrigger value="security">
+          Security
+        </TabsTrigger>
+        <TabsTrigger value="notifications">
+          Notifications
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="profile">
@@ -569,7 +602,9 @@ function handleSecuritySubmit(values: z.infer<typeof securitySchema>) {
           <CardContent>
             <AutoForm :schema="profileSchema" @submit="handleProfileSubmit">
               <template #submit>
-                <Button type="submit">Save Changes</Button>
+                <Button type="submit">
+                  Save Changes
+                </Button>
               </template>
             </AutoForm>
           </CardContent>
@@ -585,7 +620,9 @@ function handleSecuritySubmit(values: z.infer<typeof securitySchema>) {
           <CardContent>
             <AutoForm :schema="securitySchema" @submit="handleSecuritySubmit">
               <template #submit>
-                <Button type="submit">Change Password</Button>
+                <Button type="submit">
+                  Change Password
+                </Button>
               </template>
             </AutoForm>
           </CardContent>
@@ -599,7 +636,9 @@ function handleSecuritySubmit(values: z.infer<typeof securitySchema>) {
             <CardDescription>Configure your notification preferences</CardDescription>
           </CardHeader>
           <CardContent>
-            <p class="text-muted-foreground">Notification settings coming soon...</p>
+            <p class="text-muted-foreground">
+              Notification settings coming soon...
+            </p>
           </CardContent>
         </Card>
       </TabsContent>

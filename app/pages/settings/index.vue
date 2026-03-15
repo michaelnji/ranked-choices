@@ -102,7 +102,7 @@ async function deleteAccount() {
     <div class="px-6 pt-8 pb-4 flex items-center gap-4">
       <!-- Avatar -->
       <div
-        class="w-[72px] h-[72px] rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0"
+        class="size-18 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0"
         aria-hidden="true"
       >
         <template v-if="isLoading">

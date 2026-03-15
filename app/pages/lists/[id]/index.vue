@@ -42,9 +42,12 @@ onMounted(() => {
     </div>
 
     <!-- FAB -->
-    <div class="fixed bottom-6 right-6 z-30">
+    <div class="fixed bottom-3 right-6 z-30">
       <NuxtLink :to="`/lists/${listId}/add`">
-        <UiButton size="icon" class="rounded-full h-14 w-14 shadow-lg hover:scale-105 active:scale-95 transition-all" aria-label="Add item">
+        <UiButton
+          size="icon-lg" class="rounded-full size-12  shadow-lg hover:scale-105 active:scale-95 transition-all"
+          aria-label="Add item"
+        >
           <Plus :size="24" :stroke-width="2.5" />
         </UiButton>
       </NuxtLink>

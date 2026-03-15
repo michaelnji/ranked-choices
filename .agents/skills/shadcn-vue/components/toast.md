@@ -4,7 +4,6 @@
 
 ---
 
-
 <Callout title="The toast component has been deprecated." class="mt-0">
 
   See the [sonner](/docs/components/sonner) documentation for more information.

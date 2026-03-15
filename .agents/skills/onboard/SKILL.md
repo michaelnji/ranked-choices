@@ -180,7 +180,7 @@ Every empty state needs:
 ### What Will Be Here
 "Your recent projects will appear here"
 
-### Why It Matters  
+### Why It Matters
 "Projects help you organize your work and collaborate with your team"
 
 ### How to Get Started
@@ -212,8 +212,8 @@ Illustration or icon (not just text on blank page)
 **Storage patterns**:
 ```javascript
 // Track which onboarding steps user has seen
-localStorage.setItem('onboarding-completed', 'true');
-localStorage.setItem('feature-tooltip-seen-reports', 'true');
+localStorage.setItem('onboarding-completed', 'true')
+localStorage.setItem('feature-tooltip-seen-reports', 'true')
 ```
 
 **IMPORTANT**: Don't show same onboarding twice (annoying). Track completion and respect dismissals.

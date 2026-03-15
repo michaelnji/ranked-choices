@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: SonnerDemo
@@ -83,8 +82,8 @@ The `<Toaster />` component and its specific CSS are required to display toasts.
 
 ```vue showLineNumbers
 <script setup lang="ts">
-import 'vue-sonner/style.css'
 import { Toaster } from '@/components/ui/sonner'
+import 'vue-sonner/style.css'
 </script>
 
 <template>

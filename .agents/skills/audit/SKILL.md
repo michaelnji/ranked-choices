@@ -76,7 +76,7 @@ For each issue, document:
 #### Critical Issues
 [Issues that block core functionality or violate WCAG A]
 
-#### High-Severity Issues  
+#### High-Severity Issues
 [Significant usability/accessibility impact, WCAG AA violations]
 
 #### Medium-Severity Issues

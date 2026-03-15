@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: BreadcrumbDemo
@@ -145,8 +144,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-//...
+} from '@/components/ui/dropdown-menu'
+// ...
 </script>
 
 <template>
@@ -179,8 +178,8 @@ name: BreadcrumbCollapsedDemo
 
 ```vue showLineNumbers {2,11}
 <script setup lang="ts">
-import { BreadcrumbEllipsis } from "@/components/ui/breadcrumb"
-//...
+import { BreadcrumbEllipsis } from '@/components/ui/breadcrumb'
+// ...
 </script>
 
 <template>

@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: NumberFieldDemo
@@ -120,5 +119,4 @@ import {
     </NumberFieldContent>
   </NumberField>
 </template>
-
 ```

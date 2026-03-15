@@ -1,0 +1,8 @@
+{
+  "rootDir": ".",
+  "outputMode": "html",
+  "includeTests": false,
+  "respectGitignore": true,
+  "deepGit": true,
+  "staleThreshold": 2
+}

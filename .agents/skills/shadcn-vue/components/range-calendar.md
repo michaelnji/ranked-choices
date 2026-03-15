@@ -4,7 +4,6 @@
 
 ---
 
-
 ::component-preview
 ---
 name: CalendarRangeDemo
@@ -65,7 +64,7 @@ npx shadcn-vue@latest add range-calendar
 ## Usage
 ```vue
 <script setup lang="ts">
-import { RangeCalendar } from "@/components/ui/range-calendar";
+import { RangeCalendar } from '@/components/ui/range-calendar'
 </script>
 
 <template>

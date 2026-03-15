@@ -40,20 +40,20 @@ npx shadcn-vue@latest init
 #### 3. Configure Vite
 
 ```typescript
+import path from 'node:path'
+import tailwindcss from '@tailwindcss/vite' // Tailwind v4
+import vue from '@vitejs/plugin-vue'
 // vite.config.ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import tailwindcss from "@tailwindcss/vite"; // Tailwind v4
-import path from "path";
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
-});
+})
 ```
 
 #### 4. Add Your First Component
