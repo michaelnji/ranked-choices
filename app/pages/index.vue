@@ -121,7 +121,7 @@ function formatTimeAgo(date: Date) {
 </script>
 
 <template>
-  <div class="px-5 pt-8 pb-32! min-h-full flex flex-col gap-8 animate-fade-in-up">
+  <div class="px-5 pt-2 min-h-full flex flex-col gap-8 animate-fade-in-up">
     <!-- Native Large Title Header -->
     <header class="flex items-end justify-between pt-4">
       <div class="space-y-1">
@@ -139,7 +139,7 @@ function formatTimeAgo(date: Date) {
             <div class="h-9 w-44 rounded-lg bg-zinc-800 animate-pulse mt-1" />
           </template>
           <template v-else>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center flex-wrap gap-3">
               {{ greeting }}<span v-if="username" class="text-primary">{{ username }}</span>
             </div>
           </template>
