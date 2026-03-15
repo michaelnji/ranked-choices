@@ -97,121 +97,95 @@ async function deleteAccount() {
 </script>
 
 <template>
-  <div class="animate-fade-in-up">
+  <div class="animate-fade-in-up pb-32">
     <!-- Page header -->
-    <div class="px-6 pt-8 pb-4 flex items-center gap-4">
+    <div class="px-5 pt-8 pb-6 flex flex-col items-center gap-4">
       <!-- Avatar -->
       <div
-        class="size-18 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0"
+        class="size-24 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-inner"
         aria-hidden="true"
       >
         <template v-if="isLoading">
-          <div class="w-7 h-7 rounded-full bg-primary/20 animate-pulse" />
+          <div class="w-10 h-10 rounded-full bg-primary/20 animate-pulse" />
         </template>
-        <span v-else class="text-2xl font-bold text-primary">{{ initials }}</span>
+        <span v-else class="text-3xl font-bold text-primary">{{ initials }}</span>
       </div>
       <!-- Name + context -->
-      <div class="min-w-0 flex-1">
+      <div class="flex flex-col items-center">
         <template v-if="isLoading">
-          <div class="h-6 w-32 rounded bg-muted animate-pulse mb-1.5" />
-          <div class="h-3.5 w-20 rounded bg-muted/60 animate-pulse" />
+          <div class="h-7 w-32 rounded bg-muted animate-pulse mb-1.5" />
+          <div class="h-4 w-20 rounded bg-muted/60 animate-pulse" />
         </template>
         <template v-else>
-          <h1 class="text-2xl font-bold text-foreground text-display truncate leading-tight">
+          <h1 class="text-[22px] font-bold text-foreground text-display truncate leading-tight tracking-tight">
             {{ profile?.username }}
           </h1>
-          <p class="text-sm text-muted-foreground mt-0.5">
+          <p class="text-[13px] text-muted-foreground mt-1 tracking-wide">
             Member since {{ memberSince }}
           </p>
         </template>
       </div>
     </div>
 
-    <div class="px-5 pb-8 space-y-3">
-      <!-- Profile section -->
-      <div class="space-y-1.5">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">
-          Profile
-        </h2>
-        <NuxtLink to="/settings/username" class="block">
-          <UiCard class="hover:border-primary/30 transition-colors">
-            <UiCardContent class="flex items-center gap-4 py-4 px-5">
-              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <User :size="16" class="text-primary" />
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-foreground">
-                  Username
-                </p>
-                <p class="text-xs text-muted-foreground mt-0.5 truncate">
-                  {{ isLoading ? '…' : profile?.username ?? '—' }}
-                </p>
-              </div>
-              <ChevronRight :size="16" class="text-muted-foreground shrink-0" />
-            </UiCardContent>
-          </UiCard>
+    <div class="px-5 space-y-6">
+      <!-- Profile & About section (Grouped) -->
+      <div class="ios-list shadow-md">
+        <NuxtLink to="/settings/username" class="ios-list-item group">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm shadow-primary/30 mr-3">
+            <User :size="16" class="text-primary-foreground" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[17px] font-medium text-foreground">
+              Username
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <p class="text-[15px] text-muted-foreground truncate">
+              {{ isLoading ? '…' : profile?.username ?? '—' }}
+            </p>
+            <ChevronRight :size="20" class="text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
+          </div>
+        </NuxtLink>
+
+        <!-- About section inside the same group -->
+        <NuxtLink to="/info" class="ios-list-item group border-t border-white/5">
+          <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 mr-3">
+            <svg width="14" height="14" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
+              <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
+              <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[17px] font-medium text-foreground">
+              About Ranked Choices
+            </p>
+          </div>
+          <ChevronRight :size="20" class="text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
         </NuxtLink>
       </div>
 
-      <!-- About section -->
-      <div class="space-y-1.5">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">
-          About
-        </h2>
-        <NuxtLink to="/info" class="block">
-          <UiCard class="hover:border-primary/30 transition-colors">
-            <UiCardContent class="flex items-center gap-4 py-4 px-5">
-              <div class="w-9 h-9 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect x="0" y="0" width="32" height="7" rx="3.5" fill="#3b82f6" />
-                  <rect x="0" y="11" width="23" height="7" rx="3.5" fill="#10b981" />
-                  <rect x="0" y="22" width="14" height="7" rx="3.5" fill="#d97706" />
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-foreground">
-                  About Ranked Choices
-                </p>
-                <p class="text-xs text-muted-foreground mt-0.5">
-                  What it is and who made it
-                </p>
-              </div>
-              <ChevronRight :size="16" class="text-muted-foreground shrink-0" />
-            </UiCardContent>
-          </UiCard>
-        </NuxtLink>
-      </div>
-
-      <!-- Danger Zone — visually separated, no section label -->
-      <div class="pt-4">
-        <UiCard class="border-destructive/30 bg-destructive/5">
-          <UiCardContent class="space-y-4 pt-5 pb-5">
-            <div>
-              <h2 class="text-base font-bold text-destructive">
-                Danger Zone
-              </h2>
-              <p class="text-xs text-muted-foreground mt-1">
-                These actions can't be undone — just making sure you know! 🙂
+      <!-- Danger Zone — visually separated -->
+      <div>
+        <div class="ios-list shadow-md ring-destructive/20 border border-destructive/10">
+          <button class="ios-list-item w-full text-left active-scale-down-sm" @click="openClearDialog">
+            <div class="flex-1 min-w-0">
+              <p class="text-[17px] font-medium text-destructive">
+                Clear All Lists
               </p>
             </div>
-            <div class="flex flex-col gap-2.5">
-              <UiButton
-                variant="outline"
-                class="w-full text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50"
-                @click="openClearDialog"
-              >
-                Clear All Lists
-              </UiButton>
-              <UiButton
-                variant="destructive"
-                class="w-full"
-                @click="openDeleteDialog"
-              >
+            <ChevronRight :size="20" class="text-destructive/30 shrink-0" />
+          </button>
+
+          <button class="ios-list-item w-full text-left active-scale-down-sm border-t border-destructive/10" @click="openDeleteDialog">
+            <div class="flex-1 min-w-0">
+              <p class="text-[17px] font-medium text-destructive">
                 Delete Account
-              </UiButton>
+              </p>
             </div>
-          </UiCardContent>
-        </UiCard>
+            <ChevronRight :size="20" class="text-destructive/30 shrink-0" />
+          </button>
+        </div>
       </div>
     </div>
 

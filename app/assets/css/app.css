@@ -186,6 +186,33 @@ body {
 .stagger-5 { animation-delay: 200ms; }
 .stagger-6 { animation-delay: 250ms; }
 
+/* ─── Native App Spring Utilities ─── */
+.spring-bounce {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-duration: 400ms;
+}
+
+.active-scale-down:active {
+  transform: scale(0.95);
+  transition: transform 150ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.active-scale-down-sm:active {
+  transform: scale(0.98);
+  transition: transform 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* iOS inset list styling */
+.ios-list {
+  @apply bg-zinc-900/60 backdrop-blur-xl rounded-2xl overflow-hidden shadow-sm ring-1 ring-white/5;
+}
+.ios-list-item {
+  @apply flex items-center px-4 py-3.5 bg-transparent transition-colors duration-200 active:bg-white/10;
+}
+.ios-list-item:not(:last-child) {
+  @apply border-b border-white/5;
+}
+
 /* ─── Typography ─── */
 .text-display {
   @apply font-display font-black tracking-tight;
@@ -204,10 +231,9 @@ body {
 }
 
 .glass-nav {
-  background: color-mix(in oklch, var(--background) 90%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border);
+  background: color-mix(in oklch, var(--zinc-900) 80%, transparent);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
 }
 
 /* ─── Global focus ring ─── */
