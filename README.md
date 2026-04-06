@@ -1,28 +1,36 @@
 # Ranked Choices
 
-A Nuxt 3 application for ranking items based on weighted criteria.
+An offline-first Nuxt 4 application for ranking items based on weighted criteria.
 
 ## Features
 
-- **Weighted Ranking**: Define criteria with weights and score items. The system calculates scores based on how well items match criteria.
-- **Manual Ranking**: Drag and drop items to reorder them manually when in "Manual" mode.
+- **Weighted Ranking**: Define criteria with weights and rank items by weighted score.
+- **Manual Ranking**: Drag and drop items to reorder them manually.
 - **Criteria Management**: Full CRUD support for ranking criteria.
-- **Local Persistence**: All data is saved locally in your browser using IndexedDB.
+- **Local Persistence**: All data is saved locally in your browser using IndexedDB via Dexie.
+- **PWA Support**: Installable app with offline-capable shell.
+
+## Current Product Model
+
+- Ranking modes use **weighted** and **manual** terminology.
+- Item scores are embedded on each item as a local score map.
+- The current implementation includes optional local profile personalization.
+- The app remains offline-only with no backend, auth, or cloud sync.
 
 ## Tech Stack
 
-- **Framework**: Nuxt 3 (Vue 3)
-- **UI**: Tailwind CSS + DaisyUI
+- **Framework**: Nuxt 4 (Vue 3)
+- **UI**: Tailwind CSS
 - **Database**: Dexie.js (IndexedDB wrapper)
 - **Drag & Drop**: @formkit/drag-and-drop
+- **PWA**: @vite-pwa/nuxt
 - **Testing**: Vitest
 
 ## Setup
 
-Make sure to install dependencies:
+Install dependencies:
 
 ```bash
-# bun
 bun install
 ```
 
@@ -50,7 +58,7 @@ Build the application for production:
 bun run build
 ```
 
-Locally preview production build:
+Preview the production build locally:
 
 ```bash
 bun run preview
